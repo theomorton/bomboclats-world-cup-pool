@@ -415,9 +415,16 @@ input:focus-visible,
   outline-offset: 2px;
 }
 
-.score-team strong,
-.score-team span {
-  display: block;
+.score-team-info {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.score-team-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .score-team strong {
@@ -425,6 +432,27 @@ input:focus-visible,
   align-items: center;
   gap: 8px;
   font-size: 0.92rem;
+}
+
+.score-picker-row {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-width: 0;
+}
+
+.score-picker-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  border-radius: 999px;
+  color: #344054;
+  font-size: 0.68rem;
+  font-weight: 850;
+  line-height: 1;
+  padding: 4px 7px;
 }
 
 .score-team strong .inline-flag {
@@ -438,8 +466,9 @@ input:focus-visible,
   font-weight: 850;
 }
 
-.score-team span {
-  margin-top: 3px;
+.score-pick-count {
+  display: block;
+  margin-top: 5px;
   color: var(--muted);
   font-size: 0.74rem;
   font-weight: 800;
@@ -448,6 +477,7 @@ input:focus-visible,
 
 .score-team b {
   color: var(--blue);
+  flex: 0 0 auto;
   font-size: 1.3rem;
 }
 
