@@ -630,12 +630,14 @@ tr:last-child td {
 }
 
 .leader-tier-one .inline-flag {
+  --flag-width: 2.05em;
+  --flag-height: 1.32em;
   font-size: 1.65rem;
 }
 
 .leader-tier-one .flag-img {
-  width: 2.05em;
-  height: 1.32em;
+  width: var(--flag-width);
+  height: var(--flag-height);
 }
 
 .leader-tier-one .country-name {
@@ -738,17 +740,22 @@ tr:last-child td {
 }
 
 .inline-flag {
+  --flag-width: 1.42em;
+  --flag-height: 0.94em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  min-width: 1.22em;
+  width: var(--flag-width);
+  min-width: var(--flag-width);
+  height: var(--flag-height);
   line-height: 1;
+  overflow: visible;
 }
 
 .flag-img {
-  width: 1.42em;
-  height: 0.94em;
+  width: var(--flag-width);
+  height: var(--flag-height);
   object-fit: cover;
   border-radius: 2px;
   box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.14);
@@ -968,12 +975,14 @@ tr:last-child td {
 }
 
 .team-flag .flag-img {
-  width: 48px;
-  height: 30px;
+  width: var(--flag-width);
+  height: var(--flag-height);
 }
 
 .team-flag .inline-flag {
-  min-width: 0;
+  --flag-width: 48px;
+  --flag-height: 30px;
+  min-width: var(--flag-width);
 }
 
 .team-price {
