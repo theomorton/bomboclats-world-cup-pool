@@ -15,7 +15,6 @@ window.POOL_PLAYERS = [
     image: "assets/players/avatars/mike.jpg",
     nationalities: [
       { name: "Canada", flag: "🇨🇦" },
-      { name: "Scotland", flag: "Scotland", flagImage: "assets/flags/scotland.svg" },
       { name: "Greece", flag: "🇬🇷" }
     ],
     picks: ["England", "South Korea", "Australia", "New Zealand", "Canada", "Netherlands", "Belgium", "Czechia"]
