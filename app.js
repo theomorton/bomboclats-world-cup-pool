@@ -434,7 +434,7 @@
     return `
       <${tag} class="score-team${team ? " score-team-button" : ""}${competitor.winner ? " is-winner" : ""}" ${attrs}>
         <div>
-          <strong>${team ? flagMarkup(item) : ""} ${escapeHtml(competitor.team)}</strong>
+          <strong>${team ? flagMarkup(item) : ""} <span class="country-name">${escapeHtml(competitor.team)}</span></strong>
           <span>${escapeHtml(pickedText)}</span>
         </div>
         <b>${showScore ? escapeHtml(competitor.score) : "-"}</b>
@@ -587,7 +587,7 @@
         const theme = getPlayerTheme(player);
         const focused = player.slug === state.focusedPlayerSlug ? " is-focused" : "";
         const nationalityChips = (player.nationalities || [])
-          .map((nationality) => `<span class="chip">${flagMarkup(nationality)} ${escapeHtml(nationality.name)}</span>`)
+          .map((nationality) => `<span class="chip country-chip">${flagMarkup(nationality)} <span class="country-name">${escapeHtml(nationality.name)}</span></span>`)
           .join("");
         const picksMarkup = player.pending || player.knownPicks.length === 0
           ? `<span class="status-pill">Picks pending</span>`
@@ -596,7 +596,7 @@
               const eliminated = score?.eliminated ? " is-eliminated" : "";
               return `
                 <button class="team-pill pick-button${eliminated}" type="button" data-team-link="${escapeHtml(team.name)}" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(team.name)} team card picked by ${escapeHtml(player.name)}">
-                  ${flagMarkup(team)} ${escapeHtml(team.name)}
+                  ${flagMarkup(team)} <span class="country-name">${escapeHtml(team.name)}</span>
                   <span class="price">${money(team.price)}</span>
                   <span class="pick-points">${score?.points || 0} pts</span>
                 </button>

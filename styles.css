@@ -421,7 +421,21 @@ input:focus-visible,
 }
 
 .score-team strong {
-  font-size: 0.96rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+}
+
+.score-team strong .inline-flag {
+  display: inline-flex;
+  font-size: 1.55rem;
+}
+
+.score-team .country-name {
+  display: inline;
+  color: #2f3b4f;
+  font-weight: 850;
 }
 
 .score-team span {
@@ -691,7 +705,7 @@ tr:last-child td {
 .status-pill {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 7px;
   border: 1px solid var(--line);
   background: #f8fafc;
   color: #344054;
@@ -707,15 +721,29 @@ tr:last-child td {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  min-width: 1.15em;
+  min-width: 1.22em;
+  line-height: 1;
 }
 
 .flag-img {
-  width: 1.25em;
-  height: 0.82em;
+  width: 1.42em;
+  height: 0.94em;
   object-fit: cover;
   border-radius: 2px;
   box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.14);
+}
+
+.country-chip {
+  gap: 9px;
+  padding: 6px 11px 6px 7px;
+}
+
+.country-chip .inline-flag {
+  font-size: 1.48rem;
+}
+
+.country-name {
+  color: #354154;
 }
 
 .status-pill {
@@ -771,11 +799,21 @@ tr:last-child td {
 .team-pill {
   border-radius: var(--radius);
   background: #ffffff;
-  padding: 8px 9px;
+  gap: 8px;
+  padding: 7px 10px 7px 8px;
 }
 
 .pick-button {
   text-align: left;
+}
+
+.team-pill .inline-flag {
+  font-size: 1.5rem;
+}
+
+.team-pill .country-name {
+  font-size: 0.9rem;
+  font-weight: 850;
 }
 
 .pick-button:hover {
@@ -900,17 +938,21 @@ tr:last-child td {
 .team-flag {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 54px;
   background: #f5f7fb;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  font-size: 1.6rem;
+  font-size: 2.2rem;
 }
 
 .team-flag .flag-img {
-  width: 30px;
-  height: 18px;
+  width: 48px;
+  height: 30px;
+}
+
+.team-flag .inline-flag {
+  min-width: 0;
 }
 
 .team-price {
