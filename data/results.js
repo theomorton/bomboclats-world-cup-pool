@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 16, 2026 at 5:11 PM EDT from ESPN. Latest match: France 3-1 Senegal.",
+  lastUpdated: "June 16, 2026 at 6:15 PM EDT from ESPN. Latest match: France 3-1 Senegal.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
