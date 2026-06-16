@@ -1,0 +1,15 @@
+.DS_Store
+.venv/
+exports/
+
+*.joblib
+*.numbers
+*.ipynb
+
+airbnb_payment_fraud_processed.csv
+test.csv
+train.csv
+Theo_Morton_2_predictions.csv
+Theo_Morton_2_tuning_summary.json
+train_random_forest_model.py
+export_imessage_chat.py

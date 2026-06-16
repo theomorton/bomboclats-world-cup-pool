@@ -1,0 +1,594 @@
+(function () {
+  const teams = window.POOL_TEAMS || [];
+  const players = window.POOL_PLAYERS || [];
+  const results = window.POOL_RESULTS || [];
+  const resultsMeta = window.POOL_RESULTS_META || {};
+
+  const BUDGET = 150;
+  const RESULT_POINTS = { W: 3, D: 1, L: 0 };
+  const STAGE_MULTIPLIERS = {
+    Groups: 1,
+    R32: 2,
+    R16: 3,
+    Quarter: 5,
+    Semi: 8,
+    Final: 12
+  };
+
+  const COUNTRY_COLORS = {
+    France: ["#2454d6", "#e45b5b"],
+    Germany: ["#111827", "#f4b740"],
+    Canada: ["#e31b23", "#ffffff"],
+    Scotland: ["#005eb8", "#ffffff"],
+    Greece: ["#0d5eaf", "#ffffff"],
+    China: ["#de2910", "#ffde00"],
+    USA: ["#2454d6", "#e45b5b"],
+    "South Korea": ["#cd2e3a", "#0047a0"],
+    Italy: ["#16833f", "#ce2b37"],
+    England: ["#ffffff", "#c8102e"],
+    Denmark: ["#c60c30", "#ffffff"],
+    Bosnia: ["#002f6c", "#f7d117"],
+    Netherlands: ["#ff4f00", "#21468b"],
+    Ireland: ["#169b62", "#ff883e"]
+  };
+
+  const normalize = (value) =>
+    String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+
+  const teamLookup = new Map();
+  teams.forEach((team) => {
+    [team.name, ...(team.aliases || [])].forEach((name) => {
+      teamLookup.set(normalize(name), team);
+    });
+  });
+
+  const state = {
+    teamFilter: "all",
+    search: "",
+    focusedPlayerSlug: "",
+    focusedTeamName: ""
+  };
+
+  function money(value) {
+    return `$${value}`;
+  }
+
+  function plural(count, singular, pluralWord = `${singular}s`) {
+    return `${count} ${count === 1 ? singular : pluralWord}`;
+  }
+
+  function initials(name) {
+    return name
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function resolveTeam(teamName) {
+    return teamLookup.get(normalize(teamName));
+  }
+
+  function slugify(value) {
+    return normalize(value).replace(/\s+/g, "-");
+  }
+
+  function getPlayerTheme(player) {
+    const colors = (player.nationalities || [])
+      .flatMap((nationality) => COUNTRY_COLORS[nationality.name] || [])
+      .filter(Boolean);
+    return {
+      c1: colors[0] || "#2454d6",
+      c2: colors[1] || colors[0] || "#1ea66a"
+    };
+  }
+
+  function groupLabel(group) {
+    if (group === "N/A" || group === "TBD") return group;
+    return `G${group}`;
+  }
+
+  function flagMarkup(item) {
+    if (item.flagImage) {
+      return `<img class="inline-flag flag-img" src="${escapeHtml(item.flagImage)}" alt="" loading="lazy">`;
+    }
+    return `<span class="inline-flag" aria-hidden="true">${escapeHtml(item.flag)}</span>`;
+  }
+
+  function computeTeamScores() {
+    const scores = new Map(
+      teams.map((team) => [
+        team.name,
+        {
+          points: 0,
+          matches: 0,
+          advanceBonuses: 0,
+          eliminated: false
+        }
+      ])
+    );
+
+    results.forEach((result) => {
+      const team = resolveTeam(result.team);
+      if (!team) return;
+
+      const score = scores.get(team.name);
+      const stage = result.stage || "Groups";
+      const multiplier = STAGE_MULTIPLIERS[stage] || 1;
+      const resultPoints = RESULT_POINTS[result.result] ?? 0;
+      const bonus = result.advanceBonus ? 1 : 0;
+
+      score.points += resultPoints * multiplier + bonus;
+      score.matches += result.result ? 1 : 0;
+      score.advanceBonuses += bonus;
+      score.eliminated = score.eliminated || result.eliminated === true || result.alive === false;
+    });
+
+    return scores;
+  }
+
+  function enrichPlayers(teamScores) {
+    return players.map((player) => {
+      const picks = (player.picks || []).map((pick) => ({
+        original: pick,
+        team: resolveTeam(pick)
+      }));
+      const knownPicks = picks.filter((pick) => pick.team).map((pick) => pick.team);
+      const unknownPicks = picks.filter((pick) => !pick.team).map((pick) => pick.original);
+      const budgetUsed = knownPicks.reduce((sum, team) => sum + team.price, 0);
+      const tier1Count = knownPicks.filter((team) => team.tier === 1).length;
+      const tier3Count = knownPicks.filter((team) => team.tier === 3).length;
+      const points = knownPicks.reduce((sum, team) => sum + (teamScores.get(team.name)?.points || 0), 0);
+      const aliveCount = knownPicks.filter((team) => !teamScores.get(team.name)?.eliminated).length;
+      const bestTeam = knownPicks.reduce((best, team) => (!best || team.price > best.price ? team : best), null);
+
+      return {
+        ...player,
+        knownPicks,
+        unknownPicks,
+        budgetUsed,
+        tier1Count,
+        tier3Count,
+        points,
+        aliveCount,
+        bestTeam
+      };
+    });
+  }
+
+  function buildPickMap(enrichedPlayers) {
+    const pickMap = new Map(teams.map((team) => [team.name, []]));
+    enrichedPlayers.forEach((player) => {
+      player.knownPicks.forEach((team) => {
+        pickMap.get(team.name).push(player);
+      });
+    });
+    return pickMap;
+  }
+
+  function validateData(enrichedPlayers) {
+    const warnings = [];
+
+    enrichedPlayers.forEach((player) => {
+      if (!player.image) {
+        warnings.push({ level: "warn", text: `${player.name} is missing an image path.` });
+      }
+
+      player.unknownPicks.forEach((pick) => {
+        warnings.push({ level: "error", text: `${player.name} has an unknown team pick: ${pick}.` });
+      });
+
+      if (player.pending || player.knownPicks.length === 0) return;
+
+      if (player.budgetUsed > BUDGET) {
+        warnings.push({ level: "error", text: `${player.name} is over budget at ${money(player.budgetUsed)}.` });
+      }
+
+      if (player.tier1Count > 1) {
+        warnings.push({ level: "error", text: `${player.name} has ${player.tier1Count} Tier 1 teams.` });
+      }
+
+      if (player.tier3Count < 3) {
+        warnings.push({ level: "error", text: `${player.name} has only ${player.tier3Count} Tier 3 teams.` });
+      }
+    });
+
+    results.forEach((result, index) => {
+      if (!resolveTeam(result.team)) {
+        warnings.push({ level: "error", text: `Result ${index + 1} references an unknown team: ${result.team}.` });
+      }
+      if (result.result && !Object.prototype.hasOwnProperty.call(RESULT_POINTS, result.result)) {
+        warnings.push({ level: "error", text: `Result ${index + 1} has an unknown result code: ${result.result}.` });
+      }
+      if (result.stage && !Object.prototype.hasOwnProperty.call(STAGE_MULTIPLIERS, result.stage)) {
+        warnings.push({ level: "error", text: `Result ${index + 1} has an unknown stage: ${result.stage}.` });
+      }
+    });
+
+    if (warnings.length) {
+      console.groupCollapsed("Bomboclats data checks");
+      warnings.forEach((warning) => {
+        console.warn(`[${warning.level}] ${warning.text}`);
+      });
+      console.groupEnd();
+    }
+
+    return warnings;
+  }
+
+  function renderSummary(enrichedPlayers, pickMap) {
+    const activePlayers = enrichedPlayers.filter((player) => !player.pending && player.knownPicks.length);
+    const pickedTeams = [...pickMap.values()].filter((pickedBy) => pickedBy.length > 0).length;
+    const totalBudget = activePlayers.reduce((sum, player) => sum + player.budgetUsed, 0);
+    const topTeam = [...pickMap.entries()]
+      .map(([teamName, pickedBy]) => ({ team: resolveTeam(teamName), count: pickedBy.length }))
+      .sort((a, b) => b.count - a.count || b.team.price - a.team.price)[0];
+
+    const cards = [
+      { label: "Players", value: players.length },
+      { label: "Picked Teams", value: `${pickedTeams}/${teams.length}` },
+      { label: "Budget Spent", value: money(totalBudget) },
+      {
+        label: "Most Picked",
+        valueHtml: topTeam && topTeam.count ? `${flagMarkup(topTeam.team)} ${escapeHtml(topTeam.team.name)} (${topTeam.count})` : "None"
+      }
+    ];
+
+    document.getElementById("leaderboard-summary").innerHTML = cards
+      .map((card) => `
+        <article class="summary-card">
+          <span>${escapeHtml(card.label)}</span>
+          <strong>${card.valueHtml || escapeHtml(card.value)}</strong>
+        </article>
+      `)
+      .join("");
+  }
+
+  function renderLeaderboard(enrichedPlayers) {
+    const sorted = [...enrichedPlayers].sort((a, b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      if (a.pending !== b.pending) return a.pending ? 1 : -1;
+      if (b.budgetUsed !== a.budgetUsed) return b.budgetUsed - a.budgetUsed;
+      return a.name.localeCompare(b.name);
+    });
+
+    const rows = sorted.map((player, index) => {
+      const best = player.bestTeam
+        ? `${flagMarkup(player.bestTeam)} ${escapeHtml(player.bestTeam.name)} (${money(player.bestTeam.price)})`
+        : "Pending";
+      const status = player.pending ? "Picks pending" : plural(player.knownPicks.length, "team");
+      return `
+        <tr>
+          <td><span class="rank-badge">${index + 1}</span></td>
+          <td>
+            <button class="leader-player leader-player-button" type="button" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} player card">
+              ${avatarMarkup(player, "mini")}
+              <div>
+                <strong>${escapeHtml(player.name)}</strong>
+                <span>${escapeHtml(status)}</span>
+              </div>
+            </button>
+          </td>
+          <td><strong>${player.points}</strong></td>
+          <td>${money(player.budgetUsed)}</td>
+          <td>${player.aliveCount}</td>
+          <td>${player.knownPicks.length}</td>
+          <td>${best}</td>
+        </tr>
+      `;
+    });
+
+    document.getElementById("leaderboard-table").innerHTML = `
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Points</th>
+              <th>Budget</th>
+              <th>Alive</th>
+              <th>Teams</th>
+              <th>Best Team</th>
+            </tr>
+          </thead>
+          <tbody>${rows.join("")}</tbody>
+        </table>
+      </div>
+    `;
+
+    document.getElementById("last-updated").textContent = resultsMeta.lastUpdated
+      ? `Updated ${resultsMeta.lastUpdated}`
+      : "Results not started";
+  }
+
+  function avatarMarkup(player, size = "full") {
+    if (!player.image) {
+      return `<span class="${size === "mini" ? "mini-avatar" : "initials-avatar"}">${escapeHtml(initials(player.name))}</span>`;
+    }
+
+    const className = size === "mini" ? "mini-avatar" : "";
+    return `<img class="${className}" src="${escapeHtml(player.image)}" alt="${escapeHtml(player.name)} headshot" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className: '${size === "mini" ? "mini-avatar" : "initials-avatar"}', textContent: '${escapeHtml(initials(player.name))}'}));">`;
+  }
+
+  function renderPlayers(enrichedPlayers, teamScores) {
+    document.getElementById("players-grid").innerHTML = enrichedPlayers
+      .map((player) => {
+        const theme = getPlayerTheme(player);
+        const focused = player.slug === state.focusedPlayerSlug ? " is-focused" : "";
+        const nationalityChips = (player.nationalities || [])
+          .map((nationality) => `<span class="chip">${flagMarkup(nationality)} ${escapeHtml(nationality.name)}</span>`)
+          .join("");
+        const picksMarkup = player.pending || player.knownPicks.length === 0
+          ? `<span class="status-pill">Picks pending</span>`
+          : player.knownPicks.map((team) => {
+              const score = teamScores.get(team.name);
+              const eliminated = score?.eliminated ? " is-eliminated" : "";
+              return `
+                <button class="team-pill pick-button${eliminated}" type="button" data-team-link="${escapeHtml(team.name)}" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(team.name)} team card picked by ${escapeHtml(player.name)}">
+                  ${flagMarkup(team)} ${escapeHtml(team.name)}
+                  <span class="price">${money(team.price)}</span>
+                  <span class="pick-points">${score?.points || 0} pts</span>
+                  <span>${escapeHtml(groupLabel(team.group))}</span>
+                </button>
+              `;
+            }).join("");
+
+        return `
+          <article class="player-card${focused}" id="player-${escapeHtml(player.slug)}" data-player-slug="${escapeHtml(player.slug)}" style="--c1:${theme.c1};--c2:${theme.c2}">
+            <div class="player-head">
+              <div class="avatar-wrap">${avatarMarkup(player)}</div>
+              <div class="player-title">
+                <h3>${escapeHtml(player.name)}</h3>
+                <div class="nationality-row">${nationalityChips}</div>
+              </div>
+            </div>
+            <div class="player-metrics">
+              <div class="metric"><span class="metric-label">Points</span><strong>${player.points}</strong></div>
+              <div class="metric"><span class="metric-label">Budget</span><strong>${money(player.budgetUsed)}</strong></div>
+              <div class="metric"><span class="metric-label">Teams</span><strong>${player.knownPicks.length}</strong></div>
+              <div class="metric"><span class="metric-label">Alive</span><strong>${player.aliveCount}</strong></div>
+            </div>
+            <p class="picks-title">Picks</p>
+            <div class="pill-row">${picksMarkup}</div>
+          </article>
+        `;
+      })
+      .join("");
+  }
+
+  function renderTeams(enrichedPlayers, teamScores, pickMap) {
+    const query = normalize(state.search);
+    const filteredTeams = teams.filter((team) => {
+      const pickedBy = pickMap.get(team.name) || [];
+      if (state.teamFilter === "picked" && pickedBy.length === 0) return false;
+      if (!query) return true;
+      const haystack = normalize([
+        team.name,
+        team.group,
+        `tier ${team.tier}`,
+        ...pickedBy.map((player) => player.name)
+      ].join(" "));
+      return haystack.includes(query);
+    });
+
+    document.getElementById("teams-grid").innerHTML = filteredTeams.length
+      ? filteredTeams
+          .map((team) => {
+            const pickedBy = pickMap.get(team.name) || [];
+            const score = teamScores.get(team.name);
+            const isFocused = normalize(team.name) === normalize(state.focusedTeamName);
+            const pickedMarkup = pickedBy.length
+              ? pickedBy.map((player) => {
+                  const selected = isFocused && player.slug === state.focusedPlayerSlug ? " is-selected" : "";
+                  return `<span class="chip picked-player-chip${selected}">${escapeHtml(player.name)}</span>`;
+                }).join("")
+              : `<span class="small-muted">Unpicked</span>`;
+            return `
+              <article class="team-card${isFocused ? " is-focused" : ""}" id="team-${escapeHtml(slugify(team.name))}" data-team-name="${escapeHtml(team.name)}">
+                <div class="team-top">
+                  <span class="team-flag" aria-hidden="true">${flagMarkup(team)}</span>
+                  <div>
+                    <h3>${escapeHtml(team.name)}</h3>
+                    <p class="team-meta">Tier ${team.tier} · Group ${escapeHtml(team.group)}</p>
+                  </div>
+                  <span class="team-price">${money(team.price)}</span>
+                </div>
+                <div class="team-stats">
+                  <div class="team-stat"><span>Picked</span><strong>${pickedBy.length}</strong></div>
+                  <div class="team-stat"><span>Points</span><strong>${score?.points || 0}</strong></div>
+                  <div class="team-stat"><span>Status</span><strong>${score?.eliminated ? "Out" : "Alive"}</strong></div>
+                </div>
+                <p class="picked-label">Picked by</p>
+                <div class="picked-row">${pickedMarkup}</div>
+              </article>
+            `;
+          })
+          .join("")
+      : `<div class="empty-state">No teams match this view.</div>`;
+  }
+
+  function renderRules(warnings) {
+    const selectionRules = [
+      ["Budget", `Stay within ${money(BUDGET)}.`],
+      ["Tier 1", "0-1 teams allowed."],
+      ["Tier 2", "Unlimited selections."],
+      ["Tier 3", "Minimum 3 teams required."]
+    ];
+    const scores = [
+      ["Win", "3 pts", ""],
+      ["Draw", "1 pt", ""],
+      ["Loss", "0 pts", "loss"],
+      ["Advance bonus", "+1 pt", "bonus"],
+      ["Bronze match", "-", "loss"]
+    ];
+    const multipliers = Object.entries(STAGE_MULTIPLIERS);
+
+    const checksMarkup = warnings.length
+      ? `<ul class="checks-list">${warnings.map((warning) => `<li class="check-item ${warning.level === "error" ? "error" : ""}">${escapeHtml(warning.text)}</li>`).join("")}</ul>`
+      : `<p class="status-pill ok">No data issues detected.</p>`;
+
+    document.getElementById("rules-content").innerHTML = `
+      <article class="rule-card">
+        <h3>Selection Rules</h3>
+        <ul class="rule-list">
+          ${selectionRules.map(([label, value]) => `<li><strong>${label}</strong><span>${value}</span></li>`).join("")}
+        </ul>
+      </article>
+      <article class="rule-card">
+        <h3>Scoring</h3>
+        ${scores.map(([label, value, className]) => `<div class="score-row ${className}"><strong>${label}</strong><strong>${value}</strong></div>`).join("")}
+      </article>
+      <article class="rule-card">
+        <h3>Stage Multipliers</h3>
+        <div class="multiplier-grid">
+          ${multipliers.map(([stage, multiplier]) => `<div class="multiplier"><span>${stage}</span><strong>x${multiplier}</strong></div>`).join("")}
+        </div>
+      </article>
+      <article class="rule-card">
+        <h3>Formula</h3>
+        <ul class="rule-list">
+          <li><strong>Match</strong><span>result points x stage multiplier</span></li>
+          <li><strong>Advance</strong><span>+1 point, one time</span></li>
+          <li><strong>Player</strong><span>sum of picked team totals</span></li>
+        </ul>
+      </article>
+      <article class="rule-card checks-card">
+        <h3>Data Checks</h3>
+        ${checksMarkup}
+      </article>
+    `;
+  }
+
+  function wireTabs() {
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        showPanel(tab.dataset.tab);
+      });
+    });
+  }
+
+  function showPanel(panelId) {
+    document.querySelectorAll(".tab").forEach((item) => {
+      const isActive = item.dataset.tab === panelId;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-selected", String(isActive));
+    });
+    document.querySelectorAll(".panel").forEach((panel) => {
+      panel.classList.toggle("is-active", panel.id === panelId);
+    });
+  }
+
+  function getStickyOffset() {
+    const header = document.querySelector(".site-header");
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    return headerHeight + 16;
+  }
+
+  function scrollToElement(selector) {
+    requestAnimationFrame(() => {
+      const element = document.querySelector(selector);
+      if (!element) return;
+      const top = element.getBoundingClientRect().top + window.scrollY - getStickyOffset();
+      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+      if (typeof element.focus === "function") {
+        element.setAttribute("tabindex", "-1");
+        element.focus({ preventScroll: true });
+      }
+    });
+  }
+
+  function syncTeamFilterControls() {
+    document.querySelectorAll("[data-team-filter]").forEach((item) => {
+      item.classList.toggle("is-active", item.dataset.teamFilter === state.teamFilter);
+    });
+    document.getElementById("team-search").value = state.search;
+  }
+
+  function wireTeamControls(render) {
+    document.querySelectorAll("[data-team-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.teamFilter = button.dataset.teamFilter;
+        syncTeamFilterControls();
+        render();
+      });
+    });
+
+    document.getElementById("team-search").addEventListener("input", (event) => {
+      state.search = event.target.value;
+      render();
+    });
+  }
+
+  function wireDeepLinks(renderTeamView) {
+    document.addEventListener("click", (event) => {
+      const playerButton = event.target.closest("[data-player-link]:not([data-team-link])");
+      if (playerButton) {
+        state.focusedPlayerSlug = playerButton.dataset.playerLink;
+        state.focusedTeamName = "";
+        showPanel("players");
+        document.querySelectorAll(".player-card").forEach((card) => {
+          card.classList.toggle("is-focused", card.dataset.playerSlug === state.focusedPlayerSlug);
+        });
+        scrollToElement(`#player-${CSS.escape(state.focusedPlayerSlug)}`);
+        return;
+      }
+
+      const pickButton = event.target.closest("[data-team-link]");
+      if (!pickButton) return;
+
+      state.focusedPlayerSlug = pickButton.dataset.playerLink;
+      state.focusedTeamName = pickButton.dataset.teamLink;
+      state.teamFilter = "all";
+      state.search = "";
+      syncTeamFilterControls();
+      renderTeamView();
+      showPanel("teams");
+      scrollToElement(`#team-${CSS.escape(slugify(state.focusedTeamName))}`);
+    });
+  }
+
+  function scheduleHourlyRefresh() {
+    if (!["http:", "https:"].includes(window.location.protocol)) return;
+    window.setInterval(() => {
+      window.location.reload();
+    }, 60 * 60 * 1000);
+  }
+
+  function init() {
+    const teamScores = computeTeamScores();
+    const enrichedPlayers = enrichPlayers(teamScores);
+    const pickMap = buildPickMap(enrichedPlayers);
+    const warnings = validateData(enrichedPlayers);
+
+    const renderTeamView = () => renderTeams(enrichedPlayers, teamScores, pickMap);
+
+    renderSummary(enrichedPlayers, pickMap);
+    renderLeaderboard(enrichedPlayers);
+    renderPlayers(enrichedPlayers, teamScores);
+    renderTeamView();
+    renderRules(warnings);
+    wireTabs();
+    wireTeamControls(renderTeamView);
+    wireDeepLinks(renderTeamView);
+    scheduleHourlyRefresh();
+  }
+
+  init();
+})();

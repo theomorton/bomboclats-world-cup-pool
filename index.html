@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bomboclats World Cup Pool</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">⚽</span>
+        <div>
+          <p class="eyebrow">WC2026</p>
+          <h1>Bomboclats World Cup Pool</h1>
+        </div>
+      </div>
+      <nav class="tabs" aria-label="Pool sections">
+        <button class="tab is-active" type="button" data-tab="leaderboard" aria-selected="true">Leaderboard</button>
+        <button class="tab" type="button" data-tab="players" aria-selected="false">Players</button>
+        <button class="tab" type="button" data-tab="teams" aria-selected="false">Teams</button>
+        <button class="tab" type="button" data-tab="rules" aria-selected="false">Rules</button>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section id="leaderboard" class="panel is-active" aria-labelledby="leaderboard-title">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Table</p>
+            <h2 id="leaderboard-title">Leaderboard</h2>
+          </div>
+          <div id="last-updated" class="updated-pill"></div>
+        </div>
+        <div id="leaderboard-summary" class="summary-grid"></div>
+        <div id="leaderboard-table" class="table-card"></div>
+      </section>
+
+      <section id="players" class="panel" aria-labelledby="players-title">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Profiles</p>
+            <h2 id="players-title">Players</h2>
+          </div>
+        </div>
+        <div id="players-grid" class="players-grid"></div>
+      </section>
+
+      <section id="teams" class="panel" aria-labelledby="teams-title">
+        <div class="section-header teams-header">
+          <div>
+            <p class="eyebrow">Board</p>
+            <h2 id="teams-title">Teams</h2>
+          </div>
+          <div class="team-controls" aria-label="Team filters">
+            <div class="segmented-control" role="group" aria-label="Team pick filter">
+              <button class="segment is-active" type="button" data-team-filter="all">All teams</button>
+              <button class="segment" type="button" data-team-filter="picked">Picked only</button>
+            </div>
+            <label class="search-wrap">
+              <span class="sr-only">Search by team or player</span>
+              <input id="team-search" type="search" placeholder="Search team or player">
+            </label>
+          </div>
+        </div>
+        <div id="teams-grid" class="teams-grid"></div>
+      </section>
+
+      <section id="rules" class="panel" aria-labelledby="rules-title">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Format</p>
+            <h2 id="rules-title">Rules</h2>
+          </div>
+        </div>
+        <div id="rules-content" class="rules-layout"></div>
+      </section>
+    </main>
+
+    <script src="data/teams.js"></script>
+    <script src="data/players.js"></script>
+    <script src="data/results.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
