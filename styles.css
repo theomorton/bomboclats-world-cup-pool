@@ -397,6 +397,8 @@ input:focus-visible,
   background: #fbfdff;
   border-radius: var(--radius);
   color: inherit;
+  height: 74px;
+  overflow: hidden;
   padding: 9px 10px;
   text-align: left;
 }
@@ -411,6 +413,7 @@ input:focus-visible,
   grid-template-columns: max-content minmax(0, 1fr);
   align-items: center;
   gap: 7px 10px;
+  min-height: 100%;
 }
 
 .score-team-name-block {
@@ -454,9 +457,11 @@ input:focus-visible,
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 4px;
   width: 100%;
+  max-height: 50px;
   min-width: 0;
+  overflow: hidden;
   align-self: center;
 }
 
@@ -464,15 +469,15 @@ input:focus-visible,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 28px;
+  min-height: 23px;
   border: 1px solid var(--line);
   background: #ffffff;
   border-radius: 999px;
   color: #344054;
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 850;
   line-height: 1.1;
-  padding: 5px 9px;
+  padding: 4px 7px;
 }
 
 .score-picker-chip:hover,
