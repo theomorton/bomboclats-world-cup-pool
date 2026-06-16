@@ -336,7 +336,23 @@ input:focus-visible,
   border: 1px solid #d8e2ed;
   background: #fbfdff;
   border-radius: var(--radius);
+  color: inherit;
   padding: 9px 10px;
+  text-align: left;
+}
+
+.score-team-button {
+  width: 100%;
+}
+
+.score-team-button:hover {
+  border-color: var(--blue-2);
+  background: #f2f7ff;
+}
+
+.score-team-button:focus-visible {
+  outline: 3px solid rgba(0, 53, 107, 0.24);
+  outline-offset: 2px;
 }
 
 .score-team strong,

@@ -389,14 +389,18 @@
     const pickedBy = team ? pickMap.get(team.name) || [] : [];
     const item = team || { name: competitor.team, flag: "" };
     const pickedText = pickedBy.length ? `${pickedBy.length} ${pickedBy.length === 1 ? "pick" : "picks"}` : "unpicked";
+    const tag = team ? "button" : "div";
+    const attrs = team
+      ? `type="button" data-team-link="${escapeHtml(team.name)}" aria-label="View ${escapeHtml(team.name)} team card"`
+      : "";
     return `
-      <div class="score-team${competitor.winner ? " is-winner" : ""}">
+      <${tag} class="score-team${team ? " score-team-button" : ""}${competitor.winner ? " is-winner" : ""}" ${attrs}>
         <div>
           <strong>${team ? flagMarkup(item) : ""} ${escapeHtml(competitor.team)}</strong>
           <span>${escapeHtml(pickedText)}</span>
         </div>
         <b>${showScore ? escapeHtml(competitor.score) : "-"}</b>
-      </div>
+      </${tag}>
     `;
   }
 
@@ -776,7 +780,7 @@
       const pickButton = event.target.closest("[data-team-link]");
       if (!pickButton) return;
 
-      state.focusedPlayerSlug = pickButton.dataset.playerLink;
+      state.focusedPlayerSlug = pickButton.dataset.playerLink || "";
       state.focusedTeamName = pickButton.dataset.teamLink;
       state.teamFilter = "all";
       state.search = "";
