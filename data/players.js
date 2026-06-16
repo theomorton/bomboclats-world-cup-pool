@@ -102,7 +102,7 @@ window.POOL_PLAYERS = [
     picks: []
   },
   {
-    name: "Sean Dolan",
+    name: "Sean",
     slug: "sean-dolan",
     image: "assets/players/avatars/sean-dolan.jpg",
     nationalities: [
