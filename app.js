@@ -720,7 +720,7 @@
   }
 
   function scrollToElement(selector) {
-    requestAnimationFrame(() => {
+    const align = () => {
       const element = document.querySelector(selector);
       if (!element) return;
       const top = element.getBoundingClientRect().top + window.scrollY - getStickyOffset();
@@ -729,6 +729,11 @@
         element.setAttribute("tabindex", "-1");
         element.focus({ preventScroll: true });
       }
+    };
+
+    requestAnimationFrame(() => {
+      align();
+      window.setTimeout(align, 140);
     });
   }
 
