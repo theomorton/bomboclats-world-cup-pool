@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 16, 2026 at 4:07 PM EDT from ESPN. Latest match: Iran 2-2 New Zealand.",
+  lastUpdated: "June 16, 2026 at 4:16 PM EDT from ESPN. Latest match: Iran 2-2 New Zealand.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
