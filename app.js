@@ -724,7 +724,11 @@
       const element = document.querySelector(selector);
       if (!element) return;
       const top = element.getBoundingClientRect().top + window.scrollY - getStickyOffset();
-      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+      const root = document.documentElement;
+      const previousScrollBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      window.scrollTo(0, Math.max(0, top));
+      root.style.scrollBehavior = previousScrollBehavior;
       if (typeof element.focus === "function") {
         element.setAttribute("tabindex", "-1");
         element.focus({ preventScroll: true });
@@ -733,7 +737,8 @@
 
     requestAnimationFrame(() => {
       align();
-      window.setTimeout(align, 140);
+      window.setTimeout(align, 120);
+      window.setTimeout(align, 360);
     });
   }
 
