@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 16, 2026 at 4:57 PM EDT from ESPN. Latest match: Iran 2-2 New Zealand.",
+  lastUpdated: "June 16, 2026 at 5:11 PM EDT from ESPN. Latest match: France 3-1 Senegal.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -36,5 +36,7 @@ window.POOL_RESULTS = [
   { team: "Saudi Arabia", stage: "Groups", result: "D", advanceBonus: false, opponent: "Uruguay", score: 1, opponentScore: 1, sourceEventId: "760429", playedAt: "2026-06-15T22:00Z" },
   { team: "Uruguay", stage: "Groups", result: "D", advanceBonus: false, opponent: "Saudi Arabia", score: 1, opponentScore: 1, sourceEventId: "760429", playedAt: "2026-06-15T22:00Z" },
   { team: "Iran", stage: "Groups", result: "D", advanceBonus: false, opponent: "New Zealand", score: 2, opponentScore: 2, sourceEventId: "760427", playedAt: "2026-06-16T01:00Z" },
-  { team: "New Zealand", stage: "Groups", result: "D", advanceBonus: false, opponent: "Iran", score: 2, opponentScore: 2, sourceEventId: "760427", playedAt: "2026-06-16T01:00Z" }
+  { team: "New Zealand", stage: "Groups", result: "D", advanceBonus: false, opponent: "Iran", score: 2, opponentScore: 2, sourceEventId: "760427", playedAt: "2026-06-16T01:00Z" },
+  { team: "France", stage: "Groups", result: "W", advanceBonus: false, opponent: "Senegal", score: 3, opponentScore: 1, sourceEventId: "760432", playedAt: "2026-06-16T19:00Z" },
+  { team: "Senegal", stage: "Groups", result: "L", advanceBonus: false, opponent: "France", score: 1, opponentScore: 3, sourceEventId: "760432", playedAt: "2026-06-16T19:00Z" }
 ];
