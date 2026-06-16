@@ -67,6 +67,7 @@
     search: "",
     focusedPlayerSlug: "",
     focusedTeamName: "",
+    leaderboardMode: "official",
     schedule: initialSchedule,
     scheduleMeta: initialScheduleMeta,
     liveProjection: false,
@@ -224,10 +225,6 @@
     });
 
     return projected;
-  }
-
-  function activeResults() {
-    return [...results, ...projectedResultsFromSchedule(state.schedule)];
   }
 
   function computeTeamScores(sourceResults = results) {
@@ -440,8 +437,11 @@
     `;
   }
 
-  function renderLeaderboard(enrichedPlayers) {
-    const sorted = [...enrichedPlayers].sort((a, b) => {
+  function renderLeaderboard(officialPlayers, livePlayers) {
+    const officialBySlug = new Map(officialPlayers.map((player) => [player.slug, player]));
+    const isLiveMode = state.leaderboardMode === "live";
+    const sourcePlayers = isLiveMode ? livePlayers : officialPlayers;
+    const sorted = [...sourcePlayers].sort((a, b) => {
       if (b.points !== a.points) return b.points - a.points;
       if (a.pending !== b.pending) return a.pending ? 1 : -1;
       if (b.budgetUsed !== a.budgetUsed) return b.budgetUsed - a.budgetUsed;
@@ -449,6 +449,11 @@
     });
 
     const rows = sorted.map((player, index) => {
+      const officialPlayer = officialBySlug.get(player.slug);
+      const delta = isLiveMode && officialPlayer ? player.points - officialPlayer.points : 0;
+      const deltaMarkup = delta
+        ? `<span class="point-delta ${delta > 0 ? "positive" : "negative"}">${delta > 0 ? "+" : ""}${delta} live</span>`
+        : "";
       const best = player.bestTeam
         ? `${flagMarkup(player.bestTeam)} ${escapeHtml(player.bestTeam.name)} (${money(player.bestTeam.price)})`
         : "Pending";
@@ -465,7 +470,7 @@
               </div>
             </button>
           </td>
-          <td><strong>${player.points}</strong></td>
+          <td><strong>${player.points}</strong>${deltaMarkup}</td>
           <td>${money(player.budgetUsed)}</td>
           <td>${player.aliveCount}</td>
           <td>${player.knownPicks.length}</td>
@@ -474,7 +479,18 @@
       `;
     });
 
+    const liveNote = state.liveProjection
+      ? "Live Leaderboard treats active/latest scores as final for now."
+      : "No active match projection right now; live matches will update here.";
+
     document.getElementById("leaderboard-table").innerHTML = `
+      <div class="ranking-toolbar">
+        <div class="segmented-control ranking-toggle" role="group" aria-label="Leaderboard mode">
+          <button class="segment ${!isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="official" aria-pressed="${String(!isLiveMode)}">Leaderboard</button>
+          <button class="segment ${isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="live" aria-pressed="${String(isLiveMode)}">Live Leaderboard</button>
+        </div>
+        <p>${escapeHtml(isLiveMode ? liveNote : "Official standings use completed match results only.")}</p>
+      </div>
       <div class="table-scroll">
         <table>
           <thead>
@@ -493,7 +509,7 @@
       </div>
     `;
 
-    document.getElementById("last-updated").textContent = state.liveProjection
+    document.getElementById("last-updated").textContent = isLiveMode && state.liveProjection
       ? `Live projection ${state.liveStatus}`
       : resultsMeta.lastUpdated
         ? `Updated ${resultsMeta.lastUpdated}`
@@ -739,6 +755,15 @@
     });
   }
 
+  function wireLeaderboardControls(render) {
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-leaderboard-mode]");
+      if (!button) return;
+      state.leaderboardMode = button.dataset.leaderboardMode;
+      render();
+    });
+  }
+
   function wireDeepLinks(renderTeamView) {
     document.addEventListener("click", (event) => {
       const playerButton = event.target.closest("[data-player-link]:not([data-team-link])");
@@ -847,32 +872,40 @@
 
   function init() {
     const buildView = () => {
-      const sourceResults = activeResults();
-      const teamScores = computeTeamScores(sourceResults);
-      const enrichedPlayers = enrichPlayers(teamScores);
-      const pickMap = buildPickMap(enrichedPlayers);
-      const warnings = validateData(enrichedPlayers, sourceResults);
-      return { enrichedPlayers, pickMap, teamScores, warnings };
+      const projectedResults = projectedResultsFromSchedule(state.schedule);
+      state.liveProjection = projectedResults.length > 0;
+      if (!state.liveStatus && state.scheduleMeta.lastUpdated) {
+        state.liveStatus = state.scheduleMeta.lastUpdated;
+      }
+
+      const officialTeamScores = computeTeamScores(results);
+      const liveTeamScores = computeTeamScores([...results, ...projectedResults]);
+      const officialPlayers = enrichPlayers(officialTeamScores);
+      const livePlayers = enrichPlayers(liveTeamScores);
+      const pickMap = buildPickMap(officialPlayers);
+      const warnings = validateData(officialPlayers, results);
+      return { officialPlayers, livePlayers, pickMap, officialTeamScores, warnings };
     };
 
     const renderAll = () => {
       const view = buildView();
       renderDailySchedule(view.pickMap);
-      renderLeaderboard(view.enrichedPlayers);
-      renderSummary(view.enrichedPlayers, view.pickMap);
-      renderPlayers(view.enrichedPlayers, view.teamScores);
-      renderTeams(view.enrichedPlayers, view.teamScores, view.pickMap);
+      renderLeaderboard(view.officialPlayers, view.livePlayers);
+      renderSummary(view.officialPlayers, view.pickMap);
+      renderPlayers(view.officialPlayers, view.officialTeamScores);
+      renderTeams(view.officialPlayers, view.officialTeamScores, view.pickMap);
       renderRules(view.warnings);
     };
 
     const renderTeamView = () => {
       const view = buildView();
-      renderTeams(view.enrichedPlayers, view.teamScores, view.pickMap);
+      renderTeams(view.officialPlayers, view.officialTeamScores, view.pickMap);
     };
 
     renderAll();
     wireTabs();
     wireTeamControls(renderTeamView);
+    wireLeaderboardControls(renderAll);
     wireDeepLinks(renderTeamView);
     scheduleLiveScoreboard(renderAll);
     scheduleHourlyRefresh();
