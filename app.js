@@ -487,22 +487,25 @@
     const pickedBy = team ? pickMap.get(team.name) || [] : [];
     const item = team || { name: competitor.team, flag: "" };
     const pickedText = pickedBy.length ? `${pickedBy.length} ${pickedBy.length === 1 ? "pick" : "picks"}` : "unpicked";
-    const pickerMarkup = pickedBy.map((player) => `<span class="score-picker-chip">${escapeHtml(player.name)}</span>`).join("");
-    const tag = team ? "button" : "div";
-    const attrs = team
-      ? `type="button" data-team-link="${escapeHtml(team.name)}" aria-label="View ${escapeHtml(team.name)} team card"`
-      : "";
+    const pickerMarkup = pickedBy.map((player) => (
+      `<button class="score-picker-chip" type="button" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} player profile">${escapeHtml(player.name)}</button>`
+    )).join("");
+    const teamNameMarkup = team
+      ? `<button class="score-team-link" type="button" data-team-link="${escapeHtml(team.name)}" aria-label="View ${escapeHtml(team.name)} team card">${flagMarkup(item)} <span class="country-name">${escapeHtml(competitor.team)}</span></button>`
+      : `<strong>${escapeHtml(competitor.team)}</strong>`;
     return `
-      <${tag} class="score-team${team ? " score-team-button" : ""}${competitor.winner ? " is-winner" : ""}" ${attrs}>
+      <div class="score-team${competitor.winner ? " is-winner" : ""}">
         <div class="score-team-info">
-          <div class="score-team-title">
-            <strong>${team ? flagMarkup(item) : ""} <span class="country-name">${escapeHtml(competitor.team)}</span></strong>
+          <div class="score-team-grid">
+            <div class="score-team-name-block">
+              ${teamNameMarkup}
+              <span class="score-pick-count">${escapeHtml(pickedText)}</span>
+            </div>
             ${pickerMarkup ? `<span class="score-picker-row">${pickerMarkup}</span>` : ""}
           </div>
-          <span class="score-pick-count">${escapeHtml(pickedText)}</span>
         </div>
         <b>${showScore ? escapeHtml(competitor.score) : "-"}</b>
-      </${tag}>
+      </div>
     `;
   }
 
@@ -697,7 +700,7 @@
     const pickedMarkup = pickedBy.length
       ? pickedBy.map((player) => {
           const selected = isFocused && player.slug === state.focusedPlayerSlug ? " is-selected" : "";
-          return `<span class="chip picked-player-chip${selected}">${escapeHtml(player.name)}</span>`;
+          return `<button class="chip picked-player-chip${selected}" type="button" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} player profile">${escapeHtml(player.name)}</button>`;
         }).join("")
       : `<span class="small-muted">Unpicked</span>`;
     return `

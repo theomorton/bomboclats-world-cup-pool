@@ -401,37 +401,51 @@ input:focus-visible,
   text-align: left;
 }
 
-.score-team-button {
-  width: 100%;
-}
-
-.score-team-button:hover {
-  border-color: var(--blue-2);
-  background: #f2f7ff;
-}
-
-.score-team-button:focus-visible {
-  outline: 3px solid rgba(0, 53, 107, 0.24);
-  outline-offset: 2px;
-}
-
 .score-team-info {
   min-width: 0;
   flex: 1 1 auto;
 }
 
-.score-team-title {
+.score-team-grid {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px 10px;
 }
 
-.score-team strong {
+.score-team-name-block {
+  display: grid;
+  gap: 3px;
+  flex: 0 0 auto;
+}
+
+.score-team strong,
+.score-team-link {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  color: inherit;
   font-size: 0.92rem;
+  line-height: 1.15;
+  padding: 2px 4px;
+  text-align: left;
+}
+
+.score-team-link {
+  margin: -2px -4px;
+}
+
+.score-team-link:hover {
+  background: #edf5ff;
+}
+
+.score-team-link:focus-visible {
+  outline: 3px solid rgba(0, 53, 107, 0.24);
+  outline-offset: 2px;
 }
 
 .score-picker-row {
@@ -440,22 +454,32 @@ input:focus-visible,
   flex-wrap: wrap;
   gap: 5px;
   min-width: 0;
+  align-self: center;
 }
 
 .score-picker-chip {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-height: 28px;
   border: 1px solid var(--line);
   background: #ffffff;
   border-radius: 999px;
   color: #344054;
   font-size: 0.68rem;
   font-weight: 850;
-  line-height: 1;
-  padding: 4px 7px;
+  line-height: 1.1;
+  padding: 5px 9px;
 }
 
-.score-team strong .inline-flag {
+.score-picker-chip:hover,
+.picked-player-chip:hover {
+  border-color: var(--blue-2);
+  background: #f2f7ff;
+}
+
+.score-team strong .inline-flag,
+.score-team-link .inline-flag {
   display: inline-flex;
   font-size: 1.55rem;
 }
@@ -468,7 +492,6 @@ input:focus-visible,
 
 .score-pick-count {
   display: block;
-  margin-top: 5px;
   color: var(--muted);
   font-size: 0.74rem;
   font-weight: 800;
