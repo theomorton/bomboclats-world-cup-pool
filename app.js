@@ -525,7 +525,8 @@
   }
 
   function renderPlayers(enrichedPlayers, teamScores) {
-    document.getElementById("players-grid").innerHTML = enrichedPlayers
+    document.getElementById("players-grid").innerHTML = [...enrichedPlayers]
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }))
       .map((player) => {
         const theme = getPlayerTheme(player);
         const focused = player.slug === state.focusedPlayerSlug ? " is-focused" : "";
