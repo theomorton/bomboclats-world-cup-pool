@@ -447,17 +447,19 @@
   }
 
   function renderSummary(enrichedPlayers, pickMap) {
-    const activePlayers = enrichedPlayers.filter((player) => !player.pending && player.knownPicks.length);
     const pickedTeams = [...pickMap.values()].filter((pickedBy) => pickedBy.length > 0).length;
-    const totalBudget = activePlayers.reduce((sum, player) => sum + player.budgetUsed, 0);
+    const leader = sortedLeaderboardPlayers(enrichedPlayers).find((player) => !player.pending);
     const topTeam = [...pickMap.entries()]
       .map(([teamName, pickedBy]) => ({ team: resolveTeam(teamName), count: pickedBy.length }))
       .sort((a, b) => b.count - a.count || b.team.price - a.team.price)[0];
 
     const cards = [
-      { label: "Players", value: players.length },
+      {
+        label: "Current Leader",
+        valueHtml: leader ? `${escapeHtml(leader.name)} <small>${leader.points} pts</small>` : "Pending"
+      },
+      { label: "Total Players", value: players.length },
       { label: "Picked Teams", value: `${pickedTeams}/${teams.length}` },
-      { label: "Budget Spent", value: money(totalBudget) },
       {
         label: "Most Picked",
         valueHtml: topTeam && topTeam.count ? `${flagMarkup(topTeam.team)} ${escapeHtml(topTeam.team.name)} (${topTeam.count})` : "None"
@@ -472,6 +474,19 @@
         </article>
       `)
       .join("");
+  }
+
+  function renderHeaderStatus() {
+    const statusEl = document.getElementById("header-status");
+    if (!statusEl) return;
+
+    const liveCount = state.schedule.filter((game) => game.status?.state === "in").length;
+    const statusLabel = liveCount ? `${plural(liveCount, "live match", "live matches")}` : state.scheduleMeta.dateLabel || "Today";
+    const updated = state.scheduleMeta.lastUpdated || resultsMeta.lastUpdated || "Awaiting update";
+    statusEl.innerHTML = `
+      <span>${escapeHtml(statusLabel)}</span>
+      <strong>${escapeHtml(updated)}</strong>
+    `;
   }
 
   function scheduleStatus(game) {
@@ -544,6 +559,7 @@
         <div class="scoreboard-grid">${gamesMarkup}</div>
       </article>
     `;
+    renderHeaderStatus();
   }
 
   function compareLeaderboardPlayers(a, b) {
@@ -581,7 +597,7 @@
         : `<span class="small-muted">None</span>`;
       const status = player.pending ? "Picks pending" : plural(player.knownPicks.length, "team");
       return `
-        <tr>
+        <tr class="leaderboard-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}">
           <td>
             <div class="rank-cell">
               <span class="rank-badge">${rank}</span>
@@ -669,6 +685,23 @@
                 </button>
               `;
             }).join("");
+        const bestPick = player.knownPicks
+          .map((team) => ({ team, points: teamScores.get(team.name)?.points || 0 }))
+          .sort((a, b) => b.points - a.points || b.team.price - a.team.price || a.team.name.localeCompare(b.team.name))[0];
+        const spotlightMarkup = player.pending || !player.knownPicks.length
+          ? `<div class="player-spotlights"><span class="spotlight-item muted"><b>Status</b><strong>Picks pending</strong></span></div>`
+          : `
+            <div class="player-spotlights">
+              <span class="spotlight-item">
+                <b>Tier 1</b>
+                <strong>${player.tier1Selection ? `${flagMarkup(player.tier1Selection)} ${escapeHtml(player.tier1Selection.name)}` : "None"}</strong>
+              </span>
+              <span class="spotlight-item">
+                <b>Best Pick</b>
+                <strong>${bestPick ? `${flagMarkup(bestPick.team)} ${escapeHtml(bestPick.team.name)} · ${bestPick.points} pts` : "None"}</strong>
+              </span>
+            </div>
+          `;
 
         return `
           <article class="player-card${focused}" id="player-${escapeHtml(player.slug)}" data-player-slug="${escapeHtml(player.slug)}" style="--c1:${theme.c1};--c2:${theme.c2}">
@@ -679,6 +712,7 @@
                 <div class="nationality-row">${nationalityChips}</div>
               </div>
             </div>
+            ${spotlightMarkup}
             <div class="player-metrics">
               <div class="metric"><span class="metric-label">Points</span><strong>${player.points}</strong></div>
               <div class="metric"><span class="metric-label">Budget</span><strong>${money(player.budgetUsed)}</strong></div>

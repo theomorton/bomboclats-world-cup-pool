@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bomboclats World Cup Pool</title>
-    <link rel="stylesheet" href="styles.css?v=fixed-scoreboard-rows">
+    <link rel="stylesheet" href="styles.css?v=broadcast-refresh">
   </head>
   <body>
     <header class="site-header">
       <div class="brand">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 92 110" focusable="false">
+        <div class="brand-identity">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 92 110" focusable="false">
             <path class="crest-shield" d="M6 4h80v61c0 18.5-12.5 32.4-40 41C18.5 97.4 6 83.5 6 65V4Z" />
             <path class="crest-divider" d="M7 35.5h78" />
             <g class="crest-book">
@@ -32,11 +33,17 @@
             <circle class="crest-dot crest-dot-white" cx="36" cy="91" r="5.8" />
             <circle class="crest-dot crest-dot-white" cx="56" cy="91" r="5.8" />
             <circle class="crest-dot crest-dot-white" cx="67" cy="80" r="5.8" />
-          </svg>
-        </span>
-        <div>
-          <p class="eyebrow">Yale SOM / WC2026</p>
-          <h1>Bomboclats World Cup Pool</h1>
+            </svg>
+          </span>
+          <div class="brand-copy">
+            <p class="eyebrow">Yale SOM / WC2026</p>
+            <h1>Bomboclats World Cup Pool</h1>
+            <p class="brand-subtitle">Private tournament command center</p>
+          </div>
+        </div>
+        <div id="header-status" class="header-status" aria-live="polite">
+          <span>Scoreboard</span>
+          <strong>Loading</strong>
         </div>
       </div>
       <nav class="tabs" aria-label="Pool sections">
@@ -105,6 +112,6 @@
     <script src="data/players.js?v=italy-11"></script>
     <script src="data/results.js"></script>
     <script src="data/schedule.js"></script>
-    <script src="app.js?v=player-chip-links"></script>
+    <script src="app.js?v=broadcast-refresh"></script>
   </body>
 </html>
