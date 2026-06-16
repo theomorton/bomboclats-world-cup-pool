@@ -532,6 +532,34 @@ tr:last-child td {
   font-weight: 900;
 }
 
+.rank-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rank-movement {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 950;
+  line-height: 1;
+  padding: 5px 7px;
+  white-space: nowrap;
+}
+
+.rank-movement.up {
+  background: #eaf8f1;
+  color: var(--green);
+}
+
+.rank-movement.down {
+  background: #fff1f1;
+  color: var(--red);
+}
+
 .leader-player,
 .mini-person {
   display: flex;

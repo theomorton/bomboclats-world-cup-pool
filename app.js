@@ -479,18 +479,31 @@
     `;
   }
 
+  function compareLeaderboardPlayers(a, b) {
+    if (b.points !== a.points) return b.points - a.points;
+    if (a.pending !== b.pending) return a.pending ? 1 : -1;
+    if (b.budgetUsed !== a.budgetUsed) return b.budgetUsed - a.budgetUsed;
+    return a.name.localeCompare(b.name);
+  }
+
+  function sortedLeaderboardPlayers(sourcePlayers) {
+    return [...sourcePlayers].sort(compareLeaderboardPlayers);
+  }
+
   function renderLeaderboard(officialPlayers, livePlayers) {
     const officialBySlug = new Map(officialPlayers.map((player) => [player.slug, player]));
+    const officialRankBySlug = new Map(sortedLeaderboardPlayers(officialPlayers).map((player, index) => [player.slug, index + 1]));
     const isLiveMode = state.leaderboardMode === "live";
     const sourcePlayers = isLiveMode ? livePlayers : officialPlayers;
-    const sorted = [...sourcePlayers].sort((a, b) => {
-      if (b.points !== a.points) return b.points - a.points;
-      if (a.pending !== b.pending) return a.pending ? 1 : -1;
-      if (b.budgetUsed !== a.budgetUsed) return b.budgetUsed - a.budgetUsed;
-      return a.name.localeCompare(b.name);
-    });
+    const sorted = sortedLeaderboardPlayers(sourcePlayers);
 
     const rows = sorted.map((player, index) => {
+      const rank = index + 1;
+      const officialRank = officialRankBySlug.get(player.slug);
+      const movement = isLiveMode && officialRank ? officialRank - rank : 0;
+      const movementMarkup = movement
+        ? `<span class="rank-movement ${movement > 0 ? "up" : "down"}" aria-label="${escapeHtml(`${player.name} moved ${movement > 0 ? "up" : "down"} ${Math.abs(movement)} ${Math.abs(movement) === 1 ? "spot" : "spots"} in the live leaderboard`)}"><span aria-hidden="true">${movement > 0 ? "&#9650;" : "&#9660;"}</span>${Math.abs(movement)}</span>`
+        : "";
       const officialPlayer = officialBySlug.get(player.slug);
       const delta = isLiveMode && officialPlayer ? player.points - officialPlayer.points : 0;
       const deltaMarkup = delta
@@ -502,7 +515,12 @@
       const status = player.pending ? "Picks pending" : plural(player.knownPicks.length, "team");
       return `
         <tr>
-          <td><span class="rank-badge">${index + 1}</span></td>
+          <td>
+            <div class="rank-cell">
+              <span class="rank-badge">${rank}</span>
+              ${movementMarkup}
+            </div>
+          </td>
           <td>
             <button class="leader-player leader-player-button" type="button" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} player card">
               ${avatarMarkup(player, "mini")}
