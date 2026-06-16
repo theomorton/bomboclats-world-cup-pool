@@ -178,7 +178,7 @@
     if (item.flagImage) {
       return `<img class="inline-flag flag-img" src="${escapeHtml(item.flagImage)}" alt="" loading="lazy">`;
     }
-    return `<span class="inline-flag" aria-hidden="true">${escapeHtml(item.flag)}</span>`;
+    return `<span class="inline-flag flag-emoji" aria-hidden="true"><span class="flag-emoji-glyph">${escapeHtml(item.flag)}</span></span>`;
   }
 
   function resultCode(score, opponentScore) {

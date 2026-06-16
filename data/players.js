@@ -17,7 +17,7 @@ window.POOL_PLAYERS = [
       { name: "Canada", flag: "🇨🇦" },
       { name: "Greece", flag: "🇬🇷" }
     ],
-    picks: ["England", "South Korea", "Australia", "New Zealand", "Canada", "Netherlands", "Belgium", "Czechia"]
+    picks: ["England", "South Korea", "Australia", "New Zealand", "Canada", "Netherlands", "Belgium", "Czechia", "Italy"]
   },
   {
     name: "John",
@@ -28,7 +28,7 @@ window.POOL_PLAYERS = [
       { name: "Greece", flag: "🇬🇷" },
       { name: "China", flag: "🇨🇳" }
     ],
-    picks: ["Spain", "Netherlands", "Norway", "Colombia", "South Korea", "Iraq", "Cape Verde"]
+    picks: ["Spain", "Netherlands", "Norway", "Colombia", "South Korea", "Iraq", "Cape Verde", "Italy"]
   },
   {
     name: "Leah",
@@ -56,7 +56,7 @@ window.POOL_PLAYERS = [
     nationalities: [
       { name: "England", flag: "England", flagImage: "assets/flags/england.svg" }
     ],
-    picks: ["England", "Netherlands", "Morocco", "Turkiye", "Egypt", "Tunisia", "Iraq"]
+    picks: ["England", "Netherlands", "Morocco", "Turkiye", "Egypt", "Tunisia", "Iraq", "Italy"]
   },
   {
     name: "Kristian",
@@ -67,7 +67,7 @@ window.POOL_PLAYERS = [
       { name: "Denmark", flag: "🇩🇰" },
       { name: "Bosnia", flag: "🇧🇦" }
     ],
-    picks: ["France", "DR Congo", "Bosnia", "Ivory Coast", "Austria", "Netherlands", "USA"]
+    picks: ["France", "DR Congo", "Bosnia", "Ivory Coast", "Austria", "Netherlands", "USA", "Italy"]
   },
   {
     name: "Theo",
@@ -87,7 +87,7 @@ window.POOL_PLAYERS = [
       { name: "USA", flag: "🇺🇸" },
       { name: "South Korea", flag: "🇰🇷" }
     ],
-    picks: ["Spain", "Netherlands", "Belgium", "Canada", "Ivory Coast", "Algeria", "South Korea"]
+    picks: ["Spain", "Netherlands", "Belgium", "Canada", "Ivory Coast", "Algeria", "South Korea", "Italy"]
   },
   {
     name: "Aaron",
@@ -107,7 +107,7 @@ window.POOL_PLAYERS = [
     nationalities: [
       { name: "USA", flag: "🇺🇸" }
     ],
-    picks: ["Spain", "Norway", "Turkiye", "Croatia", "Saudi Arabia", "Algeria", "South Korea"]
+    picks: ["Spain", "Norway", "Turkiye", "Croatia", "Saudi Arabia", "Algeria", "South Korea", "Italy"]
   },
   {
     name: "Peter",
