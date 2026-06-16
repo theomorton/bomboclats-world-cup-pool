@@ -599,7 +599,6 @@
                   ${flagMarkup(team)} ${escapeHtml(team.name)}
                   <span class="price">${money(team.price)}</span>
                   <span class="pick-points">${score?.points || 0} pts</span>
-                  <span>${escapeHtml(groupLabel(team.group))}</span>
                 </button>
               `;
             }).join("");
