@@ -744,9 +744,7 @@ tr:last-child td {
   --flag-width: 1.42em;
   --flag-height: 0.94em;
   --flag-emoji-size: 1.52em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   flex: 0 0 auto;
   width: var(--flag-width);
   min-width: var(--flag-width);
@@ -756,12 +754,15 @@ tr:last-child td {
   border-radius: 2px;
   background: #ffffff;
   box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.14);
+  vertical-align: middle;
 }
 
 .flag-img {
   width: var(--flag-width);
   height: var(--flag-height);
+  display: block;
   object-fit: cover;
+  object-position: center;
   border-radius: 2px;
 }
 

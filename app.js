@@ -46,6 +46,62 @@
     Ireland: ["#169b62", "#ff883e"]
   };
 
+  const FLAG_CODES = {
+    Algeria: "dz",
+    Argentina: "ar",
+    Australia: "au",
+    Austria: "at",
+    Belgium: "be",
+    Bosnia: "ba",
+    Brazil: "br",
+    Canada: "ca",
+    "Cape Verde": "cv",
+    China: "cn",
+    Colombia: "co",
+    Croatia: "hr",
+    Curacao: "cw",
+    Czechia: "cz",
+    Denmark: "dk",
+    "DR Congo": "cd",
+    Ecuador: "ec",
+    Egypt: "eg",
+    England: "gb-eng",
+    France: "fr",
+    Germany: "de",
+    Ghana: "gh",
+    Greece: "gr",
+    Haiti: "ht",
+    Iran: "ir",
+    Iraq: "iq",
+    Ireland: "ie",
+    Italy: "it",
+    "Ivory Coast": "ci",
+    Japan: "jp",
+    Jordan: "jo",
+    Mexico: "mx",
+    Morocco: "ma",
+    Netherlands: "nl",
+    "New Zealand": "nz",
+    Norway: "no",
+    Panama: "pa",
+    Paraguay: "py",
+    Portugal: "pt",
+    Qatar: "qa",
+    "Saudi Arabia": "sa",
+    Scotland: "gb-sct",
+    Senegal: "sn",
+    "South Africa": "za",
+    "South Korea": "kr",
+    Spain: "es",
+    Sweden: "se",
+    Switzerland: "ch",
+    Tunisia: "tn",
+    Turkiye: "tr",
+    Uruguay: "uy",
+    USA: "us",
+    Uzbekistan: "uz"
+  };
+
   const normalize = (value) =>
     String(value || "")
       .normalize("NFD")
@@ -175,8 +231,12 @@
   }
 
   function flagMarkup(item) {
+    const flagCode = FLAG_CODES[item.name];
+    if (flagCode) {
+      return `<img class="inline-flag flag-img" src="https://flagcdn.com/w80/${escapeHtml(flagCode)}.png" alt="" loading="lazy" decoding="async">`;
+    }
     if (item.flagImage) {
-      return `<img class="inline-flag flag-img" src="${escapeHtml(item.flagImage)}" alt="" loading="lazy">`;
+      return `<img class="inline-flag flag-img" src="${escapeHtml(item.flagImage)}" alt="" loading="lazy" decoding="async">`;
     }
     return `<span class="inline-flag flag-emoji" aria-hidden="true"><span class="flag-emoji-glyph">${escapeHtml(item.flag)}</span></span>`;
   }
