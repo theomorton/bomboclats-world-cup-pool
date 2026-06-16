@@ -310,7 +310,7 @@
       const tier3Count = knownPicks.filter((team) => team.tier === 3).length;
       const points = knownPicks.reduce((sum, team) => sum + (teamScores.get(team.name)?.points || 0), 0);
       const aliveCount = knownPicks.filter((team) => !teamScores.get(team.name)?.eliminated).length;
-      const bestTeam = knownPicks.reduce((best, team) => (!best || team.price > best.price ? team : best), null);
+      const tier1Selection = knownPicks.find((team) => team.tier === 1) || null;
 
       return {
         ...player,
@@ -321,7 +321,7 @@
         tier3Count,
         points,
         aliveCount,
-        bestTeam
+        tier1Selection
       };
     });
   }
@@ -509,9 +509,9 @@
       const deltaMarkup = delta
         ? `<span class="point-delta ${delta > 0 ? "positive" : "negative"}">${delta > 0 ? "+" : ""}${delta} live</span>`
         : "";
-      const best = player.bestTeam
-        ? `${flagMarkup(player.bestTeam)} ${escapeHtml(player.bestTeam.name)} (${money(player.bestTeam.price)})`
-        : "Pending";
+      const tier1Selection = player.tier1Selection
+        ? `<span class="leader-tier-one">${flagMarkup(player.tier1Selection)} <span class="country-name">${escapeHtml(player.tier1Selection.name)}</span></span>`
+        : `<span class="small-muted">None</span>`;
       const status = player.pending ? "Picks pending" : plural(player.knownPicks.length, "team");
       return `
         <tr>
@@ -534,7 +534,7 @@
           <td>${money(player.budgetUsed)}</td>
           <td>${player.aliveCount}</td>
           <td>${player.knownPicks.length}</td>
-          <td>${best}</td>
+          <td>${tier1Selection}</td>
         </tr>
       `;
     });
@@ -561,7 +561,7 @@
               <th>Budget</th>
               <th>Alive</th>
               <th>Teams</th>
-              <th>Best Team</th>
+              <th>Tier 1 Selection</th>
             </tr>
           </thead>
           <tbody>${rows.join("")}</tbody>

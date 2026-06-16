@@ -621,6 +621,27 @@ tr:last-child td {
   color: var(--blue-2);
 }
 
+.leader-tier-one {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #182537;
+  font-weight: 800;
+}
+
+.leader-tier-one .inline-flag {
+  font-size: 1.65rem;
+}
+
+.leader-tier-one .flag-img {
+  width: 2.05em;
+  height: 1.32em;
+}
+
+.leader-tier-one .country-name {
+  color: #182537;
+}
+
 .players-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
