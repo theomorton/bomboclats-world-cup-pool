@@ -509,11 +509,6 @@
       </div>
     `;
 
-    document.getElementById("last-updated").textContent = isLiveMode && state.liveProjection
-      ? `Live projection ${state.liveStatus}`
-      : resultsMeta.lastUpdated
-        ? `Updated ${resultsMeta.lastUpdated}`
-        : "Results not started";
   }
 
   function avatarMarkup(player, size = "full") {
