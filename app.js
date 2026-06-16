@@ -714,6 +714,12 @@
       ["Bronze match", "-", "loss"]
     ];
     const multipliers = Object.entries(STAGE_MULTIPLIERS);
+    const payouts = [
+      ["Total pot", "$120"],
+      ["1st place", "$100"],
+      ["2nd place", "$10"],
+      ["3rd place", "$10"]
+    ];
 
     const checksMarkup = warnings.length
       ? `<ul class="checks-list">${warnings.map((warning) => `<li class="check-item ${warning.level === "error" ? "error" : ""}">${escapeHtml(warning.text)}</li>`).join("")}</ul>`
@@ -729,6 +735,12 @@
       <article class="rule-card">
         <h3>Scoring</h3>
         ${scores.map(([label, value, className]) => `<div class="score-row ${className}"><strong>${label}</strong><strong>${value}</strong></div>`).join("")}
+      </article>
+      <article class="rule-card">
+        <h3>Payouts</h3>
+        <ul class="rule-list">
+          ${payouts.map(([label, value]) => `<li><strong>${label}</strong><span>${value}</span></li>`).join("")}
+        </ul>
       </article>
       <article class="rule-card">
         <h3>Stage Multipliers</h3>
