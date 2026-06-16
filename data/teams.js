@@ -9,7 +9,7 @@ window.POOL_TEAMS = [
 
   { name: "Netherlands", flag: "🇳🇱", price: 35, tier: 2, group: "F", aliases: ["Netherland"] },
   { name: "Belgium", flag: "🇧🇪", price: 30, tier: 2, group: "G" },
-  { name: "Norway", flag: "🇳🇴", price: 30, tier: 2, group: "TBD" }, // TODO: group obscured in screenshot.
+  { name: "Norway", flag: "🇳🇴", price: 30, tier: 2, group: "I" },
   { name: "Colombia", flag: "🇨🇴", price: 25, tier: 2, group: "K" },
   { name: "Morocco", flag: "🇲🇦", price: 25, tier: 2, group: "C" },
   { name: "Japan", flag: "🇯🇵", price: 25, tier: 2, group: "F" },
@@ -25,8 +25,8 @@ window.POOL_TEAMS = [
   { name: "Paraguay", flag: "🇵🇾", price: 15, tier: 2, group: "D" },
   { name: "Austria", flag: "🇦🇹", price: 15, tier: 2, group: "J" },
   { name: "Canada", flag: "🇨🇦", price: 10, tier: 2, group: "B" },
-  { name: "Scotland", flag: "Scotland", flagImage: "assets/flags/scotland.svg", price: 10, tier: 2, group: "TBD" }, // TODO: group obscured in screenshot.
-  { name: "Czechia", flag: "🇨🇿", price: 10, tier: 2, group: "TBD", aliases: ["Czech Republic"] }, // TODO: group obscured in screenshot.
+  { name: "Scotland", flag: "Scotland", flagImage: "assets/flags/scotland.svg", price: 10, tier: 2, group: "C" },
+  { name: "Czechia", flag: "🇨🇿", price: 10, tier: 2, group: "A", aliases: ["Czech Republic"] },
 
   { name: "Ivory Coast", flag: "🇨🇮", price: 8, tier: 3, group: "E", aliases: ["Cote d'Ivoire", "Côte d’Ivoire"] },
   { name: "Bosnia", flag: "🇧🇦", price: 8, tier: 3, group: "B", aliases: ["Bosnia and Herzegovina"] },

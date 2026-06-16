@@ -1,17 +1,19 @@
 :root {
-  --bg: #f4f7fb;
-  --surface: #ffffff;
-  --surface-soft: #edf4ff;
-  --ink: #111827;
-  --muted: #667085;
-  --line: #d9e1ec;
-  --blue: #2454d6;
-  --blue-2: #6ba5ff;
-  --green: #1ea66a;
-  --gold: #f4b740;
-  --red: #e45b5b;
-  --violet: #725ac1;
-  --shadow: 0 14px 34px rgba(17, 24, 39, 0.08);
+  --bg: #edf3f8;
+  --surface: #fffefa;
+  --surface-soft: #e8f1f8;
+  --ink: #0f1f2f;
+  --muted: #5d6e82;
+  --line: #c9d7e6;
+  --blue: #00356b;
+  --blue-2: #286aa7;
+  --green: #24745a;
+  --gold: #d6a21d;
+  --red: #c94c4c;
+  --violet: #496a9a;
+  --paper: #fbf7ec;
+  --sky: #86b6dd;
+  --shadow: 0 16px 40px rgba(0, 53, 107, 0.1);
   --radius: 8px;
 }
 
@@ -26,7 +28,8 @@ html {
 body {
   margin: 0;
   background:
-    linear-gradient(180deg, rgba(36, 84, 214, 0.08), rgba(30, 166, 106, 0.04) 320px, transparent 600px),
+    linear-gradient(180deg, rgba(0, 53, 107, 0.14), rgba(134, 182, 221, 0.16) 360px, rgba(251, 247, 236, 0.7) 780px),
+    repeating-linear-gradient(135deg, rgba(0, 53, 107, 0.05) 0 1px, transparent 1px 18px),
     var(--bg);
   color: var(--ink);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -54,10 +57,14 @@ input:focus-visible,
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(244, 247, 251, 0.92);
-  border-bottom: 1px solid rgba(217, 225, 236, 0.86);
+  color: #ffffff;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 56px),
+    linear-gradient(135deg, #00264e, var(--blue));
+  border-bottom: 3px solid var(--gold);
   backdrop-filter: blur(18px);
   padding: 18px clamp(16px, 4vw, 42px) 12px;
+  box-shadow: 0 14px 30px rgba(0, 31, 63, 0.18);
 }
 
 .brand {
@@ -69,15 +76,31 @@ input:focus-visible,
 }
 
 .brand-mark {
+  position: relative;
   display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  background: #0f172a;
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-  font-size: 25px;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+  place-items: start center;
+  width: 48px;
+  height: 56px;
+  padding-top: 9px;
+  background: linear-gradient(180deg, #0b5a95 0 42%, #ffffff 42% 45%, var(--blue) 45%);
+  clip-path: polygon(9% 0, 91% 0, 91% 57%, 50% 100%, 9% 57%);
+  color: #ffffff;
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  box-shadow: 0 10px 24px rgba(0, 18, 38, 0.3);
+}
+
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 13px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(180deg, #ffffff 0 48%, var(--sky) 48%);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  transform: translateX(-50%);
 }
 
 .brand h1 {
@@ -85,6 +108,10 @@ input:focus-visible,
   font-size: clamp(1.25rem, 4.3vw, 2.1rem);
   line-height: 1;
   letter-spacing: 0;
+}
+
+.site-header .eyebrow {
+  color: #a9cbe8;
 }
 
 .eyebrow {
@@ -131,6 +158,18 @@ input:focus-visible,
   border-color: var(--blue);
   background: var(--blue);
   color: #ffffff;
+}
+
+.site-header .tab {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.1);
+  color: #d8e9f7;
+}
+
+.site-header .tab.is-active {
+  border-color: var(--gold);
+  background: var(--paper);
+  color: var(--blue);
 }
 
 .page-shell {
@@ -186,13 +225,23 @@ input:focus-visible,
 .team-card,
 .rule-card {
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 254, 250, 0.96);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
 
 .summary-card {
+  position: relative;
   padding: 15px;
+  overflow: hidden;
+}
+
+.summary-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: var(--blue);
 }
 
 .summary-card span,
@@ -206,6 +255,123 @@ input:focus-visible,
   display: block;
   margin-top: 6px;
   font-size: 1.35rem;
+}
+
+.daily-scoreboard {
+  margin: 0 0 18px;
+}
+
+.scoreboard-panel {
+  border-top: 3px solid var(--blue);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, rgba(0, 53, 107, 0.08), rgba(214, 162, 29, 0.1)),
+    rgba(255, 254, 250, 0.8);
+  padding: 16px 0 18px;
+}
+
+.scoreboard-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.scoreboard-head h3 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+}
+
+.scoreboard-head > div:last-child {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.scoreboard-head > div:last-child strong,
+.scoreboard-head > div:last-child span {
+  display: block;
+}
+
+.scoreboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.score-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 10px 24px rgba(0, 53, 107, 0.08);
+  padding: 13px;
+}
+
+.score-card.is-live {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(214, 162, 29, 0.16), 0 10px 24px rgba(0, 53, 107, 0.08);
+}
+
+.score-card-top,
+.score-team {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.score-card-top {
+  margin-bottom: 11px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.score-card-top strong {
+  color: var(--blue);
+}
+
+.score-matchup {
+  display: grid;
+  gap: 8px;
+}
+
+.score-team {
+  border: 1px solid #d8e2ed;
+  background: #fbfdff;
+  border-radius: var(--radius);
+  padding: 9px 10px;
+}
+
+.score-team strong,
+.score-team span {
+  display: block;
+}
+
+.score-team strong {
+  font-size: 0.96rem;
+}
+
+.score-team span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.score-team b {
+  color: var(--blue);
+  font-size: 1.3rem;
+}
+
+.score-team.is-winner {
+  border-color: rgba(36, 116, 90, 0.38);
+  background: #eef8f3;
 }
 
 .table-card {
@@ -231,8 +397,8 @@ td {
 }
 
 th {
-  background: #f8fafc;
-  color: var(--muted);
+  background: #082f57;
+  color: #d7e8f6;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -247,7 +413,7 @@ tr:last-child td {
   place-items: center;
   width: 32px;
   height: 32px;
-  background: #e8efff;
+  background: #e5eef7;
   color: var(--blue);
   border-radius: 50%;
   font-weight: 900;
@@ -297,7 +463,7 @@ tr:last-child td {
 }
 
 .leader-player-button:hover strong {
-  color: var(--blue);
+  color: var(--blue-2);
 }
 
 .players-grid {
@@ -532,7 +698,41 @@ tr:last-child td {
   box-shadow: 0 0 0 4px rgba(36, 84, 214, 0.12);
 }
 
-.teams-grid {
+.team-groups {
+  display: grid;
+  gap: 22px;
+}
+
+.team-group {
+  border-top: 2px solid rgba(0, 53, 107, 0.18);
+  padding-top: 14px;
+}
+
+.group-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.group-header h3 {
+  margin: 0;
+  color: var(--blue);
+  font-size: clamp(1.15rem, 2.3vw, 1.5rem);
+}
+
+.group-header span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  padding: 7px 10px;
+}
+
+.team-card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
@@ -573,7 +773,7 @@ tr:last-child td {
 }
 
 .team-price {
-  background: #e8efff;
+  background: #e5eef7;
   color: var(--blue);
   border-radius: 999px;
   font-weight: 900;
@@ -619,7 +819,7 @@ tr:last-child td {
 
 .picked-player-chip.is-selected {
   border-color: var(--blue);
-  background: #e8efff;
+  background: #e5eef7;
   color: var(--blue);
 }
 
@@ -750,7 +950,8 @@ tr:last-child td {
 @media (max-width: 980px) {
   .summary-grid,
   .players-grid,
-  .teams-grid {
+  .scoreboard-grid,
+  .team-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -815,9 +1016,19 @@ tr:last-child td {
 
   .summary-grid,
   .players-grid,
-  .teams-grid,
+  .scoreboard-grid,
+  .team-card-grid,
   .player-metrics {
     grid-template-columns: 1fr;
+  }
+
+  .scoreboard-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .scoreboard-head > div:last-child {
+    text-align: left;
   }
 
   .player-head {

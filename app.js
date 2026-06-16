@@ -3,6 +3,8 @@
   const players = window.POOL_PLAYERS || [];
   const results = window.POOL_RESULTS || [];
   const resultsMeta = window.POOL_RESULTS_META || {};
+  const schedule = window.POOL_SCHEDULE || [];
+  const scheduleMeta = window.POOL_SCHEDULE_META || {};
 
   const BUDGET = 150;
   const RESULT_POINTS = { W: 3, D: 1, L: 0 };
@@ -14,6 +16,7 @@
     Semi: 8,
     Final: 12
   };
+  const GROUP_ORDER = [..."ABCDEFGHIJKL", "N/A", "TBD"];
 
   const COUNTRY_COLORS = {
     France: ["#2454d6", "#e45b5b"],
@@ -102,6 +105,21 @@
   function groupLabel(group) {
     if (group === "N/A" || group === "TBD") return group;
     return `G${group}`;
+  }
+
+  function groupRank(group) {
+    const index = GROUP_ORDER.indexOf(group);
+    return index === -1 ? GROUP_ORDER.length : index;
+  }
+
+  function formatKickoff(kickoff) {
+    if (!kickoff) return "TBD";
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZoneName: "short"
+    }).format(new Date(kickoff));
   }
 
   function flagMarkup(item) {
@@ -260,6 +278,67 @@
       .join("");
   }
 
+  function scheduleStatus(game) {
+    if (game.status?.completed) return "Final";
+    if (game.status?.state === "in") {
+      return game.status.shortDetail || game.status.displayClock || "Live";
+    }
+    return formatKickoff(game.kickoff);
+  }
+
+  function scheduleTeamMarkup(competitor, pickMap, showScore) {
+    const team = resolveTeam(competitor.team);
+    const pickedBy = team ? pickMap.get(team.name) || [] : [];
+    const item = team || { name: competitor.team, flag: "" };
+    const pickedText = pickedBy.length ? `${pickedBy.length} ${pickedBy.length === 1 ? "pick" : "picks"}` : "unpicked";
+    return `
+      <div class="score-team${competitor.winner ? " is-winner" : ""}">
+        <div>
+          <strong>${team ? flagMarkup(item) : ""} ${escapeHtml(competitor.team)}</strong>
+          <span>${escapeHtml(pickedText)}</span>
+        </div>
+        <b>${showScore ? escapeHtml(competitor.score) : "-"}</b>
+      </div>
+    `;
+  }
+
+  function renderDailySchedule(pickMap) {
+    const scheduleEl = document.getElementById("daily-scoreboard");
+    const gamesMarkup = schedule.length
+      ? schedule.map((game) => {
+          const showScore = game.status?.state === "in" || game.status?.completed;
+          const statusClass = game.status?.state === "in" ? " is-live" : game.status?.completed ? " is-final" : "";
+          return `
+            <article class="score-card${statusClass}">
+              <div class="score-card-top">
+                <span>${escapeHtml(game.stage || "Groups")}</span>
+                <strong>${escapeHtml(scheduleStatus(game))}</strong>
+              </div>
+              <div class="score-matchup">
+                ${game.competitors.map((competitor) => scheduleTeamMarkup(competitor, pickMap, showScore)).join("")}
+              </div>
+            </article>
+          `;
+        }).join("")
+      : `<div class="empty-state">No games listed for today.</div>`;
+
+    scheduleEl.innerHTML = `
+      <article class="scoreboard-panel">
+        <div class="scoreboard-head">
+          <div>
+            <p class="eyebrow">Matchday</p>
+            <h3>Today's Games</h3>
+          </div>
+          <div>
+            <strong>${escapeHtml(scheduleMeta.dateLabel || "Today")}</strong>
+            <span>${escapeHtml(scheduleMeta.lastUpdated || resultsMeta.lastUpdated || "")}</span>
+          </div>
+        </div>
+        <div class="scoreboard-grid">${gamesMarkup}</div>
+      </article>
+    `;
+  }
+
   function renderLeaderboard(enrichedPlayers) {
     const sorted = [...enrichedPlayers].sort((a, b) => {
       if (b.points !== a.points) return b.points - a.points;
@@ -373,6 +452,37 @@
       .join("");
   }
 
+  function teamCardMarkup(team, teamScores, pickMap) {
+    const pickedBy = pickMap.get(team.name) || [];
+    const score = teamScores.get(team.name);
+    const isFocused = normalize(team.name) === normalize(state.focusedTeamName);
+    const pickedMarkup = pickedBy.length
+      ? pickedBy.map((player) => {
+          const selected = isFocused && player.slug === state.focusedPlayerSlug ? " is-selected" : "";
+          return `<span class="chip picked-player-chip${selected}">${escapeHtml(player.name)}</span>`;
+        }).join("")
+      : `<span class="small-muted">Unpicked</span>`;
+    return `
+      <article class="team-card${isFocused ? " is-focused" : ""}" id="team-${escapeHtml(slugify(team.name))}" data-team-name="${escapeHtml(team.name)}">
+        <div class="team-top">
+          <span class="team-flag" aria-hidden="true">${flagMarkup(team)}</span>
+          <div>
+            <h3>${escapeHtml(team.name)}</h3>
+            <p class="team-meta">Tier ${team.tier} / Group ${escapeHtml(team.group)}</p>
+          </div>
+          <span class="team-price">${money(team.price)}</span>
+        </div>
+        <div class="team-stats">
+          <div class="team-stat"><span>Picked</span><strong>${pickedBy.length}</strong></div>
+          <div class="team-stat"><span>Points</span><strong>${score?.points || 0}</strong></div>
+          <div class="team-stat"><span>Status</span><strong>${score?.eliminated ? "Out" : "Alive"}</strong></div>
+        </div>
+        <p class="picked-label">Picked by</p>
+        <div class="picked-row">${pickedMarkup}</div>
+      </article>
+    `;
+  }
+
   function renderTeams(enrichedPlayers, teamScores, pickMap) {
     const query = normalize(state.search);
     const filteredTeams = teams.filter((team) => {
@@ -382,45 +492,35 @@
       const haystack = normalize([
         team.name,
         team.group,
+        `group ${team.group}`,
         `tier ${team.tier}`,
         ...pickedBy.map((player) => player.name)
       ].join(" "));
       return haystack.includes(query);
-    });
+    }).sort((a, b) => groupRank(a.group) - groupRank(b.group) || b.price - a.price || a.name.localeCompare(b.name));
+
+    const grouped = filteredTeams.reduce((groups, team) => {
+      const key = team.group || "TBD";
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(team);
+      return groups;
+    }, new Map());
 
     document.getElementById("teams-grid").innerHTML = filteredTeams.length
-      ? filteredTeams
-          .map((team) => {
-            const pickedBy = pickMap.get(team.name) || [];
-            const score = teamScores.get(team.name);
-            const isFocused = normalize(team.name) === normalize(state.focusedTeamName);
-            const pickedMarkup = pickedBy.length
-              ? pickedBy.map((player) => {
-                  const selected = isFocused && player.slug === state.focusedPlayerSlug ? " is-selected" : "";
-                  return `<span class="chip picked-player-chip${selected}">${escapeHtml(player.name)}</span>`;
-                }).join("")
-              : `<span class="small-muted">Unpicked</span>`;
-            return `
-              <article class="team-card${isFocused ? " is-focused" : ""}" id="team-${escapeHtml(slugify(team.name))}" data-team-name="${escapeHtml(team.name)}">
-                <div class="team-top">
-                  <span class="team-flag" aria-hidden="true">${flagMarkup(team)}</span>
-                  <div>
-                    <h3>${escapeHtml(team.name)}</h3>
-                    <p class="team-meta">Tier ${team.tier} · Group ${escapeHtml(team.group)}</p>
-                  </div>
-                  <span class="team-price">${money(team.price)}</span>
-                </div>
-                <div class="team-stats">
-                  <div class="team-stat"><span>Picked</span><strong>${pickedBy.length}</strong></div>
-                  <div class="team-stat"><span>Points</span><strong>${score?.points || 0}</strong></div>
-                  <div class="team-stat"><span>Status</span><strong>${score?.eliminated ? "Out" : "Alive"}</strong></div>
-                </div>
-                <p class="picked-label">Picked by</p>
-                <div class="picked-row">${pickedMarkup}</div>
-              </article>
-            `;
-          })
-          .join("")
+      ? [...grouped.entries()].map(([group, groupTeams]) => `
+          <section class="team-group" aria-labelledby="group-${escapeHtml(slugify(group))}">
+            <div class="group-header">
+              <div>
+                <p class="eyebrow">${group === "N/A" || group === "TBD" ? "Other" : "Group"}</p>
+                <h3 id="group-${escapeHtml(slugify(group))}">${escapeHtml(group === "N/A" ? "No Group" : group === "TBD" ? "Group TBD" : `Group ${group}`)}</h3>
+              </div>
+              <span>${plural(groupTeams.length, "team")}</span>
+            </div>
+            <div class="team-card-grid">
+              ${groupTeams.map((team) => teamCardMarkup(team, teamScores, pickMap)).join("")}
+            </div>
+          </section>
+        `).join("")
       : `<div class="empty-state">No teams match this view.</div>`;
   }
 
@@ -580,6 +680,7 @@
     const renderTeamView = () => renderTeams(enrichedPlayers, teamScores, pickMap);
 
     renderSummary(enrichedPlayers, pickMap);
+    renderDailySchedule(pickMap);
     renderLeaderboard(enrichedPlayers);
     renderPlayers(enrichedPlayers, teamScores);
     renderTeamView();
