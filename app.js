@@ -259,6 +259,44 @@
     return scores;
   }
 
+  function computeGroupStandings(sourceResults = results) {
+    const standings = new Map(
+      teams.map((team) => [
+        team.name,
+        {
+          points: 0,
+          goalDifference: 0
+        }
+      ])
+    );
+
+    sourceResults.forEach((result) => {
+      const team = resolveTeam(result.team);
+      if (!team || (result.stage || "Groups") !== "Groups") return;
+
+      const standing = standings.get(team.name);
+      standing.points += RESULT_POINTS[result.result] ?? 0;
+
+      const score = Number(result.score);
+      const opponentScore = Number(result.opponentScore);
+      if (Number.isFinite(score) && Number.isFinite(opponentScore)) {
+        standing.goalDifference += score - opponentScore;
+      }
+    });
+
+    return standings;
+  }
+
+  function compareTeamsByGroupStanding(a, b, groupStandings) {
+    const aStanding = groupStandings.get(a.name) || { points: 0, goalDifference: 0 };
+    const bStanding = groupStandings.get(b.name) || { points: 0, goalDifference: 0 };
+    return (
+      bStanding.points - aStanding.points ||
+      bStanding.goalDifference - aStanding.goalDifference ||
+      a.name.localeCompare(b.name)
+    );
+  }
+
   function enrichPlayers(teamScores) {
     return players.map((player) => {
       const picks = (player.picks || []).map((pick) => ({
@@ -604,6 +642,7 @@
 
   function renderTeams(enrichedPlayers, teamScores, pickMap) {
     const query = normalize(state.search);
+    const groupStandings = computeGroupStandings(results);
     const filteredTeams = teams.filter((team) => {
       const pickedBy = pickMap.get(team.name) || [];
       if (state.teamFilter === "picked" && pickedBy.length === 0) return false;
@@ -616,7 +655,7 @@
         ...pickedBy.map((player) => player.name)
       ].join(" "));
       return haystack.includes(query);
-    }).sort((a, b) => groupRank(a.group) - groupRank(b.group) || b.price - a.price || a.name.localeCompare(b.name));
+    }).sort((a, b) => groupRank(a.group) - groupRank(b.group) || compareTeamsByGroupStanding(a, b, groupStandings));
 
     const grouped = filteredTeams.reduce((groups, team) => {
       const key = team.group || "TBD";
