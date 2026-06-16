@@ -314,12 +314,12 @@ input:focus-visible,
 }
 
 .scoreboard-panel {
-  border-top: 3px solid var(--blue);
-  border-bottom: 1px solid var(--line);
-  background:
-    linear-gradient(135deg, rgba(0, 53, 107, 0.08), rgba(214, 162, 29, 0.1)),
-    rgba(255, 254, 250, 0.8);
-  padding: 16px 0 18px;
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--blue);
+  background: rgba(255, 254, 250, 0.96);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
 }
 
 .scoreboard-head {
