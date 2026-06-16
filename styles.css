@@ -76,31 +76,91 @@ input:focus-visible,
 }
 
 .brand-mark {
-  position: relative;
   display: grid;
-  place-items: start center;
-  width: 48px;
-  height: 56px;
-  padding-top: 9px;
-  background: linear-gradient(180deg, #0b5a95 0 42%, #ffffff 42% 45%, var(--blue) 45%);
-  clip-path: polygon(9% 0, 91% 0, 91% 57%, 50% 100%, 9% 57%);
-  color: #ffffff;
-  font-size: 0.66rem;
-  font-weight: 950;
-  letter-spacing: 0.08em;
-  box-shadow: 0 10px 24px rgba(0, 18, 38, 0.3);
+  place-items: center;
+  width: 56px;
+  height: 66px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 10px 20px rgba(0, 18, 38, 0.32));
 }
 
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 13px;
-  width: 24px;
-  height: 24px;
-  background: linear-gradient(180deg, #ffffff 0 48%, var(--sky) 48%);
-  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
-  transform: translateX(-50%);
+.brand-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.crest-shield {
+  fill: #00558a;
+  stroke: #111827;
+  stroke-width: 2.4;
+}
+
+.crest-divider {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2.6;
+}
+
+.book-shadow,
+.book-page {
+  stroke: #111827;
+  stroke-linejoin: round;
+  stroke-width: 1.3;
+}
+
+.book-shadow {
+  fill: #f5d64e;
+}
+
+.book-page {
+  fill: #fffdf1;
+}
+
+.book-spine {
+  fill: none;
+  stroke: #111827;
+  stroke-width: 1.1;
+}
+
+.book-gold {
+  fill: none;
+  stroke: #d6a21d;
+  stroke-linecap: round;
+  stroke-width: 1.8;
+}
+
+.book-curl {
+  fill: none;
+  stroke: #ffffff;
+  stroke-linecap: round;
+  stroke-width: 1.6;
+}
+
+.book-glyph {
+  fill: none;
+  stroke: #111827;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
+}
+
+.crest-dot {
+  stroke: none;
+}
+
+.crest-dot-blue {
+  fill: #8bbce0;
+}
+
+.crest-dot-white,
+.crest-diamond-top {
+  fill: #ffffff;
+}
+
+.crest-diamond-bottom {
+  fill: #8bbce0;
 }
 
 .brand h1 {
@@ -1028,9 +1088,8 @@ tr:last-child td {
   }
 
   .brand-mark {
-    width: 40px;
-    height: 40px;
-    font-size: 22px;
+    width: 42px;
+    height: 50px;
   }
 
   .tabs {
