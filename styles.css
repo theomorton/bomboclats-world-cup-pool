@@ -376,6 +376,7 @@ input:focus-visible,
 
 .table-card {
   overflow: hidden;
+  margin-bottom: 18px;
 }
 
 .table-scroll {

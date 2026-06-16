@@ -3,10 +3,12 @@
   const players = window.POOL_PLAYERS || [];
   const results = window.POOL_RESULTS || [];
   const resultsMeta = window.POOL_RESULTS_META || {};
-  const schedule = window.POOL_SCHEDULE || [];
-  const scheduleMeta = window.POOL_SCHEDULE_META || {};
+  const initialSchedule = window.POOL_SCHEDULE || [];
+  const initialScheduleMeta = window.POOL_SCHEDULE_META || {};
 
+  const SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
   const BUDGET = 150;
+  const LIVE_REFRESH_MS = 60 * 1000;
   const RESULT_POINTS = { W: 3, D: 1, L: 0 };
   const STAGE_MULTIPLIERS = {
     Groups: 1,
@@ -16,6 +18,15 @@
     Semi: 8,
     Final: 12
   };
+  const STAGE_BY_SLUG = {
+    "group-stage": "Groups",
+    "round-of-32": "R32",
+    "round-of-16": "R16",
+    quarterfinals: "Quarter",
+    semifinals: "Semi",
+    final: "Final"
+  };
+  const SKIPPED_STAGE_SLUGS = new Set(["3rd-place-match", "third-place-match"]);
   const GROUP_ORDER = [..."ABCDEFGHIJKL", "N/A", "TBD"];
 
   const COUNTRY_COLORS = {
@@ -55,7 +66,11 @@
     teamFilter: "all",
     search: "",
     focusedPlayerSlug: "",
-    focusedTeamName: ""
+    focusedTeamName: "",
+    schedule: initialSchedule,
+    scheduleMeta: initialScheduleMeta,
+    liveProjection: false,
+    liveStatus: ""
   };
 
   function money(value) {
@@ -122,6 +137,42 @@
     }).format(new Date(kickoff));
   }
 
+  function dateKeyInEt(date = new Date()) {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).formatToParts(date);
+    const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+    return `${values.year}${values.month}${values.day}`;
+  }
+
+  function dateLabelFromKey(dateKey) {
+    if (!dateKey) return "Today";
+    const year = dateKey.slice(0, 4);
+    const month = dateKey.slice(4, 6);
+    const day = dateKey.slice(6, 8);
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      weekday: "long",
+      month: "long",
+      day: "numeric"
+    }).format(new Date(`${year}-${month}-${day}T12:00:00Z`));
+  }
+
+  function timestampEt(date = new Date()) {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZoneName: "short"
+    }).format(date);
+  }
+
   function flagMarkup(item) {
     if (item.flagImage) {
       return `<img class="inline-flag flag-img" src="${escapeHtml(item.flagImage)}" alt="" loading="lazy">`;
@@ -129,7 +180,57 @@
     return `<span class="inline-flag" aria-hidden="true">${escapeHtml(item.flag)}</span>`;
   }
 
-  function computeTeamScores() {
+  function resultCode(score, opponentScore) {
+    if (score > opponentScore) return "W";
+    if (score < opponentScore) return "L";
+    return "D";
+  }
+
+  function canonicalTeamName(teamName) {
+    return resolveTeam(teamName)?.name || teamName;
+  }
+
+  function completedResultIds() {
+    return new Set(results.map((result) => result.sourceEventId).filter(Boolean));
+  }
+
+  function projectedResultsFromSchedule(games) {
+    const completedIds = completedResultIds();
+    const projected = [];
+
+    games.forEach((game) => {
+      const isLive = game.status?.state === "in";
+      const isNewFinal = game.status?.completed && !completedIds.has(game.id);
+      if (!isLive && !isNewFinal) return;
+
+      const competitors = game.competitors || [];
+      if (competitors.length !== 2) return;
+      const [home, away] = competitors;
+
+      [[home, away], [away, home]].forEach(([team, opponent]) => {
+        projected.push({
+          team: canonicalTeamName(team.team),
+          stage: game.stage || "Groups",
+          result: resultCode(Number(team.score || 0), Number(opponent.score || 0)),
+          advanceBonus: false,
+          opponent: canonicalTeamName(opponent.team),
+          score: Number(team.score || 0),
+          opponentScore: Number(opponent.score || 0),
+          sourceEventId: game.id,
+          playedAt: game.kickoff,
+          projected: isLive
+        });
+      });
+    });
+
+    return projected;
+  }
+
+  function activeResults() {
+    return [...results, ...projectedResultsFromSchedule(state.schedule)];
+  }
+
+  function computeTeamScores(sourceResults = results) {
     const scores = new Map(
       teams.map((team) => [
         team.name,
@@ -142,7 +243,7 @@
       ])
     );
 
-    results.forEach((result) => {
+    sourceResults.forEach((result) => {
       const team = resolveTeam(result.team);
       if (!team) return;
 
@@ -200,7 +301,7 @@
     return pickMap;
   }
 
-  function validateData(enrichedPlayers) {
+  function validateData(enrichedPlayers, sourceResults = results) {
     const warnings = [];
 
     enrichedPlayers.forEach((player) => {
@@ -227,7 +328,7 @@
       }
     });
 
-    results.forEach((result, index) => {
+    sourceResults.forEach((result, index) => {
       if (!resolveTeam(result.team)) {
         warnings.push({ level: "error", text: `Result ${index + 1} references an unknown team: ${result.team}.` });
       }
@@ -304,8 +405,8 @@
 
   function renderDailySchedule(pickMap) {
     const scheduleEl = document.getElementById("daily-scoreboard");
-    const gamesMarkup = schedule.length
-      ? schedule.map((game) => {
+    const gamesMarkup = state.schedule.length
+      ? state.schedule.map((game) => {
           const showScore = game.status?.state === "in" || game.status?.completed;
           const statusClass = game.status?.state === "in" ? " is-live" : game.status?.completed ? " is-final" : "";
           return `
@@ -330,8 +431,8 @@
             <h3>Today's Games</h3>
           </div>
           <div>
-            <strong>${escapeHtml(scheduleMeta.dateLabel || "Today")}</strong>
-            <span>${escapeHtml(scheduleMeta.lastUpdated || resultsMeta.lastUpdated || "")}</span>
+            <strong>${escapeHtml(state.scheduleMeta.dateLabel || "Today")}</strong>
+            <span>${escapeHtml(state.scheduleMeta.lastUpdated || resultsMeta.lastUpdated || "")}</span>
           </div>
         </div>
         <div class="scoreboard-grid">${gamesMarkup}</div>
@@ -392,9 +493,11 @@
       </div>
     `;
 
-    document.getElementById("last-updated").textContent = resultsMeta.lastUpdated
-      ? `Updated ${resultsMeta.lastUpdated}`
-      : "Results not started";
+    document.getElementById("last-updated").textContent = state.liveProjection
+      ? `Live projection ${state.liveStatus}`
+      : resultsMeta.lastUpdated
+        ? `Updated ${resultsMeta.lastUpdated}`
+        : "Results not started";
   }
 
   function avatarMarkup(player, size = "full") {
@@ -664,6 +767,77 @@
     });
   }
 
+  function stageFromEspnEvent(event) {
+    const slug = event.season?.slug || "";
+    if (SKIPPED_STAGE_SLUGS.has(slug)) return null;
+    return STAGE_BY_SLUG[slug] || "Groups";
+  }
+
+  function scheduleGameFromEspnEvent(event) {
+    const stage = stageFromEspnEvent(event);
+    if (!stage) return null;
+
+    const competitors = event.competitions?.[0]?.competitors || [];
+    if (competitors.length !== 2) return null;
+
+    return {
+      id: event.id,
+      stage,
+      kickoff: event.date,
+      status: {
+        state: event.status?.type?.state || "pre",
+        completed: event.status?.type?.completed === true,
+        description: event.status?.type?.description || "",
+        detail: event.status?.type?.detail || "",
+        shortDetail: event.status?.type?.shortDetail || "",
+        displayClock: event.status?.displayClock || ""
+      },
+      competitors: competitors.map((competitor) => ({
+        team: canonicalTeamName(competitor.team?.displayName),
+        abbreviation: competitor.team?.abbreviation || "",
+        score: Number(competitor.score || 0),
+        winner: competitor.winner === true,
+        homeAway: competitor.homeAway || ""
+      }))
+    };
+  }
+
+  async function refreshLiveScoreboard(render) {
+    if (!window.fetch || !["http:", "https:"].includes(window.location.protocol)) return;
+
+    const dateKey = dateKeyInEt();
+    try {
+      const response = await fetch(`${SCOREBOARD_URL}?dates=${dateKey}`, { cache: "no-store" });
+      if (!response.ok) throw new Error(`ESPN scoreboard returned ${response.status}`);
+      const data = await response.json();
+      const games = (data.events || [])
+        .map(scheduleGameFromEspnEvent)
+        .filter(Boolean)
+        .sort((a, b) => new Date(a.kickoff) - new Date(b.kickoff));
+
+      state.schedule = games;
+      state.scheduleMeta = {
+        dateKey,
+        dateLabel: dateLabelFromKey(dateKey),
+        lastUpdated: `${timestampEt()} from ESPN.`,
+        source: "ESPN FIFA World Cup scoreboard"
+      };
+
+      const projected = projectedResultsFromSchedule(games);
+      state.liveProjection = projected.length > 0;
+      state.liveStatus = `${timestampEt()} from ESPN.`;
+      render();
+    } catch (error) {
+      console.warn("Live scoreboard refresh failed", error);
+    }
+  }
+
+  function scheduleLiveScoreboard(render) {
+    if (!["http:", "https:"].includes(window.location.protocol)) return;
+    refreshLiveScoreboard(render);
+    window.setInterval(() => refreshLiveScoreboard(render), LIVE_REFRESH_MS);
+  }
+
   function scheduleHourlyRefresh() {
     if (!["http:", "https:"].includes(window.location.protocol)) return;
     window.setInterval(() => {
@@ -672,22 +846,35 @@
   }
 
   function init() {
-    const teamScores = computeTeamScores();
-    const enrichedPlayers = enrichPlayers(teamScores);
-    const pickMap = buildPickMap(enrichedPlayers);
-    const warnings = validateData(enrichedPlayers);
+    const buildView = () => {
+      const sourceResults = activeResults();
+      const teamScores = computeTeamScores(sourceResults);
+      const enrichedPlayers = enrichPlayers(teamScores);
+      const pickMap = buildPickMap(enrichedPlayers);
+      const warnings = validateData(enrichedPlayers, sourceResults);
+      return { enrichedPlayers, pickMap, teamScores, warnings };
+    };
 
-    const renderTeamView = () => renderTeams(enrichedPlayers, teamScores, pickMap);
+    const renderAll = () => {
+      const view = buildView();
+      renderDailySchedule(view.pickMap);
+      renderLeaderboard(view.enrichedPlayers);
+      renderSummary(view.enrichedPlayers, view.pickMap);
+      renderPlayers(view.enrichedPlayers, view.teamScores);
+      renderTeams(view.enrichedPlayers, view.teamScores, view.pickMap);
+      renderRules(view.warnings);
+    };
 
-    renderSummary(enrichedPlayers, pickMap);
-    renderDailySchedule(pickMap);
-    renderLeaderboard(enrichedPlayers);
-    renderPlayers(enrichedPlayers, teamScores);
-    renderTeamView();
-    renderRules(warnings);
+    const renderTeamView = () => {
+      const view = buildView();
+      renderTeams(view.enrichedPlayers, view.teamScores, view.pickMap);
+    };
+
+    renderAll();
     wireTabs();
     wireTeamControls(renderTeamView);
     wireDeepLinks(renderTeamView);
+    scheduleLiveScoreboard(renderAll);
     scheduleHourlyRefresh();
   }
 
