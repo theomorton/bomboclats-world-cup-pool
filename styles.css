@@ -407,16 +407,16 @@ input:focus-visible,
 }
 
 .score-team-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
   align-items: center;
-  flex-wrap: wrap;
   gap: 7px 10px;
 }
 
 .score-team-name-block {
   display: grid;
   gap: 3px;
-  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .score-team strong,
@@ -451,8 +451,11 @@ input:focus-visible,
 .score-picker-row {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  align-content: center;
   flex-wrap: wrap;
   gap: 5px;
+  width: 100%;
   min-width: 0;
   align-self: center;
 }
