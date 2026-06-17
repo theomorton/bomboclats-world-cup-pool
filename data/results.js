@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 17, 2026 at 2:22 PM EDT from ESPN. Latest match: Austria 3-1 Jordan.",
+  lastUpdated: "June 17, 2026 at 5:10 PM EDT from ESPN. Latest match: Portugal 1-1 Congo DR.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -44,5 +44,7 @@ window.POOL_RESULTS = [
   { team: "Argentina", stage: "Groups", result: "W", advanceBonus: false, opponent: "Algeria", score: 3, opponentScore: 0, sourceEventId: "760433", playedAt: "2026-06-17T01:00Z" },
   { team: "Algeria", stage: "Groups", result: "L", advanceBonus: false, opponent: "Argentina", score: 0, opponentScore: 3, sourceEventId: "760433", playedAt: "2026-06-17T01:00Z" },
   { team: "Austria", stage: "Groups", result: "W", advanceBonus: false, opponent: "Jordan", score: 3, opponentScore: 1, sourceEventId: "760431", playedAt: "2026-06-17T04:00Z" },
-  { team: "Jordan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Austria", score: 1, opponentScore: 3, sourceEventId: "760431", playedAt: "2026-06-17T04:00Z" }
+  { team: "Jordan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Austria", score: 1, opponentScore: 3, sourceEventId: "760431", playedAt: "2026-06-17T04:00Z" },
+  { team: "Portugal", stage: "Groups", result: "D", advanceBonus: false, opponent: "DR Congo", score: 1, opponentScore: 1, sourceEventId: "760435", playedAt: "2026-06-17T17:00Z" },
+  { team: "DR Congo", stage: "Groups", result: "D", advanceBonus: false, opponent: "Portugal", score: 1, opponentScore: 1, sourceEventId: "760435", playedAt: "2026-06-17T17:00Z" }
 ];
