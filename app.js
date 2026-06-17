@@ -764,28 +764,53 @@
     const rulingTeams = ["Australia", "Canada"]
       .map((teamName) => resolveTeam(teamName))
       .filter(Boolean);
-    const pickMarkup = rulingTeams.map((team) => `
+    const aaronFeatureTeams = ["Spain", "Netherlands", "Italy"]
+      .map((teamName) => resolveTeam(teamName))
+      .filter(Boolean);
+    const pickMarkup = (headlineTeams) => headlineTeams.map((team) => `
       <span class="headline-pick">${flagMarkup(team)} <span class="country-name">${escapeHtml(team.name)}</span></span>
     `).join("");
-    const peopleMarkup = [mike, aaron].map((player) => `
+    const peopleMarkup = (headlinePlayers, label) => headlinePlayers.map((player) => `
       <div class="headline-player">
         ${avatarMarkup(player, "mini")}
         <strong>${escapeHtml(player.name)}</strong>
         <span>${player.knownPicks.length} teams · ${money(player.budgetUsed)}</span>
-        <em>Back under ${money(BUDGET)}</em>
+        <em>${escapeHtml(label)}</em>
       </div>
     `).join("");
+    const cards = [
+      {
+        title: "League office fines Mike and Aaron, math department celebrates",
+        body: `Mike has been ordered to drop Australia for his budget infringement, while Aaron has been sentenced to drop Canada for multiple rule violations. The married-couple audit is complete: both squads are finally back under ${money(BUDGET)}.`,
+        teams: rulingTeams,
+        players: [mike, aaron],
+        playerLabel: `Back under ${money(BUDGET)}`,
+        className: " is-current"
+      },
+      {
+        title: "Aaron discovers soccer, submits picks before the group-stage dust settles",
+        body: "After several days of careful research, spirited confusion, and what can only be described as a late-breaking relationship with the sport, Aaron finally entered the pool with a Spain-led squad.",
+        teams: aaronFeatureTeams,
+        players: [aaron],
+        playerLabel: "Picks submitted",
+        className: ""
+      }
+    ];
 
     headlineEl.innerHTML = `
-      <article class="headline-card">
-        <div class="headline-main">
-          <p class="eyebrow">Breaking News</p>
-          <h3>League office fines Mike and Aaron, math department celebrates</h3>
-          <p>Mike has been ordered to drop Australia for his budget infringement, while Aaron has been sentenced to drop Canada for multiple rule violations. The married-couple audit is complete: both squads are finally back under ${money(BUDGET)}.</p>
-          <div class="headline-picks" aria-label="Dropped teams">${pickMarkup}</div>
-        </div>
-        <div class="headline-people" aria-label="Penalized players">${peopleMarkup}</div>
-      </article>
+      <div class="headline-rail" aria-label="Breaking news updates">
+        ${cards.map((card, index) => `
+          <article class="headline-card${card.className}" aria-label="${escapeHtml(`Breaking news ${index + 1}`)}">
+            <div class="headline-main">
+              <p class="eyebrow">${index === 0 ? "Breaking News" : "Previously"}</p>
+              <h3>${escapeHtml(card.title)}</h3>
+              <p>${escapeHtml(card.body)}</p>
+              <div class="headline-picks" aria-label="Featured teams">${pickMarkup(card.teams)}</div>
+            </div>
+            <div class="headline-people" aria-label="Featured players">${peopleMarkup(card.players, card.playerLabel)}</div>
+          </article>
+        `).join("")}
+      </div>
     `;
   }
 
