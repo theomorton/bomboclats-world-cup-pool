@@ -575,12 +575,23 @@
     if (!statusEl) return;
 
     statusEl.className = "header-emblems";
-    statusEl.setAttribute("aria-label", "World Cup 2026 host marks");
-    statusEl.innerHTML = `
-      <span class="wc26-mark"><small>WC</small><b>26</b></span>
-      <span class="host-pill host-can">CAN</span>
-      <span class="host-pill host-usa">USA</span>
-      <span class="host-pill host-mex">MEX</span>
+    statusEl.setAttribute("aria-label", "FIFA World Cup 2026 mark");
+    statusEl.innerHTML = worldCupMarkMarkup();
+  }
+
+  function worldCupMarkMarkup(modifier = "") {
+    const className = modifier ? ` fifa26-logo--${modifier}` : "";
+    return `
+      <span class="fifa26-logo${className}" aria-hidden="true">
+        <span class="fifa26-number-stack"><span>2</span><span>6</span></span>
+        <svg class="fifa26-cup" viewBox="0 0 36 60" focusable="false">
+          <path class="fifa26-cup-shadow" d="M18 3c6 4 8 10 6 18-1 5-1 10 4 14-4 2-7 4-10 8-3-4-6-6-10-8 5-4 5-9 4-14C10 13 12 7 18 3Z" />
+          <path class="fifa26-cup-gold" d="M18 1c7 5 10 12 8 22-1 5 1 10 6 14-5 2-9 5-14 11-5-6-9-9-14-11 5-4 7-9 6-14C8 13 11 6 18 1Z" />
+          <path class="fifa26-cup-light" d="M18 7c3 4 4 9 3 16-1 4 0 8 3 12-3 1-5 3-6 5-2-4-3-8-3-14 0-8 1-14 3-19Z" />
+          <path class="fifa26-cup-base" d="M11 47h14l3 8H8l3-8Z" />
+        </svg>
+        <span class="fifa26-word">FIFA</span>
+      </span>
     `;
   }
 
@@ -1305,10 +1316,7 @@
               <circle class="crest-dot crest-dot-white" cx="67" cy="81" r="5.8" />
             </svg>
           </span>
-          <span class="drawer-wc-mark">WC26</span>
-          <span class="drawer-host-mark">CAN</span>
-          <span class="drawer-host-mark">USA</span>
-          <span class="drawer-host-mark">MEX</span>
+          ${worldCupMarkMarkup("drawer")}
         </div>
         <div class="drawer-head">
           <p class="eyebrow">${escapeHtml(subtitle)}</p>
