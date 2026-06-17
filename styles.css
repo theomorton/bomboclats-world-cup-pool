@@ -546,6 +546,41 @@ select:focus-visible,
   margin-bottom: 14px;
 }
 
+.picks-mode-nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  width: min(360px, 100%);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.055);
+  border-radius: 14px;
+  padding: 4px;
+}
+
+.picks-mode-button {
+  min-height: 34px;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  padding: 7px 8px;
+}
+
+.picks-mode-button.is-active {
+  background: #f8fafc;
+  color: var(--yale);
+}
+
+[data-picks-section][hidden] {
+  display: none;
+}
+
+.panel#picks .directory-section > .section-header > div:first-child {
+  display: none;
+}
+
 .section-header h2,
 .teams-header h2 {
   margin: 0;
@@ -1052,7 +1087,8 @@ select:focus-visible,
 .player-card,
 .team-card,
 .rule-card {
-  padding: 14px;
+  min-width: 0;
+  padding: 12px;
 }
 
 .player-head {
@@ -1065,8 +1101,8 @@ select:focus-visible,
 .avatar-wrap {
   display: grid;
   place-items: center;
-  width: 62px;
-  height: 62px;
+  width: 54px;
+  height: 54px;
   flex: 0 0 auto;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--c1, var(--blue)), var(--c2, var(--green)));
@@ -1095,7 +1131,6 @@ select:focus-visible,
 }
 
 .profile-rank,
-.risk-pill,
 .chip,
 .team-pill,
 .status-pill {
@@ -1115,12 +1150,6 @@ select:focus-visible,
 .profile-rank {
   margin-bottom: 6px;
   color: #93c5fd;
-}
-
-.risk-pill {
-  margin-left: auto;
-  align-self: flex-start;
-  color: #cbd5e1;
 }
 
 .player-title h3,
@@ -1147,9 +1176,26 @@ select:focus-visible,
   margin-top: 7px;
 }
 
+.team-card .picked-row {
+  flex-wrap: nowrap;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.team-card .picked-row::-webkit-scrollbar {
+  display: none;
+}
+
+.team-card .picked-player-chip,
+.team-card .small-muted {
+  flex: 0 0 auto;
+}
+
 .player-spotlights,
 .player-metrics,
-.team-stats,
 .multiplier-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1158,12 +1204,12 @@ select:focus-visible,
 }
 
 .player-metrics {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1.45fr repeat(3, minmax(0, 1fr));
+  margin: 10px 0;
 }
 
 .spotlight-item,
 .metric,
-.team-stat,
 .multiplier,
 .rule-step {
   min-width: 0;
@@ -1175,7 +1221,6 @@ select:focus-visible,
 
 .spotlight-item b,
 .metric-label,
-.team-stat span,
 .multiplier span,
 .picked-label {
   display: block;
@@ -1188,7 +1233,6 @@ select:focus-visible,
 
 .spotlight-item strong,
 .metric strong,
-.team-stat strong,
 .multiplier strong {
   display: flex;
   align-items: center;
@@ -1198,12 +1242,22 @@ select:focus-visible,
   font-weight: 950;
 }
 
+.metric small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 820;
+  line-height: 1.1;
+}
+
 .picks-title,
 .picked-label {
   margin: 12px 0 8px;
 }
 
 .team-pill {
+  position: relative;
   border-radius: 12px;
 }
 
@@ -1216,6 +1270,49 @@ select:focus-visible,
 
 .team-pill.is-eliminated {
   opacity: 0.58;
+}
+
+.player-card .pill-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+  gap: 6px;
+}
+
+.player-card .pick-button {
+  justify-content: center;
+  min-height: 42px;
+  border-radius: 12px;
+  padding: 6px 5px;
+}
+
+.player-card .pick-button .inline-flag {
+  --flag-width: 28px;
+  --flag-height: 18px;
+}
+
+.player-card .pick-button .country-name,
+.player-card .pick-button .price {
+  display: none;
+}
+
+.player-card .pick-button .pick-points {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  display: grid;
+  place-items: center;
+  min-width: 15px;
+  min-height: 15px;
+  border-radius: 999px;
+  background: rgba(0, 53, 107, 0.92);
+  color: #ffffff;
+  font-size: 0.54rem;
+  line-height: 1;
+  padding: 2px;
+}
+
+.player-card .pick-button .pick-points::after {
+  content: none;
 }
 
 .team-groups {
@@ -1276,8 +1373,29 @@ select:focus-visible,
   font-weight: 740;
 }
 
-.team-story {
-  margin: 12px 0;
+.team-compact-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.team-compact-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--pill-radius);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1;
+  padding: 6px 8px;
+}
+
+.team-compact-stats strong {
+  color: var(--ink);
 }
 
 .search-wrap input {
@@ -1768,9 +1886,30 @@ select:focus-visible,
   .team-card-grid,
   .rules-layout,
   .rules-steps,
-  .player-metrics,
   .drawer-stats {
     grid-template-columns: 1fr;
+  }
+
+  .player-metrics {
+    grid-template-columns: 1.35fr repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .metric {
+    border-radius: 11px;
+    padding: 8px 6px;
+  }
+
+  .metric-label {
+    font-size: 0.54rem;
+  }
+
+  .metric strong {
+    font-size: 0.95rem;
+  }
+
+  .metric small {
+    font-size: 0.56rem;
   }
 
   .headline-player {
@@ -1789,6 +1928,14 @@ select:focus-visible,
     flex-direction: column;
   }
 
+  .picks-header {
+    gap: 10px;
+  }
+
+  .picks-mode-nav {
+    width: 100%;
+  }
+
   .section-tools,
   .team-controls,
   .segmented-control,
@@ -1800,6 +1947,96 @@ select:focus-visible,
 
   .control-select {
     min-width: 0;
+  }
+
+  .player-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .team-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .team-controls .search-wrap {
+    grid-column: 1 / -1;
+  }
+
+  .panel#picks .directory-section > .section-header {
+    margin-bottom: 10px;
+  }
+
+  .panel#picks .control-select {
+    gap: 0;
+  }
+
+  .panel#picks .control-select span {
+    display: none;
+  }
+
+  .panel#picks .control-select select {
+    min-height: 36px;
+    border-radius: 12px;
+    font-size: 0.76rem;
+    padding-block: 7px;
+  }
+
+  .panel#picks .team-controls .search-wrap {
+    display: none;
+  }
+
+  .team-card {
+    padding: 10px;
+  }
+
+  .team-top {
+    gap: 8px;
+  }
+
+  .team-flag {
+    width: 44px;
+    height: 34px;
+    border-radius: 10px;
+  }
+
+  .team-flag .inline-flag {
+    --flag-width: 32px;
+    --flag-height: 21px;
+  }
+
+  .team-card h3 {
+    font-size: 1rem;
+  }
+
+  .team-meta {
+    font-size: 0.68rem;
+  }
+
+  .team-price {
+    font-size: 0.8rem;
+    padding: 6px 8px;
+  }
+
+  .team-compact-stats {
+    gap: 4px;
+    margin: 7px 0;
+  }
+
+  .team-compact-stats span {
+    font-size: 0.64rem;
+    padding: 5px 7px;
+  }
+
+  .team-card .picked-row {
+    gap: 5px;
+  }
+
+  .team-card .picked-player-chip {
+    font-size: 0.66rem;
+    padding: 6px 8px;
   }
 
   .segmented-control {
@@ -1822,10 +2059,6 @@ select:focus-visible,
 
   .player-head {
     align-items: flex-start;
-  }
-
-  .risk-pill {
-    margin-left: 0;
   }
 
   .drawer-panel {

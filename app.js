@@ -124,6 +124,7 @@
     focusedPlayerSlug: "",
     focusedTeamName: "",
     leaderboardMode: "official",
+    picksMode: "players",
     playerSort: "points",
     playerFilter: "all",
     teamView: "group",
@@ -438,16 +439,6 @@
 
   function ownershipCount(team, pickMap) {
     return (pickMap.get(team.name) || []).length;
-  }
-
-  function riskProfile(player, pickMap, teamScores) {
-    if (player.pending || player.knownPicks.length === 0) return "Pending";
-    const avgOwnership = player.knownPicks.reduce((sum, team) => sum + ownershipCount(team, pickMap), 0) / player.knownPicks.length;
-    const zeroPointCount = player.knownPicks.filter((team) => teamPoints(team, teamScores) === 0 && team.price >= 20).length;
-    if (player.aliveCount <= Math.max(3, Math.floor(player.knownPicks.length * 0.45)) || zeroPointCount >= 3) return "In trouble";
-    if (avgOwnership >= 4.5) return "Chalky";
-    if (avgOwnership <= 2.2) return "Differential";
-    return player.tier1Selection && teamPoints(player.tier1Selection, teamScores) > 0 ? "High upside" : "Balanced";
   }
 
   function teamValueLabel(team, teamScores, pickMap) {
@@ -894,10 +885,8 @@
     const ranks = rankMapFor(enrichedPlayers);
     const filtered = ranked.filter((player) => {
       const rank = ranks.get(player.slug);
-      const risk = riskProfile(player, pickMap, teamScores);
       if (state.playerFilter === "podium") return rank <= 3;
       if (state.playerFilter === "chasing") return rank > 3 && !player.pending;
-      if (state.playerFilter === "trouble") return risk === "In trouble";
       if (state.playerFilter === "pending") return player.pending;
       return true;
     }).sort((a, b) => {
@@ -914,7 +903,6 @@
         const focused = player.slug === state.focusedPlayerSlug ? " is-focused" : "";
         const rank = ranks.get(player.slug);
         const gap = leaderGap(player, ranked);
-        const risk = riskProfile(player, pickMap, teamScores);
         const nationalityChips = (player.nationalities || [])
           .map((nationality) => `<span class="chip country-chip">${flagMarkup(nationality)} <span class="country-name">${escapeHtml(nationality.name)}</span></span>`)
           .join("");
@@ -927,28 +915,10 @@
                 <button class="team-pill pick-button${eliminated}" type="button" data-team-link="${escapeHtml(team.name)}" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(team.name)} team card picked by ${escapeHtml(player.name)}">
                   ${flagMarkup(team)} <span class="country-name">${escapeHtml(team.name)}</span>
                   <span class="price">${money(team.price)}</span>
-                  <span class="pick-points">${score?.points || 0} pts</span>
+                  <span class="pick-points">${score?.points || 0}</span>
                 </button>
               `;
             }).join("");
-        const bestPick = player.knownPicks
-          .map((team) => ({ team, points: teamScores.get(team.name)?.points || 0 }))
-          .sort((a, b) => b.points - a.points || b.team.price - a.team.price || a.team.name.localeCompare(b.team.name))[0];
-        const spotlightMarkup = player.pending || !player.knownPicks.length
-          ? `<div class="player-spotlights"><span class="spotlight-item muted"><b>Status</b><strong>Picks pending</strong></span></div>`
-          : `
-            <div class="player-spotlights">
-              <span class="spotlight-item">
-                <b>Tier 1</b>
-                <strong>${player.tier1Selection ? `${flagMarkup(player.tier1Selection)} ${escapeHtml(player.tier1Selection.name)}` : "None"}</strong>
-              </span>
-              <span class="spotlight-item">
-                <b>Best Pick</b>
-                <strong>${bestPick ? `${flagMarkup(bestPick.team)} ${escapeHtml(bestPick.team.name)} · ${bestPick.points} pts` : "None"}</strong>
-              </span>
-            </div>
-          `;
-
         return `
           <article class="player-card${focused}" id="player-${escapeHtml(player.slug)}" data-player-slug="${escapeHtml(player.slug)}" tabindex="0" style="--c1:${theme.c1};--c2:${theme.c2}">
             <div class="player-head">
@@ -958,14 +928,12 @@
                 <h3>${escapeHtml(player.name)}</h3>
                 <div class="nationality-row">${nationalityChips}</div>
               </div>
-              <span class="risk-pill">${escapeHtml(risk)}</span>
             </div>
-            ${spotlightMarkup}
             <div class="player-metrics">
-              <div class="metric"><span class="metric-label">Points</span><strong>${player.points}</strong></div>
-              <div class="metric"><span class="metric-label">Gap</span><strong>${gap ? `${gap} back` : "Leader"}</strong></div>
+              <div class="metric metric-primary"><span class="metric-label">Points</span><strong>${player.points}</strong><small>${gap ? `${gap} behind leader` : "Leader"}</small></div>
               <div class="metric"><span class="metric-label">Budget</span><strong>${money(player.budgetUsed)}</strong></div>
               <div class="metric"><span class="metric-label">Alive</span><strong>${player.aliveCount}</strong></div>
+              <div class="metric"><span class="metric-label">Picks</span><strong>${player.knownPicks.length}</strong></div>
             </div>
             <p class="picks-title">Picks</p>
             <div class="pill-row">${picksMarkup}</div>
@@ -981,7 +949,6 @@
     const score = teamScores.get(team.name);
     const isFocused = normalize(team.name) === normalize(state.focusedTeamName);
     const record = teamRecord(team);
-    const valueLabel = teamValueLabel(team, teamScores, pickMap);
     const pickedMarkup = pickedBy.length
       ? pickedBy.map((player) => {
           const selected = isFocused && player.slug === state.focusedPlayerSlug ? " is-selected" : "";
@@ -998,14 +965,11 @@
           </div>
           <span class="team-price">${money(team.price)}</span>
         </div>
-        <p class="team-story">${escapeHtml(valueLabel)}</p>
-        <div class="team-stats">
-          <div class="team-stat"><span>Picked</span><strong>${pickedBy.length}</strong></div>
-          <div class="team-stat"><span>Points</span><strong>${score?.points || 0}</strong></div>
-          <div class="team-stat"><span>W-D-L</span><strong>${record.w}-${record.d}-${record.l}</strong></div>
-          <div class="team-stat"><span>Status</span><strong>${score?.eliminated ? "Out" : "Alive"}</strong></div>
+        <div class="team-compact-stats">
+          <span><strong>${score?.points || 0}</strong> pts</span>
+          <span>${record.w}-${record.d}-${record.l}</span>
+          <span>${score?.eliminated ? "Out" : "Alive"}</span>
         </div>
-        <p class="picked-label">Picked by</p>
         <div class="picked-row">${pickedMarkup}</div>
       </article>
     `;
@@ -1241,6 +1205,28 @@
     if (playerFilterSelect) playerFilterSelect.value = state.playerFilter;
   }
 
+  function syncPicksMode() {
+    document.querySelectorAll("[data-picks-mode]").forEach((item) => {
+      const isActive = item.dataset.picksMode === state.picksMode;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-pressed", String(isActive));
+    });
+    document.querySelectorAll("[data-picks-section]").forEach((section) => {
+      const isActive = section.dataset.picksSection === state.picksMode;
+      section.hidden = !isActive;
+      section.classList.toggle("is-active", isActive);
+    });
+  }
+
+  function wirePicksModeControls() {
+    document.querySelectorAll("[data-picks-mode]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.picksMode = button.dataset.picksMode;
+        syncPicksMode();
+      });
+    });
+  }
+
   function wireTeamControls(render) {
     document.querySelectorAll("[data-team-view]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -1370,7 +1356,6 @@
     const sorted = sortedLeaderboardPlayers(view.officialPlayers);
     const rank = rankMapFor(view.officialPlayers).get(player.slug);
     const gap = leaderGap(player, sorted);
-    const best = bestPickFor(player, view.officialTeamScores);
     const tierGroups = [1, 2, 3].map((tier) => {
       const tierPicks = player.knownPicks.filter((team) => team.tier === tier);
       if (!tierPicks.length) return "";
@@ -1409,12 +1394,11 @@
           </div>
         </div>
         <div class="drawer-stats">
-          <div><span>Gap</span><strong>${gap ? `${gap} back` : "Leader"}</strong></div>
+          <div><span>Points</span><strong>${player.points}</strong><small>${gap ? `${gap} behind leader` : "Leader"}</small></div>
           <div><span>Budget</span><strong>${money(player.budgetUsed)}</strong></div>
           <div><span>Alive</span><strong>${player.aliveCount}</strong></div>
+          <div><span>Picks</span><strong>${player.knownPicks.length}</strong></div>
           <div><span>Tier 1</span><strong>${player.tier1Selection ? player.tier1Selection.name : "None"}</strong></div>
-          <div><span>Best Pick</span><strong>${best ? `${best.team.name} (${best.points})` : "None"}</strong></div>
-          <div><span>Risk</span><strong>${escapeHtml(riskProfile(player, view.pickMap, view.officialTeamScores))}</strong></div>
         </div>
         ${tierGroups || `<p class="empty-state">No submitted picks yet.</p>`}
         <button class="drawer-action" type="button" data-open-player-tab="${escapeHtml(player.slug)}">Open player card</button>
@@ -1476,7 +1460,9 @@
         closeDrawer();
         state.focusedPlayerSlug = slug;
         state.focusedTeamName = "";
+        state.picksMode = "players";
         showPanel("picks");
+        syncPicksMode();
         document.querySelectorAll(".player-card").forEach((card) => {
           card.classList.toggle("is-focused", card.dataset.playerSlug === state.focusedPlayerSlug);
         });
@@ -1489,12 +1475,14 @@
         const teamName = openTeamTab.dataset.openTeamTab;
         closeDrawer();
         state.focusedTeamName = teamName;
+        state.picksMode = "teams";
         state.teamView = "group";
         state.teamFilter = "all";
         state.search = "";
         syncTeamFilterControls();
         renderTeamView();
         showPanel("picks");
+        syncPicksMode();
         scrollToElement(`#team-${CSS.escape(slugify(teamName))}`);
         return;
       }
@@ -1646,6 +1634,7 @@
       renderPlayers(view.officialPlayers, view.officialTeamScores, view.pickMap);
       renderTeams(view.officialPlayers, view.officialTeamScores, view.pickMap);
       renderRules(view.warnings);
+      syncPicksMode();
     };
 
     const renderTeamView = () => {
@@ -1657,7 +1646,9 @@
     renderAll();
     syncPlayerControls();
     syncTeamFilterControls();
+    syncPicksMode();
     wireTabs();
+    wirePicksModeControls();
     wirePlayerControls(renderAll);
     wireTeamControls(renderTeamView);
     wireLeaderboardControls(renderAll);

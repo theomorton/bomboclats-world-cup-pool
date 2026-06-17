@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bomboclats World Cup Pool</title>
-    <link rel="stylesheet" href="styles.css?v=discipline-ruling">
+    <link rel="stylesheet" href="styles.css?v=picks-directory">
   </head>
   <body>
     <header class="site-header">
@@ -70,9 +70,14 @@
             <p class="eyebrow">Directory</p>
             <h2 id="picks-title">Picks</h2>
           </div>
+          <div class="picks-mode-nav" role="group" aria-label="Picks view">
+            <button class="picks-mode-button is-active" type="button" data-picks-mode="players">Players</button>
+            <button class="picks-mode-button" type="button" data-picks-mode="teams">Groups</button>
+            <button class="picks-mode-button" type="button" data-picks-mode="rules">Rules</button>
+          </div>
         </div>
 
-        <section class="directory-section" aria-labelledby="players-title">
+        <section class="directory-section" data-picks-section="players" aria-labelledby="players-title">
           <div class="section-header">
             <div>
               <p class="eyebrow">Profiles</p>
@@ -94,7 +99,6 @@
                   <option value="all">All</option>
                   <option value="podium">Podium</option>
                   <option value="chasing">Chasing</option>
-                  <option value="trouble">In Trouble</option>
                   <option value="pending">Pending</option>
                 </select>
               </label>
@@ -103,11 +107,11 @@
           <div id="players-grid" class="players-grid"></div>
         </section>
 
-        <section class="directory-section" aria-labelledby="teams-title">
+        <section class="directory-section" data-picks-section="teams" aria-labelledby="teams-title">
           <div class="section-header teams-header">
             <div>
               <p class="eyebrow">Board</p>
-              <h2 id="teams-title">Teams</h2>
+              <h2 id="teams-title">Groups</h2>
             </div>
             <div class="team-controls" aria-label="Team filters">
               <label class="control-select">
@@ -134,7 +138,7 @@
           <div id="teams-grid" class="team-groups"></div>
         </section>
 
-        <section class="directory-section" aria-labelledby="rules-title">
+        <section class="directory-section" data-picks-section="rules" aria-labelledby="rules-title">
           <div class="section-header">
             <div>
               <p class="eyebrow">Format</p>
@@ -149,9 +153,9 @@
     <div id="detail-drawer" class="detail-drawer" aria-hidden="true"></div>
 
     <script src="data/teams.js?v=dr-congo-flag"></script>
-    <script src="data/players.js?v=discipline-ruling"></script>
+    <script src="data/players.js?v=picks-directory"></script>
     <script src="data/results.js"></script>
     <script src="data/schedule.js"></script>
-    <script src="app.js?v=discipline-ruling"></script>
+    <script src="app.js?v=picks-directory"></script>
   </body>
 </html>
