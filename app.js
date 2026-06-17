@@ -547,7 +547,9 @@
 
   function renderSummary(enrichedPlayers, pickMap) {
     const pickedTeams = [...pickMap.values()].filter((pickedBy) => pickedBy.length > 0).length;
-    const leader = sortedLeaderboardPlayers(enrichedPlayers).find((player) => !player.pending);
+    const ranked = sortedLeaderboardPlayers(enrichedPlayers).filter((player) => !player.pending);
+    const leader = ranked[0];
+    const chasingPack = ranked.slice(1, 4);
     const topTeam = [...pickMap.entries()]
       .map(([teamName, pickedBy]) => ({ team: resolveTeam(teamName), count: pickedBy.length }))
       .sort((a, b) => b.count - a.count || b.team.price - a.team.price)[0];
@@ -557,7 +559,12 @@
         label: "Current Leader",
         valueHtml: leader ? `${escapeHtml(leader.name)} <small>${leader.points} pts</small>` : "Pending"
       },
-      { label: "Total Players", value: players.length },
+      {
+        label: "Chasing Pack",
+        valueHtml: chasingPack.length
+          ? chasingPack.map((player, index) => `<span class="summary-chaser">${index + 2}. ${escapeHtml(player.name)} <b>${player.points}</b></span>`).join("")
+          : "Pending"
+      },
       { label: "Picked Teams", value: `${pickedTeams}/${teams.length}` },
       {
         label: "Most Picked",
@@ -806,13 +813,13 @@
         : `<span class="small-muted">None</span>`;
       return `
         <tr class="leaderboard-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}" data-player-row="${escapeHtml(player.slug)}" tabindex="0">
-          <td>
+          <td data-label="Rank">
             <div class="rank-cell">
               <span class="rank-badge">${rank}</span>
               ${movementMarkup}
             </div>
           </td>
-          <td>
+          <td data-label="Player">
             <button class="leader-player leader-player-button" type="button" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} player card">
               ${avatarMarkup(player, "mini")}
               <div>
@@ -821,13 +828,13 @@
               </div>
             </button>
           </td>
-          <td><strong>${player.points}</strong>${deltaMarkup}</td>
-          <td>${player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : `<span class="leader-gap">${gap} back</span>`}</td>
-          <td>${money(player.budgetUsed)}</td>
-          <td>${player.aliveCount}</td>
-          <td>${player.knownPicks.length}</td>
-          <td>${tier1Selection}</td>
-          <td>${bestPickMarkup}</td>
+          <td data-label="Points"><strong>${player.points}</strong>${deltaMarkup}</td>
+          <td data-label="Behind">${player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : `<span class="leader-gap">${gap} back</span>`}</td>
+          <td data-label="Budget">${money(player.budgetUsed)}</td>
+          <td data-label="Alive">${player.aliveCount}</td>
+          <td data-label="Teams">${player.knownPicks.length}</td>
+          <td data-label="Tier 1">${tier1Selection}</td>
+          <td data-label="Best Pick">${bestPickMarkup}</td>
         </tr>
       `;
     });
@@ -1067,6 +1074,13 @@
   }
 
   function renderRules(warnings) {
+    const steps = [
+      ["1", "Pick teams within budget", `Build a squad that stays within ${money(BUDGET)}.`],
+      ["2", "Teams earn match points", "Wins, draws, and losses add to each team total."],
+      ["3", "Later rounds multiply", "Round of 32 and beyond become much more valuable."],
+      ["4", "Advance bonus", "A team gets +1 once when it survives the group stage."],
+      ["5", "Payouts", "The top three finishers split the pot."]
+    ];
     const selectionRules = [
       ["Budget", `Stay within ${money(BUDGET)}.`],
       ["Tier 1", "0-1 teams allowed."],
@@ -1093,6 +1107,20 @@
       : `<p class="status-pill ok">No data issues detected.</p>`;
 
     document.getElementById("rules-content").innerHTML = `
+      <article class="rule-card rule-hero">
+        <p class="eyebrow">How This Pool Works</p>
+        <h3>You are not predicting individual matches.</h3>
+        <p>Your teams accumulate points as they progress through the World Cup. Pick a portfolio, then cheer for every result that pushes those teams forward.</p>
+        <div class="rules-steps">
+          ${steps.map(([number, title, text]) => `
+            <div class="rule-step">
+              <span>${number}</span>
+              <strong>${escapeHtml(title)}</strong>
+              <p>${escapeHtml(text)}</p>
+            </div>
+          `).join("")}
+        </div>
+      </article>
       <article class="rule-card">
         <h3>Selection Rules</h3>
         <ul class="rule-list">
