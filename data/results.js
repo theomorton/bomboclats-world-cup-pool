@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 17, 2026 at 5:10 PM EDT from ESPN. Latest match: Portugal 1-1 Congo DR.",
+  lastUpdated: "June 17, 2026 at 6:42 PM EDT from ESPN. Latest match: England 4-2 Croatia.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -46,5 +46,7 @@ window.POOL_RESULTS = [
   { team: "Austria", stage: "Groups", result: "W", advanceBonus: false, opponent: "Jordan", score: 3, opponentScore: 1, sourceEventId: "760431", playedAt: "2026-06-17T04:00Z" },
   { team: "Jordan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Austria", score: 1, opponentScore: 3, sourceEventId: "760431", playedAt: "2026-06-17T04:00Z" },
   { team: "Portugal", stage: "Groups", result: "D", advanceBonus: false, opponent: "DR Congo", score: 1, opponentScore: 1, sourceEventId: "760435", playedAt: "2026-06-17T17:00Z" },
-  { team: "DR Congo", stage: "Groups", result: "D", advanceBonus: false, opponent: "Portugal", score: 1, opponentScore: 1, sourceEventId: "760435", playedAt: "2026-06-17T17:00Z" }
+  { team: "DR Congo", stage: "Groups", result: "D", advanceBonus: false, opponent: "Portugal", score: 1, opponentScore: 1, sourceEventId: "760435", playedAt: "2026-06-17T17:00Z" },
+  { team: "England", stage: "Groups", result: "W", advanceBonus: false, opponent: "Croatia", score: 4, opponentScore: 2, sourceEventId: "760437", playedAt: "2026-06-17T20:00Z" },
+  { team: "Croatia", stage: "Groups", result: "L", advanceBonus: false, opponent: "England", score: 2, opponentScore: 4, sourceEventId: "760437", playedAt: "2026-06-17T20:00Z" }
 ];
