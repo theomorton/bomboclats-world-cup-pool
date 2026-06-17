@@ -782,6 +782,9 @@
       headlineEl.innerHTML = "";
       return;
     }
+    const mike = enrichedPlayers.find((item) => item.slug === "mike");
+    const overBudget = Math.max(0, player.budgetUsed - BUDGET);
+    const mikeOverBudget = mike ? Math.max(0, mike.budgetUsed - BUDGET) : 0;
 
     const pickMarkup = player.knownPicks.map((team) => `
       <span class="headline-pick">${flagMarkup(team)} <span class="country-name">${escapeHtml(team.name)}</span></span>
@@ -790,15 +793,16 @@
     headlineEl.innerHTML = `
       <article class="headline-card">
         <div class="headline-main">
-          <p class="eyebrow">Today's Headline</p>
-          <h3>Aaron discovers soccer, submits portfolio at the buzzer</h3>
-          <p>After a rigorous due-diligence process that appears to have included noticing soccer exists, Aaron filed eight picks just before the first round of group matches could fully escape.</p>
+          <p class="eyebrow">Breaking News</p>
+          <h3>Aaron adds Spain, joins Mike in the over-budget household</h3>
+          <p>Spain has entered Aaron's squad, lifting her to ${money(player.budgetUsed)} and ${money(overBudget)} over budget. Classic married-couple math: two squads, ${mikeOverBudget ? `two overages` : `one overage`}, and one very brave relationship with arithmetic.</p>
           <div class="headline-picks" aria-label="Aaron's picks">${pickMarkup}</div>
         </div>
         <div class="headline-player">
           ${avatarMarkup(player, "mini")}
           <strong>${escapeHtml(player.name)}</strong>
           <span>${player.knownPicks.length} teams · ${money(player.budgetUsed)}</span>
+          <em>${money(overBudget)} over budget</em>
         </div>
       </article>
     `;
