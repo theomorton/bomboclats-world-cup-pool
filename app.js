@@ -574,12 +574,13 @@
     const statusEl = document.getElementById("header-status");
     if (!statusEl) return;
 
-    const liveCount = state.schedule.filter((game) => game.status?.state === "in").length;
-    const statusLabel = liveCount ? `${plural(liveCount, "live match", "live matches")}` : "Scores ready";
-    const detail = liveCount ? "Live board projecting now" : "Today at a glance";
+    statusEl.className = "header-emblems";
+    statusEl.setAttribute("aria-label", "World Cup 2026 host marks");
     statusEl.innerHTML = `
-      <span><i aria-hidden="true"></i>${escapeHtml(statusLabel)}</span>
-      <strong>${escapeHtml(detail)}</strong>
+      <span class="wc26-mark"><small>WC</small><b>26</b></span>
+      <span class="host-pill host-can">CAN</span>
+      <span class="host-pill host-usa">USA</span>
+      <span class="host-pill host-mex">MEX</span>
     `;
   }
 
@@ -1418,7 +1419,7 @@
         closeDrawer();
         state.focusedPlayerSlug = slug;
         state.focusedTeamName = "";
-        showPanel("players");
+        showPanel("picks");
         document.querySelectorAll(".player-card").forEach((card) => {
           card.classList.toggle("is-focused", card.dataset.playerSlug === state.focusedPlayerSlug);
         });
@@ -1436,7 +1437,7 @@
         state.search = "";
         syncTeamFilterControls();
         renderTeamView();
-        showPanel("teams");
+        showPanel("picks");
         scrollToElement(`#team-${CSS.escape(slugify(teamName))}`);
         return;
       }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bomboclats World Cup Pool</title>
-    <link rel="stylesheet" href="styles.css?v=yale-blue">
+    <link rel="stylesheet" href="styles.css?v=two-tab-blue">
   </head>
   <body>
     <header class="site-header">
@@ -41,16 +41,16 @@
             <p class="brand-subtitle">Private World Cup pool</p>
           </div>
         </div>
-        <div id="header-status" class="header-status" aria-live="polite">
-          <span>Scoreboard</span>
-          <strong>Loading</strong>
+        <div id="header-status" class="header-emblems" aria-label="World Cup 2026 host marks">
+          <span class="wc26-mark">26</span>
+          <span class="host-pill">CAN</span>
+          <span class="host-pill">USA</span>
+          <span class="host-pill">MEX</span>
         </div>
       </div>
       <nav class="tabs" aria-label="Pool sections">
-        <button class="tab is-active" type="button" data-tab="leaderboard" aria-selected="true">Standings</button>
-        <button class="tab" type="button" data-tab="players" aria-selected="false">Players</button>
-        <button class="tab" type="button" data-tab="teams" aria-selected="false">Teams</button>
-        <button class="tab" type="button" data-tab="rules" aria-selected="false">Rules</button>
+        <button class="tab is-active" type="button" data-tab="leaderboard" aria-selected="true">Pool</button>
+        <button class="tab" type="button" data-tab="picks" aria-selected="false">Picks</button>
       </nav>
     </header>
 
@@ -64,76 +64,85 @@
         <div id="insight-grid" class="insight-grid"></div>
       </section>
 
-      <section id="players" class="panel" aria-labelledby="players-title">
-        <div class="section-header">
+      <section id="picks" class="panel" aria-labelledby="picks-title">
+        <div class="section-header picks-header">
           <div>
-            <p class="eyebrow">Profiles</p>
-            <h2 id="players-title">Players</h2>
-          </div>
-          <div class="section-tools player-controls" aria-label="Player controls">
-            <label class="control-select">
-              <span>Sort</span>
-              <select id="player-sort" aria-label="Sort players">
-                <option value="points">Points</option>
-                <option value="alpha">A-Z</option>
-                <option value="alive">Alive</option>
-                <option value="budget">Budget</option>
-              </select>
-            </label>
-            <label class="control-select">
-              <span>Filter</span>
-              <select id="player-filter" aria-label="Filter players">
-                <option value="all">All</option>
-                <option value="podium">Podium</option>
-                <option value="chasing">Chasing</option>
-                <option value="trouble">In Trouble</option>
-                <option value="pending">Pending</option>
-              </select>
-            </label>
+            <p class="eyebrow">Directory</p>
+            <h2 id="picks-title">Picks</h2>
           </div>
         </div>
-        <div id="players-grid" class="players-grid"></div>
-      </section>
 
-      <section id="teams" class="panel" aria-labelledby="teams-title">
-        <div class="section-header teams-header">
-          <div>
-            <p class="eyebrow">Board</p>
-            <h2 id="teams-title">Teams</h2>
+        <section class="directory-section" aria-labelledby="players-title">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Profiles</p>
+              <h2 id="players-title">Players</h2>
+            </div>
+            <div class="section-tools player-controls" aria-label="Player controls">
+              <label class="control-select">
+                <span>Sort</span>
+                <select id="player-sort" aria-label="Sort players">
+                  <option value="points">Points</option>
+                  <option value="alpha">A-Z</option>
+                  <option value="alive">Alive</option>
+                  <option value="budget">Budget</option>
+                </select>
+              </label>
+              <label class="control-select">
+                <span>Filter</span>
+                <select id="player-filter" aria-label="Filter players">
+                  <option value="all">All</option>
+                  <option value="podium">Podium</option>
+                  <option value="chasing">Chasing</option>
+                  <option value="trouble">In Trouble</option>
+                  <option value="pending">Pending</option>
+                </select>
+              </label>
+            </div>
           </div>
-          <div class="team-controls" aria-label="Team filters">
-            <label class="control-select">
-              <span>View</span>
-              <select id="team-view" aria-label="Team board view">
-                <option value="group">Group</option>
-                <option value="ownership">Ownership</option>
-                <option value="value">Value</option>
-              </select>
-            </label>
-            <label class="control-select">
-              <span>Filter</span>
-              <select id="team-filter" aria-label="Team pick filter">
-                <option value="all">All teams</option>
-                <option value="picked">Picked only</option>
-              </select>
-            </label>
-            <label class="search-wrap">
-              <span class="sr-only">Search by team or player</span>
-              <input id="team-search" type="search" placeholder="Search team or player">
-            </label>
-          </div>
-        </div>
-        <div id="teams-grid" class="team-groups"></div>
-      </section>
+          <div id="players-grid" class="players-grid"></div>
+        </section>
 
-      <section id="rules" class="panel" aria-labelledby="rules-title">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">Format</p>
-            <h2 id="rules-title">Rules</h2>
+        <section class="directory-section" aria-labelledby="teams-title">
+          <div class="section-header teams-header">
+            <div>
+              <p class="eyebrow">Board</p>
+              <h2 id="teams-title">Teams</h2>
+            </div>
+            <div class="team-controls" aria-label="Team filters">
+              <label class="control-select">
+                <span>View</span>
+                <select id="team-view" aria-label="Team board view">
+                  <option value="group">Group</option>
+                  <option value="ownership">Ownership</option>
+                  <option value="value">Value</option>
+                </select>
+              </label>
+              <label class="control-select">
+                <span>Filter</span>
+                <select id="team-filter" aria-label="Team pick filter">
+                  <option value="all">All teams</option>
+                  <option value="picked">Picked only</option>
+                </select>
+              </label>
+              <label class="search-wrap">
+                <span class="sr-only">Search by team or player</span>
+                <input id="team-search" type="search" placeholder="Search team or player">
+              </label>
+            </div>
           </div>
-        </div>
-        <div id="rules-content" class="rules-layout"></div>
+          <div id="teams-grid" class="team-groups"></div>
+        </section>
+
+        <section class="directory-section" aria-labelledby="rules-title">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Format</p>
+              <h2 id="rules-title">Rules</h2>
+            </div>
+          </div>
+          <div id="rules-content" class="rules-layout"></div>
+        </section>
       </section>
     </main>
 
@@ -143,6 +152,6 @@
     <script src="data/players.js?v=italy-11"></script>
     <script src="data/results.js"></script>
     <script src="data/schedule.js"></script>
-    <script src="app.js?v=yale-blue"></script>
+    <script src="app.js?v=two-tab-blue"></script>
   </body>
 </html>

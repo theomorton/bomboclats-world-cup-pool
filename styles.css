@@ -188,20 +188,15 @@ select:focus-visible,
   font-weight: 760;
 }
 
-.header-status {
+.header-emblems {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: flex-end;
+  gap: 7px;
   min-width: 0;
-  border: 1px solid rgba(138, 196, 255, 0.3);
-  background: linear-gradient(135deg, rgba(8, 73, 132, 0.74), rgba(1, 39, 78, 0.82));
-  border-radius: var(--pill-radius);
-  padding: 8px 12px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  text-align: left;
+  isolation: isolate;
 }
 
-.header-status span,
 .eyebrow {
   margin: 0;
   color: var(--muted);
@@ -211,39 +206,103 @@ select:focus-visible,
   text-transform: uppercase;
 }
 
-.header-status span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #8fd1ff;
-  white-space: nowrap;
+.wc26-mark,
+.host-pill {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(164, 214, 255, 0.38);
+  background:
+    linear-gradient(135deg, rgba(45, 143, 221, 0.34), rgba(0, 53, 107, 0.82));
+  color: #eff8ff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 10px 20px rgba(0, 16, 40, 0.24);
 }
 
-.header-status i {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
-}
-
-.header-status strong {
-  max-width: 180px;
+.wc26-mark {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  position: relative;
   overflow: hidden;
-  color: #f7fbff;
-  font-size: 0.74rem;
-  font-weight: 760;
-  line-height: 1.2;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-weight: 950;
+  letter-spacing: 0;
+  transform: rotate(-4deg);
+}
+
+.wc26-mark::before,
+.wc26-mark::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0.72;
+}
+
+.wc26-mark::before {
+  width: 38px;
+  height: 38px;
+  right: -14px;
+  top: -10px;
+  background: #22c55e;
+}
+
+.wc26-mark::after {
+  width: 32px;
+  height: 32px;
+  left: -10px;
+  bottom: -9px;
+  background: #e5455c;
+}
+
+.wc26-mark small,
+.wc26-mark b {
+  position: relative;
+  z-index: 1;
+}
+
+.wc26-mark small {
+  align-self: end;
+  color: #bfe5ff;
+  font-size: 0.53rem;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  margin-bottom: -1px;
+}
+
+.wc26-mark b {
+  align-self: start;
+  color: #ffffff;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.host-pill {
+  width: 44px;
+  height: 28px;
+  border-radius: var(--pill-radius);
+  font-size: 0.64rem;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+}
+
+.host-can {
+  background: linear-gradient(135deg, rgba(229, 69, 92, 0.44), rgba(0, 53, 107, 0.82));
+}
+
+.host-usa {
+  background: linear-gradient(135deg, rgba(86, 169, 255, 0.46), rgba(0, 53, 107, 0.82));
+}
+
+.host-mex {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.42), rgba(0, 53, 107, 0.82));
 }
 
 .tabs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
-  width: min(680px, 100%);
+  width: min(420px, 100%);
   margin: 0 auto;
 }
 
@@ -295,6 +354,20 @@ select:focus-visible,
   grid-template-columns: minmax(0, 1.12fr) minmax(330px, 0.88fr);
   gap: 14px;
   align-items: start;
+}
+
+#picks.panel.is-active {
+  display: grid;
+  gap: 28px;
+}
+
+.picks-header {
+  margin-bottom: -6px;
+}
+
+.directory-section {
+  min-width: 0;
+  scroll-margin-top: 132px;
 }
 
 .standings-shell {
@@ -738,7 +811,11 @@ select:focus-visible,
 }
 
 .score-picker-name {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
+  min-height: 28px;
   max-width: 74px;
   border: 1px solid rgba(190, 224, 255, 0.32);
   background: rgba(255, 255, 255, 0.08);
@@ -1422,11 +1499,21 @@ select:focus-visible,
     margin-bottom: 8px;
   }
 
-  .header-status {
-    justify-items: start;
+  .header-emblems {
+    justify-content: flex-start;
     min-width: 0;
     width: 100%;
-    text-align: left;
+  }
+
+  .wc26-mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+  }
+
+  .host-pill {
+    width: 42px;
+    height: 28px;
   }
 
   .tabs {
