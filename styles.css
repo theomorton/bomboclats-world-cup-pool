@@ -3055,6 +3055,145 @@ body {
   }
 }
 
+/* Crisp Yale contrast pass: navy headers, white cards, black text only. */
+.standings-top,
+.scoreboard-head {
+  min-height: 92px;
+  border-bottom: 0;
+  background: #03346a;
+  color: #ffffff;
+}
+
+.standings-top .eyebrow,
+.scoreboard-head .eyebrow,
+.standings-top h3,
+.scoreboard-head h3,
+.scoreboard-head > div:last-child,
+.scoreboard-head > div:last-child strong {
+  color: #ffffff;
+}
+
+.standings-top .segmented-control {
+  border-color: #ffffff;
+  background: #03346a;
+}
+
+.standings-panel .segment {
+  color: #ffffff;
+}
+
+.standings-panel .segment.is-active {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #03346a;
+}
+
+.score-card.is-live {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px #03346a;
+}
+
+.score-team.is-winner {
+  background: #ffffff;
+}
+
+.leader-gap.is-leader,
+.point-delta.positive,
+.rank-movement.up,
+.point-delta.negative,
+.rank-movement.down {
+  border-color: #03346a;
+  background: #ffffff;
+  color: #03346a;
+}
+
+.headline-card {
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.3fr);
+  border: 2px solid #ffffff;
+  background: #ffffff;
+  color: #000000;
+}
+
+.headline-card::before,
+.headline-card::after {
+  content: none;
+}
+
+.headline-card .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  border-radius: 999px;
+  background: #03346a;
+  color: #ffffff;
+  letter-spacing: 0.12em;
+  padding: 7px 12px;
+}
+
+.headline-card h3,
+.headline-card p:not(.eyebrow),
+.headline-player strong,
+.headline-player span,
+.headline-player em,
+.headline-pick,
+.headline-player {
+  color: #000000;
+}
+
+.headline-card h3 {
+  font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+  line-height: 1.08;
+}
+
+.headline-card p:not(.eyebrow) {
+  font-weight: 780;
+}
+
+.headline-pick,
+.headline-player {
+  border: 2px solid #03346a;
+  background: #ffffff;
+}
+
+.headline-player {
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.headline-player .mini-avatar {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px #03346a;
+}
+
+.headline-player em {
+  border: 2px solid #03346a;
+  background: #ffffff;
+  color: #03346a;
+}
+
+.headline-rail {
+  scrollbar-color: #ffffff #03346a;
+}
+
+.headline-rail::-webkit-scrollbar-track {
+  background: #03346a;
+}
+
+.headline-rail::-webkit-scrollbar-thumb {
+  background: #ffffff;
+}
+
+@media (max-width: 680px) {
+  .standings-top,
+  .scoreboard-head {
+    min-height: 78px;
+  }
+
+  .headline-card {
+    min-width: min(88vw, 360px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
