@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bomboclats World Cup Pool</title>
-    <link rel="stylesheet" href="styles.css?v=sleeper-reset">
+    <link rel="stylesheet" href="styles.css?v=yale-blue">
   </head>
   <body>
     <header class="site-header">
@@ -71,19 +71,25 @@
             <h2 id="players-title">Players</h2>
           </div>
           <div class="section-tools player-controls" aria-label="Player controls">
-            <div class="segmented-control" role="group" aria-label="Sort players">
-              <button class="segment is-active" type="button" data-player-sort="points">Points</button>
-              <button class="segment" type="button" data-player-sort="alpha">A-Z</button>
-              <button class="segment" type="button" data-player-sort="alive">Alive</button>
-              <button class="segment" type="button" data-player-sort="budget">Budget</button>
-            </div>
-            <div class="segmented-control" role="group" aria-label="Filter players">
-              <button class="segment is-active" type="button" data-player-filter="all">All</button>
-              <button class="segment" type="button" data-player-filter="podium">Podium</button>
-              <button class="segment" type="button" data-player-filter="chasing">Chasing</button>
-              <button class="segment" type="button" data-player-filter="trouble">In Trouble</button>
-              <button class="segment" type="button" data-player-filter="pending">Pending</button>
-            </div>
+            <label class="control-select">
+              <span>Sort</span>
+              <select id="player-sort" aria-label="Sort players">
+                <option value="points">Points</option>
+                <option value="alpha">A-Z</option>
+                <option value="alive">Alive</option>
+                <option value="budget">Budget</option>
+              </select>
+            </label>
+            <label class="control-select">
+              <span>Filter</span>
+              <select id="player-filter" aria-label="Filter players">
+                <option value="all">All</option>
+                <option value="podium">Podium</option>
+                <option value="chasing">Chasing</option>
+                <option value="trouble">In Trouble</option>
+                <option value="pending">Pending</option>
+              </select>
+            </label>
           </div>
         </div>
         <div id="players-grid" class="players-grid"></div>
@@ -96,15 +102,21 @@
             <h2 id="teams-title">Teams</h2>
           </div>
           <div class="team-controls" aria-label="Team filters">
-            <div class="segmented-control" role="group" aria-label="Team board view">
-              <button class="segment is-active" type="button" data-team-view="group">Group</button>
-              <button class="segment" type="button" data-team-view="ownership">Ownership</button>
-              <button class="segment" type="button" data-team-view="value">Value</button>
-            </div>
-            <div class="segmented-control" role="group" aria-label="Team pick filter">
-              <button class="segment is-active" type="button" data-team-filter="all">All teams</button>
-              <button class="segment" type="button" data-team-filter="picked">Picked only</button>
-            </div>
+            <label class="control-select">
+              <span>View</span>
+              <select id="team-view" aria-label="Team board view">
+                <option value="group">Group</option>
+                <option value="ownership">Ownership</option>
+                <option value="value">Value</option>
+              </select>
+            </label>
+            <label class="control-select">
+              <span>Filter</span>
+              <select id="team-filter" aria-label="Team pick filter">
+                <option value="all">All teams</option>
+                <option value="picked">Picked only</option>
+              </select>
+            </label>
             <label class="search-wrap">
               <span class="sr-only">Search by team or player</span>
               <input id="team-search" type="search" placeholder="Search team or player">
@@ -131,6 +143,6 @@
     <script src="data/players.js?v=italy-11"></script>
     <script src="data/results.js"></script>
     <script src="data/schedule.js"></script>
-    <script src="app.js?v=sleeper-reset"></script>
+    <script src="app.js?v=yale-blue"></script>
   </body>
 </html>

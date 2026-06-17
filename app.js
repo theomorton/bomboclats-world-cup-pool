@@ -575,11 +575,11 @@
     if (!statusEl) return;
 
     const liveCount = state.schedule.filter((game) => game.status?.state === "in").length;
-    const statusLabel = liveCount ? `${plural(liveCount, "live match", "live matches")}` : state.scheduleMeta.dateLabel || "Today";
-    const updated = state.scheduleMeta.lastUpdated || resultsMeta.lastUpdated || "Awaiting update";
+    const statusLabel = liveCount ? `${plural(liveCount, "live match", "live matches")}` : "Scores ready";
+    const detail = liveCount ? "Live board projecting now" : "Today at a glance";
     statusEl.innerHTML = `
-      <span>${escapeHtml(statusLabel)}</span>
-      <strong>${escapeHtml(updated)}</strong>
+      <span><i aria-hidden="true"></i>${escapeHtml(statusLabel)}</span>
+      <strong>${escapeHtml(detail)}</strong>
     `;
   }
 
@@ -696,16 +696,24 @@
     const team = resolveTeam(competitor.team);
     const pickedBy = team ? pickMap.get(team.name) || [] : [];
     const item = team || { name: competitor.team, flag: "" };
-    const pickedText = pickedBy.length ? `${pickedBy.length} ${pickedBy.length === 1 ? "pick" : "picks"}` : "unpicked";
     const livePoints = livePointsForCompetitor(game, competitor);
     const teamNameMarkup = team
       ? `<button class="score-team-link" type="button" data-team-link="${escapeHtml(team.name)}" aria-label="View ${escapeHtml(team.name)} team card">${flagMarkup(item)} <span class="country-name">${escapeHtml(competitor.team)}</span></button>`
       : `<strong>${escapeHtml(competitor.team)}</strong>`;
+    const pickerMarkup = pickedBy.length
+      ? pickedBy.map((player) => `<button class="score-picker-name" type="button" data-player-link="${escapeHtml(player.slug)}">${escapeHtml(player.name)}</button>`).join("")
+      : `<span class="score-picker-empty">Unpicked</span>`;
+    const livePointsMarkup = livePoints !== null && pickedBy.length
+      ? `<span class="score-live-points">${livePoints} pts now</span>`
+      : "";
     return `
       <div class="score-team${competitor.winner ? " is-winner" : ""}">
         <div class="score-team-info">
-          ${teamNameMarkup}
-          <span class="score-pick-count">${escapeHtml(pickedText)}${livePoints !== null && pickedBy.length ? ` · ${livePoints} pts now` : ""}</span>
+          <div class="score-team-line">
+            ${teamNameMarkup}
+            <span class="score-picker-list" aria-label="${escapeHtml(pickedBy.length ? `Picked by ${pickedBy.map((player) => player.name).join(", ")}` : "Unpicked")}">${pickerMarkup}</span>
+          </div>
+          ${livePointsMarkup}
         </div>
         <b>${showScore ? escapeHtml(competitor.score) : "-"}</b>
       </div>
@@ -714,6 +722,8 @@
 
   function renderDailySchedule(pickMap) {
     const scheduleEl = document.getElementById("daily-scoreboard");
+    const liveCount = state.schedule.filter((game) => game.status?.state === "in").length;
+    const slateLabel = liveCount ? `${plural(liveCount, "live match", "live matches")}` : plural(state.schedule.length, "game", "games");
     const gamesMarkup = state.schedule.length
       ? state.schedule.map((game) => {
           const showScore = game.status?.state === "in" || game.status?.completed;
@@ -741,8 +751,8 @@
             <h3>Today</h3>
           </div>
           <div>
-            <strong>${escapeHtml(state.scheduleMeta.dateLabel || "Today")}</strong>
-            <span>${escapeHtml(state.scheduleMeta.lastUpdated || resultsMeta.lastUpdated || "")}</span>
+            <strong>${escapeHtml(slateLabel)}</strong>
+            <span>${escapeHtml(state.liveProjection ? "Live projection enabled" : "Scores auto-refresh")}</span>
           </div>
         </div>
         <div class="scoreboard-grid">${gamesMarkup}</div>
@@ -1173,7 +1183,12 @@
     document.querySelectorAll("[data-team-view]").forEach((item) => {
       item.classList.toggle("is-active", item.dataset.teamView === state.teamView);
     });
-    document.getElementById("team-search").value = state.search;
+    const teamFilterSelect = document.getElementById("team-filter");
+    if (teamFilterSelect) teamFilterSelect.value = state.teamFilter;
+    const teamViewSelect = document.getElementById("team-view");
+    if (teamViewSelect) teamViewSelect.value = state.teamView;
+    const teamSearch = document.getElementById("team-search");
+    if (teamSearch) teamSearch.value = state.search;
   }
 
   function syncPlayerControls() {
@@ -1183,6 +1198,10 @@
     document.querySelectorAll("[data-player-filter]").forEach((item) => {
       item.classList.toggle("is-active", item.dataset.playerFilter === state.playerFilter);
     });
+    const playerSortSelect = document.getElementById("player-sort");
+    if (playerSortSelect) playerSortSelect.value = state.playerSort;
+    const playerFilterSelect = document.getElementById("player-filter");
+    if (playerFilterSelect) playerFilterSelect.value = state.playerFilter;
   }
 
   function wireTeamControls(render) {
@@ -1202,7 +1221,19 @@
       });
     });
 
-    document.getElementById("team-search").addEventListener("input", (event) => {
+    document.getElementById("team-view")?.addEventListener("change", (event) => {
+      state.teamView = event.target.value;
+      syncTeamFilterControls();
+      render();
+    });
+
+    document.getElementById("team-filter")?.addEventListener("change", (event) => {
+      state.teamFilter = event.target.value;
+      syncTeamFilterControls();
+      render();
+    });
+
+    document.getElementById("team-search")?.addEventListener("input", (event) => {
       state.search = event.target.value;
       render();
     });
@@ -1223,6 +1254,18 @@
         syncPlayerControls();
         render();
       });
+    });
+
+    document.getElementById("player-sort")?.addEventListener("change", (event) => {
+      state.playerSort = event.target.value;
+      syncPlayerControls();
+      render();
+    });
+
+    document.getElementById("player-filter")?.addEventListener("change", (event) => {
+      state.playerFilter = event.target.value;
+      syncPlayerControls();
+      render();
     });
   }
 
