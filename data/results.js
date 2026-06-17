@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 16, 2026 at 10:40 PM EDT from ESPN. Latest match: Iraq 1-4 Norway.",
+  lastUpdated: "June 16, 2026 at 11:44 PM EDT from ESPN. Latest match: Argentina 3-0 Algeria.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -40,5 +40,7 @@ window.POOL_RESULTS = [
   { team: "France", stage: "Groups", result: "W", advanceBonus: false, opponent: "Senegal", score: 3, opponentScore: 1, sourceEventId: "760432", playedAt: "2026-06-16T19:00Z" },
   { team: "Senegal", stage: "Groups", result: "L", advanceBonus: false, opponent: "France", score: 1, opponentScore: 3, sourceEventId: "760432", playedAt: "2026-06-16T19:00Z" },
   { team: "Iraq", stage: "Groups", result: "L", advanceBonus: false, opponent: "Norway", score: 1, opponentScore: 4, sourceEventId: "760430", playedAt: "2026-06-16T22:00Z" },
-  { team: "Norway", stage: "Groups", result: "W", advanceBonus: false, opponent: "Iraq", score: 4, opponentScore: 1, sourceEventId: "760430", playedAt: "2026-06-16T22:00Z" }
+  { team: "Norway", stage: "Groups", result: "W", advanceBonus: false, opponent: "Iraq", score: 4, opponentScore: 1, sourceEventId: "760430", playedAt: "2026-06-16T22:00Z" },
+  { team: "Argentina", stage: "Groups", result: "W", advanceBonus: false, opponent: "Algeria", score: 3, opponentScore: 0, sourceEventId: "760433", playedAt: "2026-06-17T01:00Z" },
+  { team: "Algeria", stage: "Groups", result: "L", advanceBonus: false, opponent: "Argentina", score: 0, opponentScore: 3, sourceEventId: "760433", playedAt: "2026-06-17T01:00Z" }
 ];
