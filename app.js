@@ -547,24 +547,12 @@
 
   function renderSummary(enrichedPlayers, pickMap) {
     const pickedTeams = [...pickMap.values()].filter((pickedBy) => pickedBy.length > 0).length;
-    const ranked = sortedLeaderboardPlayers(enrichedPlayers).filter((player) => !player.pending);
-    const leader = ranked[0];
-    const chasingPack = ranked.slice(1, 4);
     const topTeam = [...pickMap.entries()]
       .map(([teamName, pickedBy]) => ({ team: resolveTeam(teamName), count: pickedBy.length }))
       .sort((a, b) => b.count - a.count || b.team.price - a.team.price)[0];
 
     const cards = [
-      {
-        label: "Current Leader",
-        valueHtml: leader ? `${escapeHtml(leader.name)} <small>${leader.points} pts</small>` : "Pending"
-      },
-      {
-        label: "Chasing Pack",
-        valueHtml: chasingPack.length
-          ? chasingPack.map((player, index) => `<span class="summary-chaser">${index + 2}. ${escapeHtml(player.name)} <b>${player.points}</b></span>`).join("")
-          : "Pending"
-      },
+      { label: "Players", value: players.length },
       { label: "Picked Teams", value: `${pickedTeams}/${teams.length}` },
       {
         label: "Most Picked",
@@ -710,22 +698,14 @@
     const item = team || { name: competitor.team, flag: "" };
     const pickedText = pickedBy.length ? `${pickedBy.length} ${pickedBy.length === 1 ? "pick" : "picks"}` : "unpicked";
     const livePoints = livePointsForCompetitor(game, competitor);
-    const pickerMarkup = pickedBy.map((player) => (
-      `<button class="score-picker-chip" type="button" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} player profile">${escapeHtml(player.name)}</button>`
-    )).join("");
     const teamNameMarkup = team
       ? `<button class="score-team-link" type="button" data-team-link="${escapeHtml(team.name)}" aria-label="View ${escapeHtml(team.name)} team card">${flagMarkup(item)} <span class="country-name">${escapeHtml(competitor.team)}</span></button>`
       : `<strong>${escapeHtml(competitor.team)}</strong>`;
     return `
       <div class="score-team${competitor.winner ? " is-winner" : ""}">
         <div class="score-team-info">
-          <div class="score-team-grid">
-            <div class="score-team-name-block">
-              ${teamNameMarkup}
-              <span class="score-pick-count">${escapeHtml(pickedText)}${livePoints !== null && pickedBy.length ? ` · +${livePoints}` : ""}</span>
-            </div>
-            ${pickerMarkup ? `<span class="score-picker-row">${pickerMarkup}</span>` : ""}
-          </div>
+          ${teamNameMarkup}
+          <span class="score-pick-count">${escapeHtml(pickedText)}${livePoints !== null && pickedBy.length ? ` · ${livePoints} pts now` : ""}</span>
         </div>
         <b>${showScore ? escapeHtml(competitor.score) : "-"}</b>
       </div>
@@ -757,8 +737,8 @@
       <article class="scoreboard-panel">
         <div class="scoreboard-head">
           <div>
-            <p class="eyebrow">Matchday</p>
-            <h3>Today's Pool Impact</h3>
+            <p class="eyebrow">Games</p>
+            <h3>Today</h3>
           </div>
           <div>
             <strong>${escapeHtml(state.scheduleMeta.dateLabel || "Today")}</strong>
@@ -804,72 +784,52 @@
         : "";
       const tier1Selection = player.tier1Selection
         ? `<span class="leader-tier-one">${flagMarkup(player.tier1Selection)} <span class="country-name">${escapeHtml(player.tier1Selection.name)}</span></span>`
-        : `<span class="small-muted">None</span>`;
-      const status = player.pending ? "Picks pending" : plural(player.knownPicks.length, "team");
+        : `<span class="small-muted">No Tier 1</span>`;
+      const status = player.pending ? "Picks pending" : `${player.aliveCount} alive · ${player.knownPicks.length} teams`;
       const gap = leaderGap(player, sorted);
-      const bestPick = bestPickFor(player, teamScores);
-      const bestPickMarkup = bestPick
-        ? `<span class="leader-best-pick">${flagMarkup(bestPick.team)} <span>${escapeHtml(bestPick.team.name)}</span><b>${bestPick.points}</b></span>`
-        : `<span class="small-muted">None</span>`;
       return `
-        <tr class="leaderboard-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}" data-player-row="${escapeHtml(player.slug)}" tabindex="0">
-          <td data-label="Rank">
-            <div class="rank-cell">
-              <span class="rank-badge">${rank}</span>
-              ${movementMarkup}
-            </div>
-          </td>
-          <td data-label="Player">
-            <button class="leader-player leader-player-button" type="button" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} player card">
-              ${avatarMarkup(player, "mini")}
-              <div>
-                <strong>${escapeHtml(player.name)}</strong>
-                <span>${escapeHtml(status)}</span>
-              </div>
-            </button>
-          </td>
-          <td data-label="Points"><strong>${player.points}</strong>${deltaMarkup}</td>
-          <td data-label="Behind">${player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : `<span class="leader-gap">${gap} back</span>`}</td>
-          <td data-label="Budget">${money(player.budgetUsed)}</td>
-          <td data-label="Alive">${player.aliveCount}</td>
-          <td data-label="Teams">${player.knownPicks.length}</td>
-          <td data-label="Tier 1">${tier1Selection}</td>
-          <td data-label="Best Pick">${bestPickMarkup}</td>
-        </tr>
+        <button class="standings-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}" type="button" data-player-link="${escapeHtml(player.slug)}" data-player-row="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} profile">
+          <span class="rank-badge">${rank}</span>
+          ${avatarMarkup(player, "mini")}
+          <span class="standings-person">
+            <strong>${escapeHtml(player.name)}</strong>
+            <small>${escapeHtml(status)}</small>
+          </span>
+          <span class="standings-context">
+            ${player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : `<span class="leader-gap">${gap} back</span>`}
+            ${tier1Selection}
+          </span>
+          <span class="standings-points">
+            <strong>${player.points}</strong>
+            <small>pts</small>
+            ${deltaMarkup}
+            ${movementMarkup}
+          </span>
+        </button>
       `;
     });
 
     const liveNote = state.liveProjection
-      ? "Live Leaderboard treats active/latest scores as final for now."
-      : "No active match projection right now; live matches will update here.";
+      ? "Live view projects active scores."
+      : "Official standings.";
 
     document.getElementById("leaderboard-table").innerHTML = `
-      <div class="ranking-toolbar">
-        <div class="segmented-control ranking-toggle" role="group" aria-label="Leaderboard mode">
-          <button class="segment ${!isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="official" aria-pressed="${String(!isLiveMode)}">Leaderboard</button>
-          <button class="segment ${isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="live" aria-pressed="${String(isLiveMode)}">Live Leaderboard</button>
+      <article class="standings-panel">
+        <div class="standings-top">
+          <div>
+            <p class="eyebrow">Standings</p>
+            <h3>Table</h3>
+          </div>
+          <div class="segmented-control ranking-toggle" role="group" aria-label="Leaderboard mode">
+            <button class="segment ${!isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="official" aria-pressed="${String(!isLiveMode)}">Official</button>
+            <button class="segment ${isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="live" aria-pressed="${String(isLiveMode)}">Live</button>
+          </div>
         </div>
-        <p>${escapeHtml(isLiveMode ? liveNote : "Official standings use completed match results only.")}</p>
-      </div>
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Player</th>
-              <th>Points</th>
-              <th>Behind Leader</th>
-              <th>Budget</th>
-              <th>Alive</th>
-              <th>Teams</th>
-              <th>Tier 1 Selection</th>
-              <th>Best Pick</th>
-            </tr>
-          </thead>
-          <tbody>${rows.join("")}</tbody>
-        </table>
-      </div>
+        <div class="standings-list">${rows.join("")}</div>
+        <p class="standings-note">${escapeHtml(liveNote)}</p>
+      </article>
     `;
+    document.querySelector(".standings-list")?.scrollTo({ top: 0 });
 
   }
 
@@ -1576,11 +1536,11 @@
     const renderAll = () => {
       const view = buildView();
       state.currentView = view;
-      renderCommandCenter(view.officialPlayers, view.officialTeamScores, view.pickMap);
+      document.getElementById("command-center").innerHTML = "";
+      document.getElementById("insight-grid").innerHTML = "";
+      renderLeaderboard(view.officialPlayers, view.livePlayers, view.officialTeamScores);
       renderDailySchedule(view.pickMap);
       renderSummary(view.officialPlayers, view.pickMap);
-      renderInsightCards(view.officialPlayers, view.officialTeamScores, view.pickMap);
-      renderLeaderboard(view.officialPlayers, view.livePlayers, view.officialTeamScores);
       renderPlayers(view.officialPlayers, view.officialTeamScores, view.pickMap);
       renderTeams(view.officialPlayers, view.officialTeamScores, view.pickMap);
       renderRules(view.warnings);

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bomboclats World Cup Pool</title>
-    <link rel="stylesheet" href="styles.css?v=command-center">
+    <link rel="stylesheet" href="styles.css?v=sleeper-reset">
   </head>
   <body>
     <header class="site-header">
@@ -38,7 +38,7 @@
           <div class="brand-copy">
             <p class="eyebrow">Yale SOM / WC2026</p>
             <h1>Bomboclats World Cup Pool</h1>
-            <p class="brand-subtitle">Private tournament command center</p>
+            <p class="brand-subtitle">Private World Cup pool</p>
           </div>
         </div>
         <div id="header-status" class="header-status" aria-live="polite">
@@ -47,7 +47,7 @@
         </div>
       </div>
       <nav class="tabs" aria-label="Pool sections">
-        <button class="tab is-active" type="button" data-tab="leaderboard" aria-selected="true">Leaderboard</button>
+        <button class="tab is-active" type="button" data-tab="leaderboard" aria-selected="true">Standings</button>
         <button class="tab" type="button" data-tab="players" aria-selected="false">Players</button>
         <button class="tab" type="button" data-tab="teams" aria-selected="false">Teams</button>
         <button class="tab" type="button" data-tab="rules" aria-selected="false">Rules</button>
@@ -56,16 +56,11 @@
 
     <main class="page-shell">
       <section id="leaderboard" class="panel is-active" aria-labelledby="leaderboard-title">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">Command Center</p>
-            <h2 id="leaderboard-title">Leaderboard</h2>
-          </div>
-        </div>
-        <div id="command-center" class="command-center"></div>
+        <h2 id="leaderboard-title" class="sr-only">Standings</h2>
+        <div id="leaderboard-table" class="standings-shell"></div>
         <div id="daily-scoreboard" class="daily-scoreboard"></div>
         <div id="leaderboard-summary" class="summary-grid"></div>
-        <div id="leaderboard-table" class="table-card"></div>
+        <div id="command-center" class="command-center" hidden></div>
         <div id="insight-grid" class="insight-grid"></div>
       </section>
 
@@ -136,6 +131,6 @@
     <script src="data/players.js?v=italy-11"></script>
     <script src="data/results.js"></script>
     <script src="data/schedule.js"></script>
-    <script src="app.js?v=command-center"></script>
+    <script src="app.js?v=sleeper-reset"></script>
   </body>
 </html>
