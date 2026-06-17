@@ -763,33 +763,37 @@
     const headlineEl = document.getElementById("today-headline");
     if (!headlineEl) return;
 
-    const player = enrichedPlayers.find((item) => item.slug === "aaron");
-    if (!player || player.pending) {
+    const aaron = enrichedPlayers.find((item) => item.slug === "aaron");
+    const mike = enrichedPlayers.find((item) => item.slug === "mike");
+    if (!aaron || !mike || aaron.pending || mike.pending) {
       headlineEl.innerHTML = "";
       return;
     }
-    const mike = enrichedPlayers.find((item) => item.slug === "mike");
-    const overBudget = Math.max(0, player.budgetUsed - BUDGET);
-    const mikeOverBudget = mike ? Math.max(0, mike.budgetUsed - BUDGET) : 0;
 
-    const pickMarkup = player.knownPicks.map((team) => `
+    const rulingTeams = ["Australia", "Canada"]
+      .map((teamName) => resolveTeam(teamName))
+      .filter(Boolean);
+    const pickMarkup = rulingTeams.map((team) => `
       <span class="headline-pick">${flagMarkup(team)} <span class="country-name">${escapeHtml(team.name)}</span></span>
+    `).join("");
+    const peopleMarkup = [mike, aaron].map((player) => `
+      <div class="headline-player">
+        ${avatarMarkup(player, "mini")}
+        <strong>${escapeHtml(player.name)}</strong>
+        <span>${player.knownPicks.length} teams · ${money(player.budgetUsed)}</span>
+        <em>Back under ${money(BUDGET)}</em>
+      </div>
     `).join("");
 
     headlineEl.innerHTML = `
       <article class="headline-card">
         <div class="headline-main">
           <p class="eyebrow">Breaking News</p>
-          <h3>Aaron adds Spain, joins Mike in the over-budget household</h3>
-          <p>Spain has entered Aaron's squad, lifting her to ${money(player.budgetUsed)} and ${money(overBudget)} over budget. Classic married-couple math: two squads, ${mikeOverBudget ? `two overages` : `one overage`}, and one very brave relationship with arithmetic.</p>
-          <div class="headline-picks" aria-label="Aaron's picks">${pickMarkup}</div>
+          <h3>League office fines Mike and Aaron, math department celebrates</h3>
+          <p>Mike has been ordered to drop Australia for his budget infringement, while Aaron has been sentenced to drop Canada for multiple rule violations. The married-couple audit is complete: both squads are finally back under ${money(BUDGET)}.</p>
+          <div class="headline-picks" aria-label="Dropped teams">${pickMarkup}</div>
         </div>
-        <div class="headline-player">
-          ${avatarMarkup(player, "mini")}
-          <strong>${escapeHtml(player.name)}</strong>
-          <span>${player.knownPicks.length} teams · ${money(player.budgetUsed)}</span>
-          <em>${money(overBudget)} over budget</em>
-        </div>
+        <div class="headline-people" aria-label="Penalized players">${peopleMarkup}</div>
       </article>
     `;
   }

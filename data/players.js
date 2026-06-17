@@ -17,7 +17,7 @@ window.POOL_PLAYERS = [
       { name: "Canada", flag: "🇨🇦" },
       { name: "Greece", flag: "🇬🇷" }
     ],
-    picks: ["England", "South Korea", "Australia", "New Zealand", "Canada", "Netherlands", "Belgium", "Czechia", "Italy"]
+    picks: ["England", "South Korea", "New Zealand", "Canada", "Netherlands", "Belgium", "Czechia", "Italy"]
   },
   {
     name: "John",
@@ -97,7 +97,7 @@ window.POOL_PLAYERS = [
       { name: "USA", flag: "🇺🇸" },
       { name: "Netherlands", flag: "🇳🇱" }
     ],
-    picks: ["Spain", "Netherlands", "Switzerland", "Canada", "Morocco", "Ivory Coast", "Australia", "New Zealand", "Italy"]
+    picks: ["Spain", "Netherlands", "Switzerland", "Morocco", "Ivory Coast", "Australia", "New Zealand", "Italy"]
   },
   {
     name: "Sean",
