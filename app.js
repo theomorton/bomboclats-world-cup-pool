@@ -773,6 +773,37 @@
     renderHeaderStatus();
   }
 
+  function renderTodayHeadline(enrichedPlayers) {
+    const headlineEl = document.getElementById("today-headline");
+    if (!headlineEl) return;
+
+    const player = enrichedPlayers.find((item) => item.slug === "aaron");
+    if (!player || player.pending) {
+      headlineEl.innerHTML = "";
+      return;
+    }
+
+    const pickMarkup = player.knownPicks.map((team) => `
+      <span class="headline-pick">${flagMarkup(team)} <span class="country-name">${escapeHtml(team.name)}</span></span>
+    `).join("");
+
+    headlineEl.innerHTML = `
+      <article class="headline-card">
+        <div class="headline-main">
+          <p class="eyebrow">Today's Headline</p>
+          <h3>Aaron discovers soccer, submits portfolio at the buzzer</h3>
+          <p>After a rigorous due-diligence process that appears to have included noticing soccer exists, Aaron filed eight picks just before the first round of group matches could fully escape.</p>
+          <div class="headline-picks" aria-label="Aaron's picks">${pickMarkup}</div>
+        </div>
+        <div class="headline-player">
+          ${avatarMarkup(player, "mini")}
+          <strong>${escapeHtml(player.name)}</strong>
+          <span>${player.knownPicks.length} teams · ${money(player.budgetUsed)}</span>
+        </div>
+      </article>
+    `;
+  }
+
   function compareLeaderboardPlayers(a, b) {
     if (b.points !== a.points) return b.points - a.points;
     if (a.pending !== b.pending) return a.pending ? 1 : -1;
@@ -1614,6 +1645,7 @@
       state.currentView = view;
       document.getElementById("command-center").innerHTML = "";
       document.getElementById("insight-grid").innerHTML = "";
+      renderTodayHeadline(view.officialPlayers);
       renderLeaderboard(view.officialPlayers, view.livePlayers, view.officialTeamScores);
       renderDailySchedule(view.pickMap);
       renderSummary(view.officialPlayers, view.pickMap);

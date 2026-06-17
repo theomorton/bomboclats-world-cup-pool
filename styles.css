@@ -401,6 +401,99 @@ select:focus-visible,
   scroll-margin-top: 132px;
 }
 
+.headline-shell {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.headline-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(190, 224, 255, 0.28);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(255, 255, 255, 0.16), transparent 34%),
+    linear-gradient(135deg, rgba(7, 72, 132, 0.88), rgba(2, 43, 83, 0.78));
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+}
+
+.headline-main {
+  min-width: 0;
+}
+
+.headline-card h3 {
+  margin: 4px 0 5px;
+  color: var(--ink);
+  font-size: clamp(1rem, 2.4vw, 1.28rem);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.headline-card p:not(.eyebrow) {
+  max-width: 850px;
+  margin: 0;
+  color: #c8ddf4;
+  font-size: 0.84rem;
+  font-weight: 720;
+  line-height: 1.38;
+}
+
+.headline-picks {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  margin-top: 10px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-color: rgba(190, 224, 255, 0.34) transparent;
+}
+
+.headline-pick,
+.headline-player {
+  border: 1px solid rgba(190, 224, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+  color: #edf7ff;
+}
+
+.headline-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--pill-radius);
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1;
+  padding: 6px 8px;
+}
+
+.headline-player {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 112px;
+  border-radius: 16px;
+  padding: 10px;
+  text-align: center;
+}
+
+.headline-player strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+  line-height: 1;
+}
+
+.headline-player span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
 .standings-shell {
   min-width: 0;
 }
@@ -1686,6 +1779,15 @@ select:focus-visible,
     grid-template-columns: 1fr;
   }
 
+  .headline-player {
+    min-width: 96px;
+  }
+
+  .headline-player .mini-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
   .section-header,
   .teams-header {
     align-items: flex-start;
@@ -1744,6 +1846,24 @@ select:focus-visible,
 
   .detail-drawer.is-open .drawer-panel {
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 430px) {
+  .headline-card {
+    grid-template-columns: 1fr;
+  }
+
+  .headline-player {
+    align-items: center;
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: start;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .headline-player span {
+    grid-column: 2;
   }
 }
 
