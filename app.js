@@ -1286,6 +1286,30 @@
       <div class="drawer-backdrop" data-drawer-close></div>
       <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="${escapeHtml(ariaTitle)}">
         <button class="drawer-close" type="button" data-drawer-close aria-label="Close details">×</button>
+        <div class="drawer-brand-strip" aria-hidden="true">
+          <span class="drawer-crest-mark">
+            <svg viewBox="0 0 92 110" focusable="false">
+              <path class="crest-shield" d="M6 4h80v61c0 18.5-12.5 32.4-40 41C18.5 97.4 6 83.5 6 65V4Z" />
+              <path class="crest-divider" d="M7 35.5h78" />
+              <rect class="drawer-book" x="29" y="10" width="34" height="22" rx="3" />
+              <path class="drawer-book-line" d="M46 11v22M34 18h9M49 18h9M34 24h9M49 24h9" />
+              <circle class="crest-dot crest-dot-blue" cx="35" cy="48" r="5.8" />
+              <circle class="crest-dot crest-dot-blue" cx="57" cy="48" r="5.8" />
+              <circle class="crest-dot crest-dot-blue" cx="25" cy="61" r="5.8" />
+              <circle class="crest-dot crest-dot-blue" cx="67" cy="61" r="5.8" />
+              <path class="crest-diamond-top" d="M46 51 65 71H27L46 51Z" />
+              <path class="crest-diamond-bottom" d="M27 71h38L46 91 27 71Z" />
+              <circle class="crest-dot crest-dot-white" cx="25" cy="81" r="5.8" />
+              <circle class="crest-dot crest-dot-white" cx="36" cy="92" r="5.8" />
+              <circle class="crest-dot crest-dot-white" cx="56" cy="92" r="5.8" />
+              <circle class="crest-dot crest-dot-white" cx="67" cy="81" r="5.8" />
+            </svg>
+          </span>
+          <span class="drawer-wc-mark">WC26</span>
+          <span class="drawer-host-mark">CAN</span>
+          <span class="drawer-host-mark">USA</span>
+          <span class="drawer-host-mark">MEX</span>
+        </div>
         <div class="drawer-head">
           <p class="eyebrow">${escapeHtml(subtitle)}</p>
           <h3>${title}</h3>
