@@ -124,10 +124,14 @@
     focusedPlayerSlug: "",
     focusedTeamName: "",
     leaderboardMode: "official",
+    playerSort: "points",
+    playerFilter: "all",
+    teamView: "group",
     schedule: initialSchedule,
     scheduleMeta: initialScheduleMeta,
     liveProjection: false,
-    liveStatus: ""
+    liveStatus: "",
+    currentView: null
   };
 
   function money(value) {
@@ -396,6 +400,101 @@
     return pickMap;
   }
 
+  function rankMapFor(sourcePlayers) {
+    return new Map(sortedLeaderboardPlayers(sourcePlayers).map((player, index) => [player.slug, index + 1]));
+  }
+
+  function leaderGap(player, sortedPlayers) {
+    const leader = sortedPlayers[0];
+    if (!leader || player.slug === leader.slug) return 0;
+    return Math.max(0, leader.points - player.points);
+  }
+
+  function bestPickFor(player, teamScores) {
+    return player.knownPicks
+      .map((team) => ({ team, points: teamScores.get(team.name)?.points || 0 }))
+      .sort((a, b) => b.points - a.points || b.team.price - a.team.price || a.team.name.localeCompare(b.team.name))[0] || null;
+  }
+
+  function worstPickFor(player, teamScores) {
+    return player.knownPicks
+      .map((team) => ({ team, points: teamScores.get(team.name)?.points || 0 }))
+      .sort((a, b) => a.points - b.points || b.team.price - a.team.price || a.team.name.localeCompare(b.team.name))[0] || null;
+  }
+
+  function teamPoints(team, teamScores) {
+    return teamScores.get(team.name)?.points || 0;
+  }
+
+  function teamStatus(team, teamScores) {
+    return teamScores.get(team.name)?.eliminated ? "Out" : "Alive";
+  }
+
+  function teamValue(team, teamScores) {
+    const points = teamPoints(team, teamScores);
+    if (team.price <= 0) return points > 0 ? points : 0;
+    return points / team.price;
+  }
+
+  function ownershipCount(team, pickMap) {
+    return (pickMap.get(team.name) || []).length;
+  }
+
+  function riskProfile(player, pickMap, teamScores) {
+    if (player.pending || player.knownPicks.length === 0) return "Pending";
+    const avgOwnership = player.knownPicks.reduce((sum, team) => sum + ownershipCount(team, pickMap), 0) / player.knownPicks.length;
+    const zeroPointCount = player.knownPicks.filter((team) => teamPoints(team, teamScores) === 0 && team.price >= 20).length;
+    if (player.aliveCount <= Math.max(3, Math.floor(player.knownPicks.length * 0.45)) || zeroPointCount >= 3) return "In trouble";
+    if (avgOwnership >= 4.5) return "Chalky";
+    if (avgOwnership <= 2.2) return "Differential";
+    return player.tier1Selection && teamPoints(player.tier1Selection, teamScores) > 0 ? "High upside" : "Balanced";
+  }
+
+  function teamValueLabel(team, teamScores, pickMap) {
+    const points = teamPoints(team, teamScores);
+    const picked = ownershipCount(team, pickMap);
+    if (!picked) return points > 0 ? "Differential nobody owns" : "Unowned";
+    if (team.price >= 35 && points === 0) return "Expensive flop";
+    if (team.price <= 10 && points >= 3) return "Best bargain";
+    if (picked >= 6 && points > 0) return "Chalk paying off";
+    if (points > 0) return "Value pick";
+    return "Waiting";
+  }
+
+  function resultRowsForTeam(team) {
+    return results.filter((result) => resolveTeam(result.team)?.name === team.name);
+  }
+
+  function teamRecord(team) {
+    return resultRowsForTeam(team).reduce((record, result) => {
+      if (result.result === "W") record.w += 1;
+      if (result.result === "D") record.d += 1;
+      if (result.result === "L") record.l += 1;
+      return record;
+    }, { w: 0, d: 0, l: 0 });
+  }
+
+  function scheduleRowsForTeam(team) {
+    return state.schedule.filter((game) => game.competitors.some((competitor) => resolveTeam(competitor.team)?.name === team.name));
+  }
+
+  function playerRouteSummary(player, teamScores) {
+    if (player.pending) return "Waiting on picks before the route up the table is clear.";
+    const best = bestPickFor(player, teamScores);
+    const tierOne = player.tier1Selection;
+    if (best && best.points > 0) {
+      return `Best route up the table: needs ${best.team.name}${tierOne && tierOne.name !== best.team.name ? ` and ${tierOne.name}` : ""} to keep winning.`;
+    }
+    if (tierOne) return `Best route up the table: needs ${tierOne.name} to start paying off.`;
+    return "Best route up the table: needs the lower-tier picks to create separation.";
+  }
+
+  function teamImpactSummary(team, pickMap) {
+    const pickedBy = pickMap.get(team.name) || [];
+    if (!pickedBy.length) return `${team.name} is a pure differential: no one owns it.`;
+    return `Every point for ${team.name} helps ${pickedBy.map((player) => player.name).join(", ")}.`;
+  }
+
   function validateData(enrichedPlayers, sourceResults = results) {
     const warnings = [];
 
@@ -489,6 +588,83 @@
     `;
   }
 
+  function renderCommandCenter(enrichedPlayers, teamScores, pickMap) {
+    const sorted = sortedLeaderboardPlayers(enrichedPlayers);
+    const leader = sorted[0];
+    const second = sorted[1];
+    const gap = leader && second ? leader.points - second.points : 0;
+    const podium = sorted.slice(0, 3);
+    const alivePickedTeams = teams.filter((team) => ownershipCount(team, pickMap) > 0 && !teamScores.get(team.name)?.eliminated).length;
+    const topTeam = [...pickMap.entries()]
+      .map(([teamName, pickedBy]) => ({ team: resolveTeam(teamName), pickedBy }))
+      .filter((item) => item.team)
+      .sort((a, b) => b.pickedBy.length - a.pickedBy.length || b.team.price - a.team.price)[0];
+    const headline = leader && second
+      ? `${leader.name} leads by ${gap} ${gap === 1 ? "point" : "points"}, with ${second.name} chasing.`
+      : "The table is still taking shape.";
+
+    document.getElementById("command-center").innerHTML = leader ? `
+      <article class="command-card">
+        <div class="command-main">
+          <p class="eyebrow">Pool Command Center</p>
+          <h3>${escapeHtml(headline)}</h3>
+          <div class="leader-lockup">
+            ${avatarMarkup(leader, "hero")}
+            <div>
+              <span>Current Leader</span>
+              <strong>${escapeHtml(leader.name)}</strong>
+            </div>
+            <b>${leader.points}<small>pts</small></b>
+          </div>
+        </div>
+        <div class="podium-panel" aria-label="Top three podium">
+          ${podium.map((player, index) => `
+            <button class="podium-step podium-${index + 1}" type="button" data-player-link="${escapeHtml(player.slug)}">
+              <span>#${index + 1}</span>
+              ${avatarMarkup(player, "mini")}
+              <strong>${escapeHtml(player.name)}</strong>
+              <b>${player.points} pts</b>
+            </button>
+          `).join("")}
+        </div>
+        <div class="command-stats">
+          <div><span>Gap to 2nd</span><strong>${gap}</strong></div>
+          <div><span>Alive Picked Teams</span><strong>${alivePickedTeams}</strong></div>
+          <div><span>Most Owned</span><strong>${topTeam ? `${flagMarkup(topTeam.team)} ${escapeHtml(topTeam.team.name)}` : "None"}</strong></div>
+          <div><span>Last Updated</span><strong>${escapeHtml(state.scheduleMeta.lastUpdated || resultsMeta.lastUpdated || "Awaiting update")}</strong></div>
+        </div>
+      </article>
+    ` : "";
+  }
+
+  function renderInsightCards(enrichedPlayers, teamScores, pickMap) {
+    const sorted = sortedLeaderboardPlayers(enrichedPlayers);
+    const leader = sorted[0];
+    const second = sorted[1];
+    const allPickedTeams = teams.filter((team) => ownershipCount(team, pickMap) > 0);
+    const bestValue = [...allPickedTeams].sort((a, b) => teamValue(b, teamScores) - teamValue(a, teamScores) || teamPoints(b, teamScores) - teamPoints(a, teamScores))[0];
+    const worstSpend = [...allPickedTeams].sort((a, b) => teamPoints(a, teamScores) - teamPoints(b, teamScores) || b.price - a.price)[0];
+    const mostAlive = [...enrichedPlayers].filter((player) => !player.pending).sort((a, b) => b.aliveCount - a.aliveCount || b.points - a.points)[0];
+    const mostPicked = [...allPickedTeams].sort((a, b) => ownershipCount(b, pickMap) - ownershipCount(a, pickMap) || b.price - a.price)[0];
+    const bestUnpicked = teams.filter((team) => ownershipCount(team, pickMap) === 0).sort((a, b) => teamPoints(b, teamScores) - teamPoints(a, teamScores) || b.price - a.price)[0];
+    const insights = [
+      leader && second ? { label: "Closest Race", title: `${second.name} is ${leader.points - second.points} back`, meta: `${leader.name} still controls the table.` } : null,
+      bestValue ? { label: "Value Pick", title: `${bestValue.name} is the bargain`, meta: `${teamPoints(bestValue, teamScores)} pts on a ${money(bestValue.price)} price.` } : null,
+      mostPicked ? { label: "Chalk Watch", title: `${mostPicked.name} is everywhere`, meta: `${ownershipCount(mostPicked, pickMap)} players own it.` } : null,
+      bestUnpicked && teamPoints(bestUnpicked, teamScores) > 0 ? { label: "Differential Alert", title: `${bestUnpicked.name} is unowned`, meta: `${teamPoints(bestUnpicked, teamScores)} pts sitting on the board.` } : null,
+      mostAlive ? { label: "Still Alive", title: `${mostAlive.name} has ${mostAlive.aliveCount} alive`, meta: "Most routes still open." } : null,
+      worstSpend ? { label: "Danger Zone", title: `${worstSpend.name} needs a spark`, meta: `${teamPoints(worstSpend, teamScores)} pts at ${money(worstSpend.price)}.` } : null
+    ].filter(Boolean).slice(0, 6);
+
+    document.getElementById("insight-grid").innerHTML = insights.map((card) => `
+      <article class="insight-card">
+        <span>${escapeHtml(card.label)}</span>
+        <strong>${escapeHtml(card.title)}</strong>
+        <p>${escapeHtml(card.meta)}</p>
+      </article>
+    `).join("");
+  }
+
   function scheduleStatus(game) {
     if (game.status?.completed) return "Final";
     if (game.status?.state === "in") {
@@ -497,11 +673,36 @@
     return formatKickoff(game.kickoff);
   }
 
-  function scheduleTeamMarkup(competitor, pickMap, showScore) {
+  function livePointsForCompetitor(game, competitor) {
+    if (!(game.status?.state === "in" || game.status?.completed)) return null;
+    const opponent = game.competitors.find((item) => item !== competitor);
+    if (!opponent) return null;
+    return RESULT_POINTS[resultCode(Number(competitor.score || 0), Number(opponent.score || 0))] || 0;
+  }
+
+  function matchImpactText(game, pickMap) {
+    const owned = game.competitors
+      .map((competitor) => {
+        const team = resolveTeam(competitor.team);
+        return { team, count: team ? ownershipCount(team, pickMap) : 0, competitor };
+      })
+      .filter((item) => item.team);
+    const total = owned.reduce((sum, item) => sum + item.count, 0);
+    if (!total) return "Dead game for the pool";
+    const sorted = [...owned].sort((a, b) => b.count - a.count);
+    const leader = sorted[0];
+    const other = sorted[1];
+    if (leader.count >= 4 && other?.count >= 3) return "Massive swing game";
+    if (leader.count >= 3) return `${leader.count} players backing ${leader.team.name}`;
+    return "Pool swing in play";
+  }
+
+  function scheduleTeamMarkup(game, competitor, pickMap, showScore) {
     const team = resolveTeam(competitor.team);
     const pickedBy = team ? pickMap.get(team.name) || [] : [];
     const item = team || { name: competitor.team, flag: "" };
     const pickedText = pickedBy.length ? `${pickedBy.length} ${pickedBy.length === 1 ? "pick" : "picks"}` : "unpicked";
+    const livePoints = livePointsForCompetitor(game, competitor);
     const pickerMarkup = pickedBy.map((player) => (
       `<button class="score-picker-chip" type="button" data-player-link="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} player profile">${escapeHtml(player.name)}</button>`
     )).join("");
@@ -514,7 +715,7 @@
           <div class="score-team-grid">
             <div class="score-team-name-block">
               ${teamNameMarkup}
-              <span class="score-pick-count">${escapeHtml(pickedText)}</span>
+              <span class="score-pick-count">${escapeHtml(pickedText)}${livePoints !== null && pickedBy.length ? ` · +${livePoints}` : ""}</span>
             </div>
             ${pickerMarkup ? `<span class="score-picker-row">${pickerMarkup}</span>` : ""}
           </div>
@@ -537,8 +738,9 @@
                 <strong>${escapeHtml(scheduleStatus(game))}</strong>
               </div>
               <div class="score-matchup">
-                ${game.competitors.map((competitor) => scheduleTeamMarkup(competitor, pickMap, showScore)).join("")}
+                ${game.competitors.map((competitor) => scheduleTeamMarkup(game, competitor, pickMap, showScore)).join("")}
               </div>
+              <p class="match-impact">${escapeHtml(matchImpactText(game, pickMap))}</p>
             </article>
           `;
         }).join("")
@@ -549,7 +751,7 @@
         <div class="scoreboard-head">
           <div>
             <p class="eyebrow">Matchday</p>
-            <h3>Today's Games</h3>
+            <h3>Today's Pool Impact</h3>
           </div>
           <div>
             <strong>${escapeHtml(state.scheduleMeta.dateLabel || "Today")}</strong>
@@ -573,12 +775,13 @@
     return [...sourcePlayers].sort(compareLeaderboardPlayers);
   }
 
-  function renderLeaderboard(officialPlayers, livePlayers) {
+  function renderLeaderboard(officialPlayers, livePlayers, teamScores) {
     const officialBySlug = new Map(officialPlayers.map((player) => [player.slug, player]));
     const officialRankBySlug = new Map(sortedLeaderboardPlayers(officialPlayers).map((player, index) => [player.slug, index + 1]));
     const isLiveMode = state.leaderboardMode === "live";
     const sourcePlayers = isLiveMode ? livePlayers : officialPlayers;
     const sorted = sortedLeaderboardPlayers(sourcePlayers);
+    const leader = sorted[0];
 
     const rows = sorted.map((player, index) => {
       const rank = index + 1;
@@ -596,8 +799,13 @@
         ? `<span class="leader-tier-one">${flagMarkup(player.tier1Selection)} <span class="country-name">${escapeHtml(player.tier1Selection.name)}</span></span>`
         : `<span class="small-muted">None</span>`;
       const status = player.pending ? "Picks pending" : plural(player.knownPicks.length, "team");
+      const gap = leaderGap(player, sorted);
+      const bestPick = bestPickFor(player, teamScores);
+      const bestPickMarkup = bestPick
+        ? `<span class="leader-best-pick">${flagMarkup(bestPick.team)} <span>${escapeHtml(bestPick.team.name)}</span><b>${bestPick.points}</b></span>`
+        : `<span class="small-muted">None</span>`;
       return `
-        <tr class="leaderboard-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}">
+        <tr class="leaderboard-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}" data-player-row="${escapeHtml(player.slug)}" tabindex="0">
           <td>
             <div class="rank-cell">
               <span class="rank-badge">${rank}</span>
@@ -614,10 +822,12 @@
             </button>
           </td>
           <td><strong>${player.points}</strong>${deltaMarkup}</td>
+          <td>${player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : `<span class="leader-gap">${gap} back</span>`}</td>
           <td>${money(player.budgetUsed)}</td>
           <td>${player.aliveCount}</td>
           <td>${player.knownPicks.length}</td>
           <td>${tier1Selection}</td>
+          <td>${bestPickMarkup}</td>
         </tr>
       `;
     });
@@ -641,10 +851,12 @@
               <th>Rank</th>
               <th>Player</th>
               <th>Points</th>
+              <th>Behind Leader</th>
               <th>Budget</th>
               <th>Alive</th>
               <th>Teams</th>
               <th>Tier 1 Selection</th>
+              <th>Best Pick</th>
             </tr>
           </thead>
           <tbody>${rows.join("")}</tbody>
@@ -663,12 +875,32 @@
     return `<img class="${className}" src="${escapeHtml(player.image)}" alt="${escapeHtml(player.name)} headshot" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'), {className: '${size === "mini" ? "mini-avatar" : "initials-avatar"}', textContent: '${escapeHtml(initials(player.name))}'}));">`;
   }
 
-  function renderPlayers(enrichedPlayers, teamScores) {
-    document.getElementById("players-grid").innerHTML = [...enrichedPlayers]
-      .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }))
+  function renderPlayers(enrichedPlayers, teamScores, pickMap) {
+    const ranked = sortedLeaderboardPlayers(enrichedPlayers);
+    const ranks = rankMapFor(enrichedPlayers);
+    const filtered = ranked.filter((player) => {
+      const rank = ranks.get(player.slug);
+      const risk = riskProfile(player, pickMap, teamScores);
+      if (state.playerFilter === "podium") return rank <= 3;
+      if (state.playerFilter === "chasing") return rank > 3 && !player.pending;
+      if (state.playerFilter === "trouble") return risk === "In trouble";
+      if (state.playerFilter === "pending") return player.pending;
+      return true;
+    }).sort((a, b) => {
+      if (state.playerSort === "alpha") return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+      if (state.playerSort === "alive") return b.aliveCount - a.aliveCount || compareLeaderboardPlayers(a, b);
+      if (state.playerSort === "budget") return b.budgetUsed - a.budgetUsed || compareLeaderboardPlayers(a, b);
+      return compareLeaderboardPlayers(a, b);
+    });
+
+    document.getElementById("players-grid").innerHTML = filtered.length
+      ? filtered
       .map((player) => {
         const theme = getPlayerTheme(player);
         const focused = player.slug === state.focusedPlayerSlug ? " is-focused" : "";
+        const rank = ranks.get(player.slug);
+        const gap = leaderGap(player, ranked);
+        const risk = riskProfile(player, pickMap, teamScores);
         const nationalityChips = (player.nationalities || [])
           .map((nationality) => `<span class="chip country-chip">${flagMarkup(nationality)} <span class="country-name">${escapeHtml(nationality.name)}</span></span>`)
           .join("");
@@ -704,19 +936,21 @@
           `;
 
         return `
-          <article class="player-card${focused}" id="player-${escapeHtml(player.slug)}" data-player-slug="${escapeHtml(player.slug)}" style="--c1:${theme.c1};--c2:${theme.c2}">
+          <article class="player-card${focused}" id="player-${escapeHtml(player.slug)}" data-player-slug="${escapeHtml(player.slug)}" tabindex="0" style="--c1:${theme.c1};--c2:${theme.c2}">
             <div class="player-head">
               <div class="avatar-wrap">${avatarMarkup(player)}</div>
               <div class="player-title">
+                <span class="profile-rank">#${rank}</span>
                 <h3>${escapeHtml(player.name)}</h3>
                 <div class="nationality-row">${nationalityChips}</div>
               </div>
+              <span class="risk-pill">${escapeHtml(risk)}</span>
             </div>
             ${spotlightMarkup}
             <div class="player-metrics">
               <div class="metric"><span class="metric-label">Points</span><strong>${player.points}</strong></div>
+              <div class="metric"><span class="metric-label">Gap</span><strong>${gap ? `${gap} back` : "Leader"}</strong></div>
               <div class="metric"><span class="metric-label">Budget</span><strong>${money(player.budgetUsed)}</strong></div>
-              <div class="metric"><span class="metric-label">Teams</span><strong>${player.knownPicks.length}</strong></div>
               <div class="metric"><span class="metric-label">Alive</span><strong>${player.aliveCount}</strong></div>
             </div>
             <p class="picks-title">Picks</p>
@@ -724,13 +958,16 @@
           </article>
         `;
       })
-      .join("");
+      .join("")
+      : `<div class="empty-state">No players match this filter.</div>`;
   }
 
   function teamCardMarkup(team, teamScores, pickMap) {
     const pickedBy = pickMap.get(team.name) || [];
     const score = teamScores.get(team.name);
     const isFocused = normalize(team.name) === normalize(state.focusedTeamName);
+    const record = teamRecord(team);
+    const valueLabel = teamValueLabel(team, teamScores, pickMap);
     const pickedMarkup = pickedBy.length
       ? pickedBy.map((player) => {
           const selected = isFocused && player.slug === state.focusedPlayerSlug ? " is-selected" : "";
@@ -747,9 +984,11 @@
           </div>
           <span class="team-price">${money(team.price)}</span>
         </div>
+        <p class="team-story">${escapeHtml(valueLabel)}</p>
         <div class="team-stats">
           <div class="team-stat"><span>Picked</span><strong>${pickedBy.length}</strong></div>
           <div class="team-stat"><span>Points</span><strong>${score?.points || 0}</strong></div>
+          <div class="team-stat"><span>W-D-L</span><strong>${record.w}-${record.d}-${record.l}</strong></div>
           <div class="team-stat"><span>Status</span><strong>${score?.eliminated ? "Out" : "Alive"}</strong></div>
         </div>
         <p class="picked-label">Picked by</p>
@@ -773,16 +1012,26 @@
         ...pickedBy.map((player) => player.name)
       ].join(" "));
       return haystack.includes(query);
-    }).sort((a, b) => groupRank(a.group) - groupRank(b.group) || compareTeamsByGroupStanding(a, b, groupStandings));
+    });
 
-    const grouped = filteredTeams.reduce((groups, team) => {
+    const sortedTeams = [...filteredTeams].sort((a, b) => {
+      if (state.teamView === "ownership") {
+        return ownershipCount(b, pickMap) - ownershipCount(a, pickMap) || teamPoints(b, teamScores) - teamPoints(a, teamScores) || a.name.localeCompare(b.name);
+      }
+      if (state.teamView === "value") {
+        return teamValue(b, teamScores) - teamValue(a, teamScores) || teamPoints(b, teamScores) - teamPoints(a, teamScores) || a.name.localeCompare(b.name);
+      }
+      return groupRank(a.group) - groupRank(b.group) || compareTeamsByGroupStanding(a, b, groupStandings);
+    });
+
+    const grouped = sortedTeams.reduce((groups, team) => {
       const key = team.group || "TBD";
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key).push(team);
       return groups;
     }, new Map());
 
-    document.getElementById("teams-grid").innerHTML = filteredTeams.length
+    const boardMarkup = state.teamView === "group"
       ? [...grouped.entries()].map(([group, groupTeams]) => `
           <section class="team-group" aria-labelledby="group-${escapeHtml(slugify(group))}">
             <div class="group-header">
@@ -797,6 +1046,23 @@
             </div>
           </section>
         `).join("")
+      : `
+          <section class="team-group" aria-labelledby="team-view-${escapeHtml(state.teamView)}">
+            <div class="group-header">
+              <div>
+                <p class="eyebrow">${state.teamView === "ownership" ? "Ownership" : "Value"}</p>
+                <h3 id="team-view-${escapeHtml(state.teamView)}">${state.teamView === "ownership" ? "Most Owned Teams" : "Best Value Board"}</h3>
+              </div>
+              <span>${plural(sortedTeams.length, "team")}</span>
+            </div>
+            <div class="team-card-grid">
+              ${sortedTeams.map((team) => teamCardMarkup(team, teamScores, pickMap)).join("")}
+            </div>
+          </section>
+        `;
+
+    document.getElementById("teams-grid").innerHTML = sortedTeams.length
+      ? boardMarkup
       : `<div class="empty-state">No teams match this view.</div>`;
   }
 
@@ -916,10 +1182,30 @@
     document.querySelectorAll("[data-team-filter]").forEach((item) => {
       item.classList.toggle("is-active", item.dataset.teamFilter === state.teamFilter);
     });
+    document.querySelectorAll("[data-team-view]").forEach((item) => {
+      item.classList.toggle("is-active", item.dataset.teamView === state.teamView);
+    });
     document.getElementById("team-search").value = state.search;
   }
 
+  function syncPlayerControls() {
+    document.querySelectorAll("[data-player-sort]").forEach((item) => {
+      item.classList.toggle("is-active", item.dataset.playerSort === state.playerSort);
+    });
+    document.querySelectorAll("[data-player-filter]").forEach((item) => {
+      item.classList.toggle("is-active", item.dataset.playerFilter === state.playerFilter);
+    });
+  }
+
   function wireTeamControls(render) {
+    document.querySelectorAll("[data-team-view]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.teamView = button.dataset.teamView;
+        syncTeamFilterControls();
+        render();
+      });
+    });
+
     document.querySelectorAll("[data-team-filter]").forEach((button) => {
       button.addEventListener("click", () => {
         state.teamFilter = button.dataset.teamFilter;
@@ -934,6 +1220,24 @@
     });
   }
 
+  function wirePlayerControls(render) {
+    document.querySelectorAll("[data-player-sort]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.playerSort = button.dataset.playerSort;
+        syncPlayerControls();
+        render();
+      });
+    });
+
+    document.querySelectorAll("[data-player-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.playerFilter = button.dataset.playerFilter;
+        syncPlayerControls();
+        render();
+      });
+    });
+  }
+
   function wireLeaderboardControls(render) {
     document.addEventListener("click", (event) => {
       const button = event.target.closest("[data-leaderboard-mode]");
@@ -943,31 +1247,206 @@
     });
   }
 
+  function drawerShell(title, subtitle, body) {
+    const drawer = document.getElementById("detail-drawer");
+    const ariaTitle = String(title).replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+    drawer.innerHTML = `
+      <div class="drawer-backdrop" data-drawer-close></div>
+      <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="${escapeHtml(ariaTitle)}">
+        <button class="drawer-close" type="button" data-drawer-close aria-label="Close details">×</button>
+        <div class="drawer-head">
+          <p class="eyebrow">${escapeHtml(subtitle)}</p>
+          <h3>${title}</h3>
+        </div>
+        ${body}
+      </aside>
+    `;
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    const closeButton = drawer.querySelector(".drawer-close");
+    if (closeButton) closeButton.focus({ preventScroll: true });
+  }
+
+  function closeDrawer() {
+    const drawer = document.getElementById("detail-drawer");
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+  }
+
+  function renderPlayerDrawer(slug) {
+    const view = state.currentView;
+    if (!view) return;
+    const player = view.officialPlayers.find((item) => item.slug === slug);
+    if (!player) return;
+    const sorted = sortedLeaderboardPlayers(view.officialPlayers);
+    const rank = rankMapFor(view.officialPlayers).get(player.slug);
+    const gap = leaderGap(player, sorted);
+    const best = bestPickFor(player, view.officialTeamScores);
+    const tierGroups = [1, 2, 3].map((tier) => {
+      const tierPicks = player.knownPicks.filter((team) => team.tier === tier);
+      if (!tierPicks.length) return "";
+      return `
+        <section class="drawer-group">
+          <h4>Tier ${tier}</h4>
+          <div class="drawer-pick-grid">
+            ${tierPicks.map((team) => {
+              const score = view.officialTeamScores.get(team.name);
+              const picked = ownershipCount(team, view.pickMap);
+              return `
+                <button class="drawer-pick" type="button" data-team-link="${escapeHtml(team.name)}">
+                  ${flagMarkup(team)}
+                  <span>${escapeHtml(team.name)}</span>
+                  <b>${money(team.price)}</b>
+                  <em>${score?.points || 0} pts · ${teamStatus(team, view.officialTeamScores)} · ${picked} owned</em>
+                </button>
+              `;
+            }).join("")}
+          </div>
+        </section>
+      `;
+    }).join("");
+    const nationality = (player.nationalities || [])
+      .map((item) => `<span class="chip country-chip">${flagMarkup(item)} <span class="country-name">${escapeHtml(item.name)}</span></span>`)
+      .join("");
+    drawerShell(
+      escapeHtml(player.name),
+      `Rank #${rank} · ${player.points} points`,
+      `
+        <div class="drawer-profile">
+          ${avatarMarkup(player)}
+          <div>
+            <div class="nationality-row">${nationality}</div>
+            <p>${escapeHtml(playerRouteSummary(player, view.officialTeamScores))}</p>
+          </div>
+        </div>
+        <div class="drawer-stats">
+          <div><span>Gap</span><strong>${gap ? `${gap} back` : "Leader"}</strong></div>
+          <div><span>Budget</span><strong>${money(player.budgetUsed)}</strong></div>
+          <div><span>Alive</span><strong>${player.aliveCount}</strong></div>
+          <div><span>Tier 1</span><strong>${player.tier1Selection ? player.tier1Selection.name : "None"}</strong></div>
+          <div><span>Best Pick</span><strong>${best ? `${best.team.name} (${best.points})` : "None"}</strong></div>
+          <div><span>Risk</span><strong>${escapeHtml(riskProfile(player, view.pickMap, view.officialTeamScores))}</strong></div>
+        </div>
+        ${tierGroups || `<p class="empty-state">No submitted picks yet.</p>`}
+        <button class="drawer-action" type="button" data-open-player-tab="${escapeHtml(player.slug)}">Open player card</button>
+      `
+    );
+  }
+
+  function renderTeamDrawer(teamName) {
+    const view = state.currentView;
+    if (!view) return;
+    const team = resolveTeam(teamName);
+    if (!team) return;
+    const pickedBy = view.pickMap.get(team.name) || [];
+    const score = view.officialTeamScores.get(team.name);
+    const record = teamRecord(team);
+    const resultsMarkup = resultRowsForTeam(team).length
+      ? resultRowsForTeam(team).map((result) => `<li><strong>${escapeHtml(result.opponent || "Opponent")}</strong><span>${escapeHtml(result.result || "-")} ${result.score ?? ""}-${result.opponentScore ?? ""}</span></li>`).join("")
+      : `<li><strong>Results</strong><span>No completed results listed.</span></li>`;
+    const scheduleMarkup = scheduleRowsForTeam(team).map((game) => `<li><strong>${escapeHtml(scheduleStatus(game))}</strong><span>${game.competitors.map((competitor) => escapeHtml(competitor.team)).join(" vs ")}</span></li>`).join("");
+    drawerShell(
+      `${flagMarkup(team)} ${escapeHtml(team.name)}`,
+      `Tier ${team.tier} · Group ${escapeHtml(team.group)}`,
+      `
+        <p class="drawer-summary">${escapeHtml(teamImpactSummary(team, view.pickMap))}</p>
+        <div class="drawer-stats">
+          <div><span>Points</span><strong>${score?.points || 0}</strong></div>
+          <div><span>Price</span><strong>${money(team.price)}</strong></div>
+          <div><span>Picked</span><strong>${pickedBy.length}</strong></div>
+          <div><span>Status</span><strong>${teamStatus(team, view.officialTeamScores)}</strong></div>
+          <div><span>W-D-L</span><strong>${record.w}-${record.d}-${record.l}</strong></div>
+          <div><span>Value</span><strong>${escapeHtml(teamValueLabel(team, view.officialTeamScores, view.pickMap))}</strong></div>
+        </div>
+        <section class="drawer-group">
+          <h4>Picked By</h4>
+          <div class="picked-row">
+            ${pickedBy.length ? pickedBy.map((player) => `<button class="chip picked-player-chip" type="button" data-player-link="${escapeHtml(player.slug)}">${escapeHtml(player.name)}</button>`).join("") : `<span class="small-muted">Unpicked</span>`}
+          </div>
+        </section>
+        <section class="drawer-group">
+          <h4>Results</h4>
+          <ul class="rule-list">${resultsMarkup}</ul>
+        </section>
+        ${scheduleMarkup ? `<section class="drawer-group"><h4>Today</h4><ul class="rule-list">${scheduleMarkup}</ul></section>` : ""}
+        <button class="drawer-action" type="button" data-open-team-tab="${escapeHtml(team.name)}">Open team card</button>
+      `
+    );
+  }
+
   function wireDeepLinks(renderTeamView) {
     document.addEventListener("click", (event) => {
-      const playerButton = event.target.closest("[data-player-link]:not([data-team-link])");
-      if (playerButton) {
-        state.focusedPlayerSlug = playerButton.dataset.playerLink;
+      if (event.target.closest("[data-drawer-close]")) {
+        closeDrawer();
+        return;
+      }
+
+      const openPlayerTab = event.target.closest("[data-open-player-tab]");
+      if (openPlayerTab) {
+        const slug = openPlayerTab.dataset.openPlayerTab;
+        closeDrawer();
+        state.focusedPlayerSlug = slug;
         state.focusedTeamName = "";
         showPanel("players");
         document.querySelectorAll(".player-card").forEach((card) => {
           card.classList.toggle("is-focused", card.dataset.playerSlug === state.focusedPlayerSlug);
         });
-        scrollToElement(`#player-${CSS.escape(state.focusedPlayerSlug)}`);
+        scrollToElement(`#player-${CSS.escape(slug)}`);
+        return;
+      }
+
+      const openTeamTab = event.target.closest("[data-open-team-tab]");
+      if (openTeamTab) {
+        const teamName = openTeamTab.dataset.openTeamTab;
+        closeDrawer();
+        state.focusedTeamName = teamName;
+        state.teamView = "group";
+        state.teamFilter = "all";
+        state.search = "";
+        syncTeamFilterControls();
+        renderTeamView();
+        showPanel("teams");
+        scrollToElement(`#team-${CSS.escape(slugify(teamName))}`);
+        return;
+      }
+
+      const playerButton = event.target.closest("[data-player-link]:not([data-team-link])");
+      if (playerButton) {
+        renderPlayerDrawer(playerButton.dataset.playerLink);
         return;
       }
 
       const pickButton = event.target.closest("[data-team-link]");
-      if (!pickButton) return;
+      if (pickButton) {
+        renderTeamDrawer(pickButton.dataset.teamLink);
+        return;
+      }
 
-      state.focusedPlayerSlug = pickButton.dataset.playerLink || "";
-      state.focusedTeamName = pickButton.dataset.teamLink;
-      state.teamFilter = "all";
-      state.search = "";
-      syncTeamFilterControls();
-      renderTeamView();
-      showPanel("teams");
-      scrollToElement(`#team-${CSS.escape(slugify(state.focusedTeamName))}`);
+      const row = event.target.closest("[data-player-row]");
+      if (row && !event.target.closest("button")) {
+        renderPlayerDrawer(row.dataset.playerRow);
+        return;
+      }
+
+      const playerCard = event.target.closest(".player-card[data-player-slug]");
+      if (playerCard && !event.target.closest("button")) {
+        renderPlayerDrawer(playerCard.dataset.playerSlug);
+        return;
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeDrawer();
+        return;
+      }
+
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const row = event.target.closest?.("[data-player-row]");
+      if (row) {
+        event.preventDefault();
+        renderPlayerDrawer(row.dataset.playerRow);
+      }
     });
   }
 
@@ -1068,21 +1547,28 @@
 
     const renderAll = () => {
       const view = buildView();
+      state.currentView = view;
+      renderCommandCenter(view.officialPlayers, view.officialTeamScores, view.pickMap);
       renderDailySchedule(view.pickMap);
-      renderLeaderboard(view.officialPlayers, view.livePlayers);
       renderSummary(view.officialPlayers, view.pickMap);
-      renderPlayers(view.officialPlayers, view.officialTeamScores);
+      renderInsightCards(view.officialPlayers, view.officialTeamScores, view.pickMap);
+      renderLeaderboard(view.officialPlayers, view.livePlayers, view.officialTeamScores);
+      renderPlayers(view.officialPlayers, view.officialTeamScores, view.pickMap);
       renderTeams(view.officialPlayers, view.officialTeamScores, view.pickMap);
       renderRules(view.warnings);
     };
 
     const renderTeamView = () => {
       const view = buildView();
+      state.currentView = view;
       renderTeams(view.officialPlayers, view.officialTeamScores, view.pickMap);
     };
 
     renderAll();
+    syncPlayerControls();
+    syncTeamFilterControls();
     wireTabs();
+    wirePlayerControls(renderAll);
     wireTeamControls(renderTeamView);
     wireLeaderboardControls(renderAll);
     wireDeepLinks(renderTeamView);

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bomboclats World Cup Pool</title>
-    <link rel="stylesheet" href="styles.css?v=broadcast-refresh">
+    <link rel="stylesheet" href="styles.css?v=command-center">
   </head>
   <body>
     <header class="site-header">
@@ -58,13 +58,15 @@
       <section id="leaderboard" class="panel is-active" aria-labelledby="leaderboard-title">
         <div class="section-header">
           <div>
-            <p class="eyebrow">Table</p>
+            <p class="eyebrow">Command Center</p>
             <h2 id="leaderboard-title">Leaderboard</h2>
           </div>
         </div>
+        <div id="command-center" class="command-center"></div>
         <div id="daily-scoreboard" class="daily-scoreboard"></div>
-        <div id="leaderboard-table" class="table-card"></div>
         <div id="leaderboard-summary" class="summary-grid"></div>
+        <div id="leaderboard-table" class="table-card"></div>
+        <div id="insight-grid" class="insight-grid"></div>
       </section>
 
       <section id="players" class="panel" aria-labelledby="players-title">
@@ -72,6 +74,21 @@
           <div>
             <p class="eyebrow">Profiles</p>
             <h2 id="players-title">Players</h2>
+          </div>
+          <div class="section-tools player-controls" aria-label="Player controls">
+            <div class="segmented-control" role="group" aria-label="Sort players">
+              <button class="segment is-active" type="button" data-player-sort="points">Points</button>
+              <button class="segment" type="button" data-player-sort="alpha">A-Z</button>
+              <button class="segment" type="button" data-player-sort="alive">Alive</button>
+              <button class="segment" type="button" data-player-sort="budget">Budget</button>
+            </div>
+            <div class="segmented-control" role="group" aria-label="Filter players">
+              <button class="segment is-active" type="button" data-player-filter="all">All</button>
+              <button class="segment" type="button" data-player-filter="podium">Podium</button>
+              <button class="segment" type="button" data-player-filter="chasing">Chasing</button>
+              <button class="segment" type="button" data-player-filter="trouble">In Trouble</button>
+              <button class="segment" type="button" data-player-filter="pending">Pending</button>
+            </div>
           </div>
         </div>
         <div id="players-grid" class="players-grid"></div>
@@ -84,6 +101,11 @@
             <h2 id="teams-title">Teams</h2>
           </div>
           <div class="team-controls" aria-label="Team filters">
+            <div class="segmented-control" role="group" aria-label="Team board view">
+              <button class="segment is-active" type="button" data-team-view="group">Group</button>
+              <button class="segment" type="button" data-team-view="ownership">Ownership</button>
+              <button class="segment" type="button" data-team-view="value">Value</button>
+            </div>
             <div class="segmented-control" role="group" aria-label="Team pick filter">
               <button class="segment is-active" type="button" data-team-filter="all">All teams</button>
               <button class="segment" type="button" data-team-filter="picked">Picked only</button>
@@ -108,10 +130,12 @@
       </section>
     </main>
 
+    <div id="detail-drawer" class="detail-drawer" aria-hidden="true"></div>
+
     <script src="data/teams.js"></script>
     <script src="data/players.js?v=italy-11"></script>
     <script src="data/results.js"></script>
     <script src="data/schedule.js"></script>
-    <script src="app.js?v=broadcast-refresh"></script>
+    <script src="app.js?v=command-center"></script>
   </body>
 </html>
