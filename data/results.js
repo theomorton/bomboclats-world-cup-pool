@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 16, 2026 at 8:20 PM EDT from ESPN. Latest match: Iraq 1-4 Norway.",
+  lastUpdated: "June 16, 2026 at 10:40 PM EDT from ESPN. Latest match: Iraq 1-4 Norway.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
