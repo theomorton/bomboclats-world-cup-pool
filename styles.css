@@ -2129,6 +2129,642 @@ select:focus-visible,
   }
 }
 
+/* FIFA/Yale visual polish: preserves layout order, changes the presentation layer. */
+:root {
+  --paper: #ffffff;
+  --paper-2: #f5f8fc;
+  --paper-3: #eef5fc;
+  --fifa-black: #050505;
+  --fifa-ink: #061524;
+  --fifa-muted: #5e6f84;
+  --fifa-line: #dfe8f2;
+  --fifa-line-strong: #c6d6e8;
+  --card-radius: 12px;
+  --shadow: 0 14px 34px rgba(0, 29, 67, 0.18);
+}
+
+body {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.075) 0 1px, transparent 1px 34px),
+    radial-gradient(circle at 18% -8%, rgba(143, 209, 255, 0.28), transparent 28vw),
+    linear-gradient(180deg, #00356b 0%, #00356b 315px, #eaf3fb 315px, #f8fbff 100%);
+  color: var(--ink);
+  font-family: "Helvetica Neue", Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.site-header {
+  border-bottom: 0;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 30px),
+    linear-gradient(180deg, #003b76 0%, #00356b 100%);
+  box-shadow: 0 12px 28px rgba(0, 24, 55, 0.22);
+}
+
+.brand {
+  max-width: 1180px;
+  border: 1px solid rgba(143, 209, 255, 0.28);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.76), rgba(0, 31, 63, 0.72));
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11);
+  padding: 9px 10px;
+}
+
+.brand h1 {
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.brand-copy .eyebrow {
+  color: #8fd1ff;
+}
+
+.brand-subtitle {
+  color: #c9e5ff;
+}
+
+.tabs,
+.picks-mode-nav {
+  border: 1px solid rgba(143, 209, 255, 0.36);
+  background: rgba(0, 24, 52, 0.42);
+  border-radius: var(--pill-radius);
+  padding: 4px;
+}
+
+.tab,
+.picks-mode-button,
+.segment {
+  border-radius: var(--pill-radius);
+  font-weight: 950;
+}
+
+.tab.is-active,
+.picks-mode-button.is-active,
+.segment.is-active {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: var(--yale);
+  box-shadow: 0 8px 18px rgba(0, 24, 55, 0.16);
+}
+
+.page-shell {
+  margin-top: 16px;
+}
+
+.headline-card {
+  border: 1px solid rgba(143, 209, 255, 0.34);
+  background:
+    linear-gradient(90deg, rgba(143, 209, 255, 0.16), transparent 34%),
+    linear-gradient(180deg, #050505 0%, #101418 100%);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.headline-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(180deg, #8fd1ff, #00b050 48%, #d71900);
+}
+
+.headline-card {
+  position: relative;
+}
+
+.headline-pick,
+.headline-player {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.standings-panel,
+.scoreboard-panel,
+.summary-card,
+.player-card,
+.team-card,
+.rule-card {
+  --ink: var(--fifa-ink);
+  --muted: var(--fifa-muted);
+  --muted-2: #7a8ba0;
+  --line: var(--fifa-line);
+  color: var(--fifa-ink);
+  border: 1px solid var(--fifa-line);
+  background: var(--paper);
+  border-radius: 10px;
+  box-shadow: 0 10px 26px rgba(0, 37, 82, 0.1);
+}
+
+.standings-top,
+.scoreboard-head {
+  border-bottom: 1px solid var(--fifa-line);
+  background: #ffffff;
+}
+
+.standings-top .eyebrow,
+.scoreboard-head .eyebrow,
+.group-header .eyebrow,
+.rule-card .eyebrow {
+  color: var(--yale);
+}
+
+.standings-top h3,
+.scoreboard-head h3,
+.section-header h2,
+.teams-header h2,
+.group-header h3 {
+  letter-spacing: -0.02em;
+}
+
+.standings-list {
+  gap: 0;
+  padding: 0;
+}
+
+.standings-row {
+  min-height: 64px;
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--fifa-line);
+  background: #ffffff;
+  padding: 10px 12px;
+}
+
+.standings-row:first-child {
+  border-top: 0;
+}
+
+.standings-row:hover {
+  border-color: var(--fifa-line);
+  background: #f4f9ff;
+}
+
+.standings-row.is-rank-1 {
+  border-left: 5px solid var(--gold);
+  background: #fffaf0;
+}
+
+.rank-badge {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--fifa-line);
+  background: #ffffff;
+  color: var(--fifa-ink);
+}
+
+.is-rank-1 .rank-badge,
+.is-rank-2 .rank-badge,
+.is-rank-3 .rank-badge {
+  color: var(--fifa-ink);
+}
+
+.standings-person strong,
+.leader-player strong,
+.score-team-link .country-name,
+.score-team strong,
+.player-title h3,
+.team-card h3,
+.rule-card h3 {
+  color: var(--fifa-ink);
+}
+
+.standings-person small,
+.leader-player span,
+.standings-note,
+.scoreboard-head > div:last-child,
+.summary-card small,
+.metric small,
+.team-meta,
+.team-story,
+.small-muted {
+  color: var(--fifa-muted);
+}
+
+.leader-gap,
+.leader-tier-one,
+.leader-best-pick,
+.point-delta,
+.rank-movement,
+.profile-rank,
+.chip,
+.team-pill,
+.status-pill,
+.team-compact-stats span {
+  border-color: var(--fifa-line-strong);
+  background: #ffffff;
+  color: #24344a;
+}
+
+.leader-gap.is-leader,
+.point-delta.positive,
+.rank-movement.up {
+  border-color: rgba(0, 176, 80, 0.35);
+  background: #ecfff4;
+  color: #067a3d;
+}
+
+.segmented-control {
+  border-color: #c7d8ea;
+  background: #eef7ff;
+}
+
+.standings-panel .segment {
+  color: #415570;
+}
+
+.standings-panel .segment.is-active {
+  color: var(--yale);
+}
+
+.scoreboard-panel {
+  overflow: hidden;
+}
+
+.scoreboard-grid {
+  gap: 10px;
+  padding: 12px;
+}
+
+.score-card {
+  border: 1px solid var(--fifa-line-strong);
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: none;
+  padding: 0;
+}
+
+.score-card.is-live {
+  border-color: #00b050;
+  box-shadow: 0 0 0 2px rgba(0, 176, 80, 0.08);
+}
+
+.score-card-top {
+  margin: 0;
+  border-bottom: 1px solid var(--fifa-line);
+  background: var(--fifa-black);
+  color: #ffffff;
+  padding: 10px 12px;
+}
+
+.score-card-top strong {
+  color: #ffffff;
+}
+
+.score-team b {
+  color: var(--yale);
+}
+
+.score-card.is-live .score-card-top {
+  background: #00356b;
+}
+
+.score-card.is-live .score-card-top strong {
+  color: #9ff2be;
+}
+
+.score-matchup {
+  gap: 0;
+}
+
+.score-team {
+  min-height: 62px;
+  border-radius: 0;
+  border-top: 1px solid var(--fifa-line);
+  background: #ffffff;
+  padding: 9px 12px;
+}
+
+.score-team:first-child {
+  border-top: 0;
+}
+
+.score-team.is-winner {
+  background: #f0fff6;
+}
+
+.score-team-line {
+  gap: 10px;
+}
+
+.score-team-link {
+  max-width: 44%;
+  gap: 10px;
+}
+
+.score-team-link .inline-flag {
+  --flag-width: 38px;
+  --flag-height: 25px;
+}
+
+.score-pick-count {
+  color: var(--fifa-muted);
+}
+
+.score-picker-list {
+  align-items: center;
+  gap: 5px;
+}
+
+.score-picker-name,
+.team-card .picked-player-chip {
+  min-height: 28px;
+  border-color: #bed0e4;
+  background: #f7fbff;
+  color: #27364c;
+  box-shadow: none;
+}
+
+.score-picker-empty {
+  color: #7c8ca1;
+}
+
+.match-impact,
+.score-live-points {
+  display: none;
+}
+
+.summary-grid {
+  gap: 12px;
+}
+
+.summary-card {
+  min-height: 90px;
+  border-left: 5px solid var(--yale);
+}
+
+.summary-card strong,
+.metric strong,
+.spotlight-item strong,
+.multiplier strong,
+.team-compact-stats strong {
+  color: var(--fifa-ink);
+}
+
+.control-select span {
+  color: #b9ddff;
+}
+
+.control-select select,
+.search-wrap input {
+  border-color: rgba(143, 209, 255, 0.42);
+  background: #ffffff !important;
+  background-image: none !important;
+  color-scheme: light;
+  color: var(--fifa-ink);
+}
+
+.control-select {
+  position: relative;
+}
+
+.control-select::after {
+  content: "";
+  position: absolute;
+  right: 13px;
+  bottom: 15px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--yale);
+  border-bottom: 2px solid var(--yale);
+  pointer-events: none;
+  transform: rotate(45deg);
+}
+
+.search-wrap input::placeholder {
+  color: #7c8ca1;
+}
+
+.player-card,
+.team-card,
+.rule-card {
+  border-top: 4px solid var(--yale);
+}
+
+.avatar-wrap {
+  background: linear-gradient(135deg, #8fd1ff, #00356b 55%, #00b050);
+}
+
+.profile-rank {
+  color: var(--yale);
+}
+
+.spotlight-item,
+.metric,
+.multiplier,
+.rule-step,
+.check-item,
+.drawer-profile,
+.drawer-summary,
+.drawer-stats div,
+.drawer-pick {
+  border-color: var(--fifa-line);
+  background: var(--paper-2);
+}
+
+.metric-primary {
+  background: #eef7ff;
+}
+
+.player-card .pick-button,
+.team-pill {
+  border-color: #c7d8ea;
+  background: #ffffff;
+}
+
+.player-card .pick-button:hover,
+.team-card .picked-player-chip:hover,
+.score-picker-name:hover,
+.score-team-link:hover {
+  background: #eef7ff;
+}
+
+.player-card .pick-button .pick-points {
+  background: var(--yale);
+}
+
+.team-flag {
+  border-color: var(--fifa-line-strong);
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.team-price {
+  border-color: #cfe0f2;
+  background: #eef7ff;
+  color: var(--yale);
+}
+
+.group-header span {
+  color: #cbe7ff;
+}
+
+.rule-step span {
+  background: var(--fifa-black);
+  color: #ffffff;
+}
+
+.score-row strong:last-child,
+.team-pill .price,
+.pick-points,
+.team-price {
+  color: var(--yale);
+}
+
+.empty-state {
+  border-color: rgba(143, 209, 255, 0.58);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--fifa-muted);
+}
+
+.inline-flag {
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 0 1px #d5dde8;
+}
+
+.flag-img {
+  object-fit: cover;
+}
+
+.flag-emoji-glyph {
+  font-size: calc(var(--flag-height) * 1.18);
+}
+
+.drawer-backdrop {
+  background: rgba(0, 32, 70, 0.72);
+}
+
+.drawer-panel {
+  --ink: var(--fifa-ink);
+  --muted: var(--fifa-muted);
+  --line: var(--fifa-line);
+  border-left: 1px solid var(--fifa-line);
+  background:
+    linear-gradient(135deg, rgba(0, 53, 107, 0.08) 0 1px, transparent 1px 30px),
+    linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  color: var(--fifa-ink);
+}
+
+.drawer-panel::before {
+  background: linear-gradient(90deg, var(--yale), #005587);
+  inset: 0 0 auto;
+  height: 7px;
+}
+
+.drawer-close {
+  border-color: var(--fifa-line-strong);
+  background: #ffffff;
+  color: var(--yale);
+}
+
+.drawer-head h3,
+.drawer-stats strong,
+.drawer-pick {
+  color: var(--fifa-ink);
+}
+
+.drawer-action {
+  background: var(--yale);
+  color: #ffffff;
+}
+
+@media (max-width: 680px) {
+  body {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.085) 0 1px, transparent 1px 30px),
+      linear-gradient(180deg, #00356b 0%, #00356b 260px, #eef6fc 260px, #ffffff 100%);
+  }
+
+  .site-header {
+    padding: 8px 10px 10px;
+  }
+
+  .brand {
+    border-radius: 12px;
+    padding: 7px 8px;
+  }
+
+  .brand-copy {
+    text-align: center;
+  }
+
+  .brand h1 {
+    font-size: clamp(0.94rem, 4vw, 1.1rem);
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  .headline-card {
+    border-radius: 10px;
+    padding-left: 15px;
+  }
+
+  .standings-top,
+  .scoreboard-head {
+    padding: 13px 12px;
+  }
+
+  .standings-row {
+    min-height: 66px;
+    padding: 10px;
+  }
+
+  .scoreboard-grid {
+    padding: 10px;
+  }
+
+  .score-card {
+    border-radius: 9px;
+  }
+
+  .score-card-top {
+    padding: 9px 10px;
+  }
+
+  .score-team {
+    min-height: 60px;
+    padding: 9px 10px;
+  }
+
+  .score-team-link {
+    max-width: 50%;
+  }
+
+  .score-team-link .inline-flag {
+    --flag-width: 34px;
+    --flag-height: 22px;
+  }
+
+  .score-picker-name {
+    max-width: 58px;
+    min-height: 26px;
+    font-size: 0.62rem;
+  }
+
+  .panel#picks .control-select select {
+    padding-right: 34px;
+  }
+
+  .player-card,
+  .team-card,
+  .rule-card {
+    border-radius: 10px;
+  }
+
+  .group-header span {
+    color: #b9ddff;
+  }
+
+  .drawer-panel {
+    border-radius: 18px 18px 0 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
