@@ -97,8 +97,7 @@ window.POOL_PLAYERS = [
       { name: "USA", flag: "🇺🇸" },
       { name: "Netherlands", flag: "🇳🇱" }
     ],
-    pending: true,
-    picks: []
+    picks: ["Netherlands", "Switzerland", "Canada", "Morocco", "Ivory Coast", "Australia", "New Zealand", "Italy"]
   },
   {
     name: "Sean",
