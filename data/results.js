@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 16, 2026 at 11:44 PM EDT from ESPN. Latest match: Argentina 3-0 Algeria.",
+  lastUpdated: "June 17, 2026 at 12:06 AM EDT from ESPN. Latest match: Argentina 3-0 Algeria.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
