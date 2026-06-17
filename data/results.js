@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 16, 2026 at 6:15 PM EDT from ESPN. Latest match: France 3-1 Senegal.",
+  lastUpdated: "June 16, 2026 at 8:20 PM EDT from ESPN. Latest match: Iraq 1-4 Norway.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -38,5 +38,7 @@ window.POOL_RESULTS = [
   { team: "Iran", stage: "Groups", result: "D", advanceBonus: false, opponent: "New Zealand", score: 2, opponentScore: 2, sourceEventId: "760427", playedAt: "2026-06-16T01:00Z" },
   { team: "New Zealand", stage: "Groups", result: "D", advanceBonus: false, opponent: "Iran", score: 2, opponentScore: 2, sourceEventId: "760427", playedAt: "2026-06-16T01:00Z" },
   { team: "France", stage: "Groups", result: "W", advanceBonus: false, opponent: "Senegal", score: 3, opponentScore: 1, sourceEventId: "760432", playedAt: "2026-06-16T19:00Z" },
-  { team: "Senegal", stage: "Groups", result: "L", advanceBonus: false, opponent: "France", score: 1, opponentScore: 3, sourceEventId: "760432", playedAt: "2026-06-16T19:00Z" }
+  { team: "Senegal", stage: "Groups", result: "L", advanceBonus: false, opponent: "France", score: 1, opponentScore: 3, sourceEventId: "760432", playedAt: "2026-06-16T19:00Z" },
+  { team: "Iraq", stage: "Groups", result: "L", advanceBonus: false, opponent: "Norway", score: 1, opponentScore: 4, sourceEventId: "760430", playedAt: "2026-06-16T22:00Z" },
+  { team: "Norway", stage: "Groups", result: "W", advanceBonus: false, opponent: "Iraq", score: 4, opponentScore: 1, sourceEventId: "760430", playedAt: "2026-06-16T22:00Z" }
 ];
