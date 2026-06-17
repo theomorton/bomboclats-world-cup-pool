@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 17, 2026 at 9:35 AM EDT from ESPN. Latest match: Austria 3-1 Jordan.",
+  lastUpdated: "June 17, 2026 at 9:55 AM EDT from ESPN. Latest match: Austria 3-1 Jordan.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
