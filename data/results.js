@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 17, 2026 at 12:25 AM EDT from ESPN. Latest match: Argentina 3-0 Algeria.",
+  lastUpdated: "June 17, 2026 at 2:16 AM EDT from ESPN. Latest match: Austria 3-1 Jordan.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -42,5 +42,7 @@ window.POOL_RESULTS = [
   { team: "Iraq", stage: "Groups", result: "L", advanceBonus: false, opponent: "Norway", score: 1, opponentScore: 4, sourceEventId: "760430", playedAt: "2026-06-16T22:00Z" },
   { team: "Norway", stage: "Groups", result: "W", advanceBonus: false, opponent: "Iraq", score: 4, opponentScore: 1, sourceEventId: "760430", playedAt: "2026-06-16T22:00Z" },
   { team: "Argentina", stage: "Groups", result: "W", advanceBonus: false, opponent: "Algeria", score: 3, opponentScore: 0, sourceEventId: "760433", playedAt: "2026-06-17T01:00Z" },
-  { team: "Algeria", stage: "Groups", result: "L", advanceBonus: false, opponent: "Argentina", score: 0, opponentScore: 3, sourceEventId: "760433", playedAt: "2026-06-17T01:00Z" }
+  { team: "Algeria", stage: "Groups", result: "L", advanceBonus: false, opponent: "Argentina", score: 0, opponentScore: 3, sourceEventId: "760433", playedAt: "2026-06-17T01:00Z" },
+  { team: "Austria", stage: "Groups", result: "W", advanceBonus: false, opponent: "Jordan", score: 3, opponentScore: 1, sourceEventId: "760431", playedAt: "2026-06-17T04:00Z" },
+  { team: "Jordan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Austria", score: 1, opponentScore: 3, sourceEventId: "760431", playedAt: "2026-06-17T04:00Z" }
 ];
