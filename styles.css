@@ -70,27 +70,23 @@ select:focus-visible,
 }
 
 .brand {
-  display: flex;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 54px;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 10px;
   width: min(1180px, 100%);
   margin: 0 auto 10px;
 }
 
 .brand-identity {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1 1 auto;
-  min-width: 0;
+  display: contents;
 }
 
 .brand-mark {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 42px;
+  width: 44px;
+  height: 52px;
   flex: 0 0 auto;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
 }
@@ -166,6 +162,7 @@ select:focus-visible,
 
 .brand-copy {
   min-width: 0;
+  text-align: center;
 }
 
 .brand-copy .eyebrow {
@@ -192,8 +189,9 @@ select:focus-visible,
 .header-emblems {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 7px;
+  width: 54px;
   min-width: 0;
   isolation: isolate;
 }
@@ -209,28 +207,29 @@ select:focus-visible,
 
 .fifa26-logo {
   position: relative;
-  display: block;
-  width: 82px;
-  height: 68px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 52px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.78);
-  background:
-    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.98), rgba(226, 235, 247, 0.96));
-  border-radius: 18px;
+  background: #020202;
+  border-radius: 12px;
   color: #02060c;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 12px 28px rgba(0, 16, 40, 0.28);
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 10px 24px rgba(0, 16, 40, 0.34);
 }
 
 .fifa26-logo::before {
-  content: "";
-  position: absolute;
-  inset: -18px;
-  background:
-    radial-gradient(circle at 22% 12%, rgba(255, 255, 255, 0.85), transparent 24%),
-    radial-gradient(circle at 76% 20%, rgba(0, 53, 107, 0.1), transparent 28%);
-  pointer-events: none;
+  content: none;
+}
+
+.fifa26-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .fifa26-number-stack {
@@ -303,9 +302,9 @@ select:focus-visible,
 }
 
 .fifa26-logo--drawer {
-  width: 68px;
-  height: 56px;
-  border-radius: 15px;
+  width: 52px;
+  height: 52px;
+  border-radius: 13px;
 }
 
 .fifa26-logo--drawer .fifa26-number-stack {
@@ -1697,56 +1696,24 @@ select:focus-visible,
 
   .brand {
     align-items: center;
-    flex-direction: row;
     gap: 8px;
     margin-bottom: 8px;
+    grid-template-columns: 46px minmax(0, 1fr) 46px;
   }
 
   .header-emblems {
-    justify-content: flex-end;
-    flex: 0 0 auto;
-    min-width: 0;
-    width: auto;
+    width: 46px;
   }
 
   .fifa26-logo {
-    width: 62px;
-    height: 54px;
-    border-radius: 15px;
-  }
-
-  .fifa26-number-stack {
-    inset: 0 8px 6px;
-    font-size: 34px;
-  }
-
-  .fifa26-cup {
-    top: 5px;
-    width: 20px;
-    height: 39px;
-  }
-
-  .fifa26-word {
-    bottom: 4px;
-    font-size: 0.56rem;
+    width: 44px;
+    height: 52px;
+    border-radius: 11px;
   }
 
   .fifa26-logo--drawer {
-    width: 68px;
-    height: 56px;
-  }
-
-  .fifa26-logo--drawer .fifa26-number-stack {
-    font-size: 36px;
-  }
-
-  .fifa26-logo--drawer .fifa26-cup {
-    width: 21px;
-    height: 40px;
-  }
-
-  .fifa26-logo--drawer .fifa26-word {
-    font-size: 0.58rem;
+    width: 52px;
+    height: 52px;
   }
 
   .tabs {
@@ -1800,12 +1767,13 @@ select:focus-visible,
   }
 
   .headline-player {
-    min-width: 126px;
+    min-width: 96px;
+    padding: 10px;
   }
 
   .headline-player .mini-avatar {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
   }
 
   .section-header,
@@ -1871,23 +1839,45 @@ select:focus-visible,
 
 @media (max-width: 430px) {
   .headline-card {
-    grid-template-columns: 1fr;
+    position: relative;
+    align-items: start;
+    display: block;
+    padding: 12px;
+    padding-right: 84px;
   }
 
   .headline-player {
-    align-items: center;
-    grid-template-columns: auto minmax(0, 1fr);
-    justify-items: start;
-    min-width: 0;
-    text-align: left;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    justify-items: center;
+    width: 62px;
+    min-width: 62px;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    text-align: center;
   }
 
-  .headline-player span {
-    grid-column: 2;
+  .headline-player .mini-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .headline-player strong {
+    font-size: 0.74rem;
+  }
+
+  .headline-player span,
+  .headline-player em {
+    display: none;
   }
 
   .headline-player em {
-    grid-column: 2;
+    grid-column: auto;
+    font-size: 0.58rem;
+    padding: 4px 6px;
   }
 }
 

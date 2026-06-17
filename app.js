@@ -235,12 +235,12 @@
   }
 
   function flagMarkup(item) {
+    if (item.flagImage) {
+      return `<img class="inline-flag flag-img" src="${escapeHtml(item.flagImage)}" alt="" loading="lazy" decoding="async">`;
+    }
     const flagCode = FLAG_CODES[item.name];
     if (flagCode) {
       return `<img class="inline-flag flag-img" src="https://flagcdn.com/w80/${escapeHtml(flagCode)}.png" alt="" loading="lazy" decoding="async">`;
-    }
-    if (item.flagImage) {
-      return `<img class="inline-flag flag-img" src="${escapeHtml(item.flagImage)}" alt="" loading="lazy" decoding="async">`;
     }
     return `<span class="inline-flag flag-emoji" aria-hidden="true"><span class="flag-emoji-glyph">${escapeHtml(item.flag)}</span></span>`;
   }
@@ -583,14 +583,7 @@
     const className = modifier ? ` fifa26-logo--${modifier}` : "";
     return `
       <span class="fifa26-logo${className}" aria-hidden="true">
-        <span class="fifa26-number-stack"><span>2</span><span>6</span></span>
-        <svg class="fifa26-cup" viewBox="0 0 36 60" focusable="false">
-          <path class="fifa26-cup-shadow" d="M18 3c6 4 8 10 6 18-1 5-1 10 4 14-4 2-7 4-10 8-3-4-6-6-10-8 5-4 5-9 4-14C10 13 12 7 18 3Z" />
-          <path class="fifa26-cup-gold" d="M18 1c7 5 10 12 8 22-1 5 1 10 6 14-5 2-9 5-14 11-5-6-9-9-14-11 5-4 7-9 6-14C8 13 11 6 18 1Z" />
-          <path class="fifa26-cup-light" d="M18 7c3 4 4 9 3 16-1 4 0 8 3 12-3 1-5 3-6 5-2-4-3-8-3-14 0-8 1-14 3-19Z" />
-          <path class="fifa26-cup-base" d="M11 47h14l3 8H8l3-8Z" />
-        </svg>
-        <span class="fifa26-word">FIFA</span>
+        <img class="fifa26-img" src="assets/world-cup-2026-logo-crop.png" alt="" loading="eager" decoding="async">
       </span>
     `;
   }
@@ -708,16 +701,12 @@
     const team = resolveTeam(competitor.team);
     const pickedBy = team ? pickMap.get(team.name) || [] : [];
     const item = team || { name: competitor.team, flag: "" };
-    const livePoints = livePointsForCompetitor(game, competitor);
     const teamNameMarkup = team
       ? `<button class="score-team-link" type="button" data-team-link="${escapeHtml(team.name)}" aria-label="View ${escapeHtml(team.name)} team card">${flagMarkup(item)} <span class="country-name">${escapeHtml(competitor.team)}</span></button>`
       : `<strong>${escapeHtml(competitor.team)}</strong>`;
     const pickerMarkup = pickedBy.length
       ? pickedBy.map((player) => `<button class="score-picker-name" type="button" data-player-link="${escapeHtml(player.slug)}">${escapeHtml(player.name)}</button>`).join("")
       : `<span class="score-picker-empty">Unpicked</span>`;
-    const livePointsMarkup = livePoints !== null && pickedBy.length
-      ? `<span class="score-live-points">${livePoints} pts now</span>`
-      : "";
     return `
       <div class="score-team${competitor.winner ? " is-winner" : ""}">
         <div class="score-team-info">
@@ -725,7 +714,6 @@
             ${teamNameMarkup}
             <span class="score-picker-list" aria-label="${escapeHtml(pickedBy.length ? `Picked by ${pickedBy.map((player) => player.name).join(", ")}` : "Unpicked")}">${pickerMarkup}</span>
           </div>
-          ${livePointsMarkup}
         </div>
         <b>${showScore ? escapeHtml(competitor.score) : "-"}</b>
       </div>
@@ -749,7 +737,6 @@
               <div class="score-matchup">
                 ${game.competitors.map((competitor) => scheduleTeamMarkup(game, competitor, pickMap, showScore)).join("")}
               </div>
-              <p class="match-impact">${escapeHtml(matchImpactText(game, pickMap))}</p>
             </article>
           `;
         }).join("")
@@ -764,7 +751,6 @@
           </div>
           <div>
             <strong>${escapeHtml(slateLabel)}</strong>
-            <span>${escapeHtml(state.liveProjection ? "Live projection enabled" : "Scores auto-refresh")}</span>
           </div>
         </div>
         <div class="scoreboard-grid">${gamesMarkup}</div>
