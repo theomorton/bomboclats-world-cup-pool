@@ -4914,3 +4914,68 @@ body,
     height: 54px !important;
   }
 }
+
+/* Final UI consistency pass: scoreboard-style ownership pills and plain blue prices. */
+.score-picker-name,
+.team-card .picked-player-chip,
+.drawer-panel .picked-player-chip,
+.team-card .small-muted,
+.drawer-panel .small-muted {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 28px !important;
+  max-width: 92px !important;
+  border: 1px solid var(--pool-line-bright) !important;
+  border-radius: var(--pill-radius) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #edf7ff !important;
+  box-shadow: none !important;
+  font-size: 0.72rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  padding: 6px 10px !important;
+  text-decoration: none !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.team-card .small-muted,
+.drawer-panel .small-muted {
+  max-width: max-content !important;
+  color: #d6efff !important;
+  font-style: normal !important;
+  letter-spacing: 0.02em !important;
+}
+
+.score-picker-name:hover,
+.team-card .picked-player-chip:hover,
+.drawer-panel .picked-player-chip:hover {
+  border-color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+.team-card .picked-row,
+.drawer-panel .picked-row {
+  align-items: center !important;
+}
+
+.team-price,
+.team-pill .price {
+  border: 0 !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-weight: 950 !important;
+}
+
+.team-card .team-price {
+  position: static !important;
+  justify-self: end !important;
+  align-self: start !important;
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
