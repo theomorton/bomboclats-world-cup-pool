@@ -851,18 +851,19 @@
       const officialRank = officialRankBySlug.get(player.slug);
       const movement = isLiveMode && officialRank ? officialRank - rank : 0;
       const movementMarkup = movement
-        ? `<span class="rank-movement ${movement > 0 ? "up" : "down"}" aria-label="${escapeHtml(`${player.name} moved ${movement > 0 ? "up" : "down"} ${Math.abs(movement)} ${Math.abs(movement) === 1 ? "spot" : "spots"} in the live leaderboard`)}"><span aria-hidden="true">${movement > 0 ? "&#9650;" : "&#9660;"}</span>${Math.abs(movement)}</span>`
+        ? `<span class="rank-movement ${movement > 0 ? "up" : "down"}" aria-label="${escapeHtml(`${player.name} moved ${movement > 0 ? "up" : "down"} ${Math.abs(movement)} ${Math.abs(movement) === 1 ? "spot" : "spots"} in the live leaderboard`)}"><span aria-hidden="true">${movement > 0 ? "&#9650;" : "&#9660;"}</span>${movement > 0 ? "+" : "-"}${Math.abs(movement)}</span>`
         : "";
       const officialPlayer = officialBySlug.get(player.slug);
       const delta = isLiveMode && officialPlayer ? player.points - officialPlayer.points : 0;
-      const deltaMarkup = delta
-        ? `<span class="point-delta ${delta > 0 ? "positive" : "negative"}">${delta > 0 ? "+" : ""}${delta} live</span>`
+      const deltaClass = delta > 0 ? "positive" : delta < 0 ? "negative" : "neutral";
+      const deltaMarkup = isLiveMode
+        ? `<span class="point-delta ${deltaClass}" aria-label="${escapeHtml(`${player.name} is ${delta > 0 ? "up" : delta < 0 ? "down" : "unchanged"} ${Math.abs(delta)} points in the live leaderboard`)}">${delta >= 0 ? "+" : ""}${delta}</span>`
         : "";
       const tier1Selection = player.tier1Selection
         ? `<span class="leader-tier-one">${flagMarkup(player.tier1Selection)} <span class="country-name">${escapeHtml(player.tier1Selection.name)}</span></span>`
         : `<span class="small-muted">No Tier 1</span>`;
       const status = player.pending ? "Picks pending" : `${player.aliveCount} alive · ${player.knownPicks.length} teams`;
-      const gap = leaderGap(player, sorted);
+      const officialMarker = !isLiveMode && player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : "";
       return `
         <button class="standings-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}" type="button" data-player-link="${escapeHtml(player.slug)}" data-player-row="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} profile">
           <span class="rank-badge">${rank}</span>
@@ -872,13 +873,12 @@
             <small>${escapeHtml(status)}</small>
           </span>
           <span class="standings-context">
-            ${player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : `<span class="leader-gap">${gap} back</span>`}
+            ${deltaMarkup || officialMarker}
             ${tier1Selection}
           </span>
           <span class="standings-points">
             <strong>${player.points}</strong>
             <small>pts</small>
-            ${deltaMarkup}
             ${movementMarkup}
           </span>
         </button>
