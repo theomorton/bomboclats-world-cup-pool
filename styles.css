@@ -5033,3 +5033,46 @@ body,
     max-width: 104px !important;
   }
 }
+
+/* Remove the redundant static headline rail; keep the actual carousel scrollbar. */
+.headline-shell::after {
+  content: none !important;
+  display: none !important;
+}
+
+.headline-stack {
+  scrollbar-color: #8fd1ff transparent !important;
+  scrollbar-width: thin !important;
+}
+
+.headline-stack::-webkit-scrollbar {
+  display: block !important;
+  height: 5px !important;
+}
+
+.headline-stack::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.headline-stack::-webkit-scrollbar-thumb {
+  border-radius: 999px !important;
+  background: #8fd1ff !important;
+}
+
+/* Groups page flags should sit directly on the blue cards, not inside white tiles. */
+.team-card .team-flag {
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.team-card .team-flag .inline-flag {
+  --flag-width: 44px !important;
+  --flag-height: 30px !important;
+  background: transparent !important;
+  box-shadow: 0 0 0 1px var(--pool-line-bright) !important;
+}
