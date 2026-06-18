@@ -797,19 +797,32 @@
       }
     ];
 
+    const [currentCard, previousCard] = cards;
+
     headlineEl.innerHTML = `
-      <div class="headline-rail" aria-label="Breaking news updates">
-        ${cards.map((card, index) => `
-          <article class="headline-card${card.className}" aria-label="${escapeHtml(`Breaking news ${index + 1}`)}">
+      <div class="headline-stack" aria-label="Breaking news updates">
+        <article class="headline-card headline-card--feature${currentCard.className}" aria-label="Breaking news">
+          <div class="headline-label">Breaking News</div>
+          <div class="headline-layout">
             <div class="headline-main">
-              <p class="eyebrow">${index === 0 ? "Breaking News" : "Previously"}</p>
-              <h3>${escapeHtml(card.title)}</h3>
-              <p>${escapeHtml(card.body)}</p>
-              <div class="headline-picks" aria-label="Featured teams">${pickMarkup(card.teams)}</div>
+              <h3>${escapeHtml(currentCard.title)}</h3>
+              <p>${escapeHtml(currentCard.body)}</p>
+              <div class="headline-picks" aria-label="Featured teams">${pickMarkup(currentCard.teams)}</div>
             </div>
-            <div class="headline-people" aria-label="Featured players">${peopleMarkup(card.players, card.playerLabel)}</div>
-          </article>
-        `).join("")}
+            <div class="headline-people" aria-label="Featured players">${peopleMarkup(currentCard.players, currentCard.playerLabel)}</div>
+          </div>
+        </article>
+        <article class="headline-card headline-card--archive" aria-label="Earlier breaking news">
+          <div class="headline-label">Earlier</div>
+          <div class="headline-layout">
+            <div class="headline-main">
+              <h3>${escapeHtml(previousCard.title)}</h3>
+              <p>${escapeHtml(previousCard.body)}</p>
+              <div class="headline-picks" aria-label="Featured teams">${pickMarkup(previousCard.teams)}</div>
+            </div>
+            <div class="headline-people" aria-label="Featured players">${peopleMarkup(previousCard.players, previousCard.playerLabel)}</div>
+          </div>
+        </article>
       </div>
     `;
   }
