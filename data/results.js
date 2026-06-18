@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 18, 2026 at 1:21 PM EDT from ESPN. Latest match: Uzbekistan 1-3 Colombia.",
+  lastUpdated: "June 18, 2026 at 3:32 PM EDT from ESPN. Latest match: Czechia 1-1 South Africa.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -52,5 +52,7 @@ window.POOL_RESULTS = [
   { team: "Ghana", stage: "Groups", result: "W", advanceBonus: false, opponent: "Panama", score: 1, opponentScore: 0, sourceEventId: "760434", playedAt: "2026-06-17T23:00Z" },
   { team: "Panama", stage: "Groups", result: "L", advanceBonus: false, opponent: "Ghana", score: 0, opponentScore: 1, sourceEventId: "760434", playedAt: "2026-06-17T23:00Z" },
   { team: "Uzbekistan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Colombia", score: 1, opponentScore: 3, sourceEventId: "760436", playedAt: "2026-06-18T02:00Z" },
-  { team: "Colombia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uzbekistan", score: 3, opponentScore: 1, sourceEventId: "760436", playedAt: "2026-06-18T02:00Z" }
+  { team: "Colombia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uzbekistan", score: 3, opponentScore: 1, sourceEventId: "760436", playedAt: "2026-06-18T02:00Z" },
+  { team: "Czechia", stage: "Groups", result: "D", advanceBonus: false, opponent: "South Africa", score: 1, opponentScore: 1, sourceEventId: "760438", playedAt: "2026-06-18T16:00Z" },
+  { team: "South Africa", stage: "Groups", result: "D", advanceBonus: false, opponent: "Czechia", score: 1, opponentScore: 1, sourceEventId: "760438", playedAt: "2026-06-18T16:00Z" }
 ];
