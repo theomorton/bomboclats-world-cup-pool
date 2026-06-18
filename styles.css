@@ -3194,6 +3194,286 @@ body {
   }
 }
 
+/* Literal palette lock: navy, white, black, plus explicit content assets only. */
+:root {
+  --yale: #03346a;
+  --bg: #03346a;
+  --bg-2: #03346a;
+  --surface: #ffffff;
+  --surface-2: #ffffff;
+  --surface-3: #ffffff;
+  --paper: #ffffff;
+  --paper-2: #ffffff;
+  --paper-3: #ffffff;
+  --ink: #000000;
+  --muted: #000000;
+  --muted-2: #000000;
+  --fifa-ink: #000000;
+  --fifa-muted: #000000;
+  --fifa-line: #03346a;
+  --fifa-line-strong: #03346a;
+  --line: #03346a;
+  --line-strong: #03346a;
+  --blue: #03346a;
+  --green: #03346a;
+  --gold: #f5c542;
+  --red: #03346a;
+}
+
+body,
+.site-header,
+.tabs,
+.picks-mode-nav {
+  background: #03346a !important;
+}
+
+.brand {
+  background: #03346a;
+}
+
+.standings-panel,
+.scoreboard-panel,
+.summary-card,
+.player-card,
+.team-card,
+.rule-card,
+.score-card,
+.score-team,
+.standings-row,
+.drawer-panel,
+.drawer-profile,
+.drawer-summary,
+.drawer-stats div,
+.drawer-pick,
+.metric,
+.spotlight-item,
+.multiplier,
+.rule-step,
+.check-item,
+.team-compact-stats span,
+.leader-gap,
+.leader-tier-one,
+.leader-best-pick,
+.point-delta,
+.rank-movement,
+.profile-rank,
+.chip,
+.team-pill,
+.status-pill,
+.score-picker-name,
+.team-card .picked-player-chip,
+.player-card .pick-button,
+.control-select select,
+.search-wrap input,
+.empty-state {
+  border-color: #03346a;
+  background: #ffffff !important;
+  color: #000000;
+  box-shadow: none;
+}
+
+.standings-top,
+.scoreboard-head,
+.score-card-top,
+.score-card.is-live .score-card-top,
+.group-header,
+.drawer-panel::before,
+.drawer-action {
+  border-color: #ffffff;
+  background: #03346a !important;
+  color: #ffffff;
+}
+
+.standings-top *,
+.scoreboard-head *,
+.score-card-top *,
+.group-header *,
+.drawer-action {
+  color: #ffffff !important;
+}
+
+.standings-row.is-rank-1,
+.standings-row:hover,
+.score-team.is-winner,
+.score-card.is-live,
+.metric-primary,
+.player-card .pick-button:hover,
+.team-card .picked-player-chip:hover,
+.score-picker-name:hover,
+.score-team-link:hover {
+  border-color: #03346a;
+  background: #ffffff !important;
+  box-shadow: none;
+}
+
+.summary-card span,
+.summary-card small,
+.metric-label,
+.metric small,
+.team-meta,
+.team-story,
+.small-muted,
+.score-picker-empty,
+.score-pick-count,
+.control-select span,
+.search-wrap input::placeholder,
+.standings-person small,
+.leader-player span,
+.standings-note,
+.profile-rank,
+.picked-label,
+.spotlight-item b,
+.multiplier span,
+.team-compact-stats span,
+.team-compact-stats strong,
+.rule-step strong,
+.rule-step p,
+.rule-list li,
+.score-row,
+.check-item,
+.empty-state,
+.headline-card h3,
+.headline-card p:not(.eyebrow),
+.headline-player strong,
+.headline-player span,
+.headline-player em,
+.headline-pick,
+.headline-player {
+  color: #000000 !important;
+}
+
+.standings-person strong,
+.leader-player strong,
+.summary-card strong,
+.metric strong,
+.spotlight-item strong,
+.multiplier strong,
+.player-title h3,
+.team-card h3,
+.rule-card h3,
+.score-team-link .country-name,
+.score-team strong,
+.score-team b,
+.team-price,
+.team-pill .price,
+.pick-points,
+.country-name {
+  color: #000000;
+}
+
+.tab,
+.picks-mode-button,
+.segment {
+  color: #ffffff;
+}
+
+.tab.is-active,
+.picks-mode-button.is-active,
+.segment.is-active,
+.standings-panel .segment.is-active {
+  border-color: #ffffff;
+  background: #ffffff !important;
+  color: #03346a !important;
+}
+
+.standings-panel .segment {
+  color: #ffffff;
+}
+
+.rank-badge {
+  border-color: #03346a;
+  background: #ffffff;
+  color: #000000;
+}
+
+.is-rank-1 .rank-badge {
+  background: #f5c542 !important;
+  color: #000000;
+}
+
+.is-rank-2 .rank-badge {
+  background: #cbd5e1 !important;
+  color: #000000;
+}
+
+.is-rank-3 .rank-badge {
+  background: #d99058 !important;
+  color: #000000;
+}
+
+.avatar-wrap {
+  border: 3px solid #03346a;
+  background: #ffffff !important;
+  box-shadow: none;
+}
+
+.avatar-wrap img,
+.initials-avatar,
+.mini-avatar,
+.leader-player img {
+  border-color: #ffffff;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px #03346a;
+}
+
+.headline-card {
+  border-color: #ffffff;
+  background: #ffffff !important;
+  color: #000000;
+  box-shadow: none;
+}
+
+.headline-card .eyebrow {
+  border: 1px solid #03346a;
+  background: #03346a !important;
+  color: #ffffff !important;
+}
+
+.headline-pick,
+.headline-player,
+.headline-player em {
+  border-color: #03346a;
+  background: #ffffff !important;
+}
+
+.headline-player .mini-avatar {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px #03346a;
+}
+
+.headline-rail,
+.headline-rail::-webkit-scrollbar-track {
+  background: #03346a;
+}
+
+.headline-rail::-webkit-scrollbar-thumb {
+  background: #ffffff;
+}
+
+.team-flag {
+  border-color: #03346a;
+  background: #ffffff;
+}
+
+.inline-flag {
+  background: #ffffff;
+  box-shadow: 0 0 0 1px #03346a;
+}
+
+.control-select::after {
+  border-color: #03346a;
+}
+
+.drawer-backdrop {
+  background: rgba(3, 52, 106, 0.76);
+}
+
+.drawer-close {
+  border-color: #03346a;
+  background: #ffffff;
+  color: #000000;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
