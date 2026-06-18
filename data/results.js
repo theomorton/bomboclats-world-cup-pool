@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 18, 2026 at 5:17 AM EDT from ESPN. Latest match: Uzbekistan 1-3 Colombia.",
+  lastUpdated: "June 18, 2026 at 8:56 AM EDT from ESPN. Latest match: Uzbekistan 1-3 Colombia.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
