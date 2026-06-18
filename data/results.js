@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 18, 2026 at 3:32 PM EDT from ESPN. Latest match: Czechia 1-1 South Africa.",
+  lastUpdated: "June 18, 2026 at 6:13 PM EDT from ESPN. Latest match: Switzerland 4-1 Bosnia-Herzegovina.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -54,5 +54,7 @@ window.POOL_RESULTS = [
   { team: "Uzbekistan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Colombia", score: 1, opponentScore: 3, sourceEventId: "760436", playedAt: "2026-06-18T02:00Z" },
   { team: "Colombia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uzbekistan", score: 3, opponentScore: 1, sourceEventId: "760436", playedAt: "2026-06-18T02:00Z" },
   { team: "Czechia", stage: "Groups", result: "D", advanceBonus: false, opponent: "South Africa", score: 1, opponentScore: 1, sourceEventId: "760438", playedAt: "2026-06-18T16:00Z" },
-  { team: "South Africa", stage: "Groups", result: "D", advanceBonus: false, opponent: "Czechia", score: 1, opponentScore: 1, sourceEventId: "760438", playedAt: "2026-06-18T16:00Z" }
+  { team: "South Africa", stage: "Groups", result: "D", advanceBonus: false, opponent: "Czechia", score: 1, opponentScore: 1, sourceEventId: "760438", playedAt: "2026-06-18T16:00Z" },
+  { team: "Switzerland", stage: "Groups", result: "W", advanceBonus: false, opponent: "Bosnia", score: 4, opponentScore: 1, sourceEventId: "760439", playedAt: "2026-06-18T19:00Z" },
+  { team: "Bosnia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Switzerland", score: 1, opponentScore: 4, sourceEventId: "760439", playedAt: "2026-06-18T19:00Z" }
 ];
