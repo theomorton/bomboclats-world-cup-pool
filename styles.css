@@ -4835,3 +4835,66 @@ body,
 .rule-card .score-row {
   border-color: var(--pool-line) !important;
 }
+
+/* Breaking-news mobile polish: full archive stories and centered solo player cards. */
+.headline-people.is-single-person {
+  grid-template-columns: minmax(0, 1fr) !important;
+  justify-items: center !important;
+}
+
+.headline-people.is-single-person .headline-player {
+  width: min(100%, 260px);
+  justify-self: center;
+}
+
+@media (max-width: 680px) {
+  .headline-layout,
+  .headline-card--archive .headline-layout {
+    grid-template-columns: 1fr !important;
+    align-items: stretch !important;
+  }
+
+  .headline-card--archive h3 {
+    font-size: 1.04rem !important;
+  }
+
+  .headline-card--archive p:not(.eyebrow),
+  .headline-card--archive .headline-picks {
+    display: block !important;
+  }
+
+  .headline-card--archive .headline-picks {
+    display: flex !important;
+  }
+
+  .headline-card--archive .headline-people {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .headline-card--archive .headline-people.is-single-person {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .headline-card--archive .headline-player {
+    min-height: 108px !important;
+  }
+
+  .headline-card--archive .headline-player span {
+    display: block !important;
+  }
+
+  .headline-card--archive .headline-player em {
+    display: inline-flex !important;
+  }
+
+  .headline-people.is-single-person .headline-player {
+    width: min(100%, 238px) !important;
+    min-height: 118px !important;
+    margin: 0 auto !important;
+  }
+
+  .headline-people.is-single-person .headline-player .mini-avatar {
+    width: 54px !important;
+    height: 54px !important;
+  }
+}

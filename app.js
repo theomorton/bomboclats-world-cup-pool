@@ -817,7 +817,7 @@
                 <p>${escapeHtml(card.body)}</p>
                 <div class="headline-picks" aria-label="Featured teams">${pickMarkup(card.teams)}</div>
               </div>
-              <div class="headline-people" aria-label="Featured players">${peopleMarkup(card.players, card.playerLabel)}</div>
+              <div class="headline-people${card.players.length === 1 ? " is-single-person" : ""}" aria-label="Featured players">${peopleMarkup(card.players, card.playerLabel)}</div>
             </div>
           </article>
         `).join("")}
