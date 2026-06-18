@@ -4747,3 +4747,92 @@ body,
     grid-template-columns: minmax(138px, 46%) minmax(0, 1fr);
   }
 }
+
+/* Contrast lock for team ownership chips, prices, and rules copy. */
+.team-card .picked-player-chip,
+.team-card .small-muted,
+.drawer-panel .picked-player-chip {
+  border-color: var(--pool-line-bright) !important;
+  background: #ffffff !important;
+  color: var(--pool-navy) !important;
+  box-shadow: 0 1px 0 rgba(214, 239, 255, 0.22) !important;
+  font-weight: 950 !important;
+}
+
+.team-card .picked-player-chip:hover,
+.drawer-panel .picked-player-chip:hover {
+  background: #d6efff !important;
+  color: var(--pool-navy-deep) !important;
+}
+
+.team-price,
+.team-pill .price {
+  border: 1px solid var(--pool-line-bright) !important;
+  background: #ffffff !important;
+  color: var(--pool-navy) !important;
+  border-radius: 7px !important;
+  box-shadow: 0 1px 0 rgba(214, 239, 255, 0.18) !important;
+}
+
+.team-card .team-meta,
+.team-card .team-story,
+.team-card .picked-label,
+.team-card .team-compact-stats span,
+.team-card .team-compact-stats strong {
+  color: #d6efff !important;
+}
+
+.team-card h3,
+.team-card .country-name {
+  color: #ffffff !important;
+}
+
+.rule-card {
+  color: #d6efff !important;
+}
+
+.rule-card .eyebrow,
+.rule-card h3 {
+  color: #ffffff !important;
+}
+
+.rule-card > p,
+.rule-card li,
+.rule-card li span,
+.rule-card .rule-step p,
+.rule-card .multiplier span,
+.rule-card .check-item,
+.rule-card .status-pill {
+  color: #d6efff !important;
+}
+
+.rule-card li strong,
+.rule-card .rule-step strong,
+.rule-card .score-row strong:first-child,
+.rule-card .multiplier strong {
+  color: #ffffff !important;
+}
+
+.rule-card .score-row strong:last-child,
+.rule-card .rule-list li span {
+  color: #d6efff !important;
+}
+
+.rule-card .rule-step,
+.rule-card .multiplier,
+.rule-card .check-item,
+.rule-card .status-pill {
+  border-color: var(--pool-line-bright) !important;
+  background: rgba(3, 52, 106, 0.72) !important;
+}
+
+.rule-card .rule-step span {
+  border: 1px solid var(--pool-line-bright) !important;
+  background: #ffffff !important;
+  color: var(--pool-navy) !important;
+}
+
+.rule-card .rule-list li,
+.rule-card .score-row {
+  border-color: var(--pool-line) !important;
+}
