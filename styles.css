@@ -3485,22 +3485,45 @@ body,
 }
 
 .headline-stack {
-  display: grid;
+  display: flex;
   gap: 10px;
   border: 2px solid #ffffff;
   border-radius: 18px;
   padding: 10px;
   background: #03346a;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-padding: 10px;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: #8fd1ff #03346a;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .headline-card {
   display: grid;
   grid-template-columns: 1fr;
+  flex: 0 0 calc(100% - 34px);
   min-width: 0;
   border: 2px solid #03346a;
   border-radius: 14px;
   padding: 0;
   overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.headline-stack::-webkit-scrollbar {
+  height: 7px;
+}
+
+.headline-stack::-webkit-scrollbar-track {
+  background: #03346a;
+}
+
+.headline-stack::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #8fd1ff;
 }
 
 .headline-label {
@@ -3671,6 +3694,11 @@ body,
     gap: 8px;
     border-radius: 16px;
     padding: 8px;
+    scroll-padding: 8px;
+  }
+
+  .headline-card {
+    flex-basis: calc(100% - 22px);
   }
 
   .headline-layout,
