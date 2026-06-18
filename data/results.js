@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 17, 2026 at 8:12 PM EDT from ESPN. Latest match: England 4-2 Croatia.",
+  lastUpdated: "June 17, 2026 at 8:35 PM EDT from ESPN. Latest match: England 4-2 Croatia.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 

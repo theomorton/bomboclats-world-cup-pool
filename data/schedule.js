@@ -1,7 +1,7 @@
 window.POOL_SCHEDULE_META = {
   dateKey: "20260617",
   dateLabel: "Wednesday, June 17",
-  lastUpdated: "June 17, 2026 at 8:12 PM EDT from ESPN.",
+  lastUpdated: "June 17, 2026 at 8:35 PM EDT from ESPN.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -10,6 +10,6 @@ window.POOL_SCHEDULE = [
   { id: "760431", stage: "Groups", kickoff: "2026-06-17T04:00Z", status: {"state":"post","completed":true,"description":"Full Time","detail":"FT","shortDetail":"FT","displayClock":"90'+14'"}, competitors: [{"team":"Austria","abbreviation":"AUT","score":3,"winner":true,"homeAway":"home"},{"team":"Jordan","abbreviation":"JOR","score":1,"winner":false,"homeAway":"away"}] },
   { id: "760435", stage: "Groups", kickoff: "2026-06-17T17:00Z", status: {"state":"post","completed":true,"description":"Full Time","detail":"FT","shortDetail":"FT","displayClock":"90'+5'"}, competitors: [{"team":"Portugal","abbreviation":"POR","score":1,"winner":false,"homeAway":"home"},{"team":"DR Congo","abbreviation":"COD","score":1,"winner":false,"homeAway":"away"}] },
   { id: "760437", stage: "Groups", kickoff: "2026-06-17T20:00Z", status: {"state":"post","completed":true,"description":"Full Time","detail":"FT","shortDetail":"FT","displayClock":"90'+7'"}, competitors: [{"team":"England","abbreviation":"ENG","score":4,"winner":true,"homeAway":"home"},{"team":"Croatia","abbreviation":"CRO","score":2,"winner":false,"homeAway":"away"}] },
-  { id: "760434", stage: "Groups", kickoff: "2026-06-17T23:00Z", status: {"state":"in","completed":false,"description":"Second Half","detail":"50'","shortDetail":"50'","displayClock":"50'"}, competitors: [{"team":"Ghana","abbreviation":"GHA","score":0,"winner":false,"homeAway":"home"},{"team":"Panama","abbreviation":"PAN","score":0,"winner":false,"homeAway":"away"}] },
+  { id: "760434", stage: "Groups", kickoff: "2026-06-17T23:00Z", status: {"state":"in","completed":false,"description":"Second Half","detail":"73'","shortDetail":"73'","displayClock":"73'"}, competitors: [{"team":"Ghana","abbreviation":"GHA","score":0,"winner":false,"homeAway":"home"},{"team":"Panama","abbreviation":"PAN","score":0,"winner":false,"homeAway":"away"}] },
   { id: "760436", stage: "Groups", kickoff: "2026-06-18T02:00Z", status: {"state":"pre","completed":false,"description":"Scheduled","detail":"Wed, June 17th at 10:00 PM EDT","shortDetail":"Scheduled","displayClock":"0'"}, competitors: [{"team":"Uzbekistan","abbreviation":"UZB","score":0,"winner":false,"homeAway":"home"},{"team":"Colombia","abbreviation":"COL","score":0,"winner":false,"homeAway":"away"}] }
 ];
