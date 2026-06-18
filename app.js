@@ -9,6 +9,8 @@
   const SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
   const BUDGET = 150;
   const LIVE_REFRESH_MS = 60 * 1000;
+  const HEADLINE_ROTATE_MS = 10 * 1000;
+  const HEADLINE_ROTATE_PAUSE_MS = 15 * 1000;
   const RESULT_POINTS = { W: 3, D: 1, L: 0 };
   const STAGE_MULTIPLIERS = {
     Groups: 1,
@@ -18,6 +20,9 @@
     Semi: 8,
     Final: 12
   };
+
+  let headlineRotationTimer = null;
+  let headlineRotationResumeTimer = null;
   const STAGE_BY_SLUG = {
     "group-stage": "Groups",
     "round-of-32": "R32",
@@ -774,20 +779,31 @@
     const pickMarkup = (headlineTeams) => headlineTeams.map((team) => `
       <span class="headline-pick">${flagMarkup(team)} <span class="country-name">${escapeHtml(team.name)}</span></span>
     `).join("");
-    const peopleMarkup = (headlinePlayers, label) => headlinePlayers.map((player) => `
-      <div class="headline-player">
+    const alphonso = {
+      name: "Alphonso Davies",
+      image: "",
+      summary: "Team Canada",
+      headlineLabel: "Soccer · GTD",
+      external: true
+    };
+    const peopleMarkup = (headlinePlayers, label) => headlinePlayers.map((player) => {
+      const summary = player.summary || `${player.knownPicks.length} teams · ${money(player.budgetUsed)}`;
+      const playerLabel = player.headlineLabel || label;
+      return `
+      <div class="headline-player${player.external ? " headline-player--external" : ""}">
         ${avatarMarkup(player, "mini")}
         <strong>${escapeHtml(player.name)}</strong>
-        <span>${player.knownPicks.length} teams · ${money(player.budgetUsed)}</span>
-        <em>${escapeHtml(label)}</em>
+        <span>${escapeHtml(summary)}</span>
+        <em>${escapeHtml(playerLabel)}</em>
       </div>
-    `).join("");
+    `;
+    }).join("");
     const cards = [
       {
         title: "Canada lists John as probable, doctors reportedly monitoring hydration protocols",
         body: "John has been upgraded to probable for today's Canada-Qatar window, joining Alphonso Davies as a game-time decision. Davies may return to soccer for Team Canada; John, also Canadian, may return to drinking pending medical discretion.",
         teams: johnStatusTeams,
-        players: [john],
+        players: [{ ...john, headlineLabel: "Drinking · GTD" }, alphonso],
         playerLabel: "Probable · GTD"
       },
       {
@@ -823,6 +839,52 @@
         `).join("")}
       </div>
     `;
+
+    setupHeadlineRotation(headlineEl.querySelector(".headline-stack"));
+  }
+
+  function setupHeadlineRotation(stack) {
+    window.clearInterval(headlineRotationTimer);
+    window.clearTimeout(headlineRotationResumeTimer);
+    headlineRotationTimer = null;
+    headlineRotationResumeTimer = null;
+    if (!stack) return;
+
+    const cards = [...stack.querySelectorAll(".headline-card")];
+    if (cards.length < 2) return;
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const nearestIndex = () => {
+      const left = stack.scrollLeft;
+      return cards.reduce((bestIndex, card, index) => {
+        const bestDistance = Math.abs(cards[bestIndex].offsetLeft - stack.offsetLeft - left);
+        const distance = Math.abs(card.offsetLeft - stack.offsetLeft - left);
+        return distance < bestDistance ? index : bestIndex;
+      }, 0);
+    };
+    const scrollToCard = (index) => {
+      const card = cards[index % cards.length];
+      stack.scrollTo({
+        left: card.offsetLeft - stack.offsetLeft,
+        behavior: prefersReducedMotion ? "auto" : "smooth"
+      });
+    };
+    const start = () => {
+      window.clearInterval(headlineRotationTimer);
+      headlineRotationTimer = window.setInterval(() => {
+        scrollToCard(nearestIndex() + 1);
+      }, HEADLINE_ROTATE_MS);
+    };
+    const pause = () => {
+      window.clearInterval(headlineRotationTimer);
+      window.clearTimeout(headlineRotationResumeTimer);
+      headlineRotationResumeTimer = window.setTimeout(start, HEADLINE_ROTATE_PAUSE_MS);
+    };
+
+    ["pointerdown", "touchstart", "wheel"].forEach((eventName) => {
+      stack.addEventListener(eventName, pause, { passive: true });
+    });
+    start();
   }
 
   function compareLeaderboardPlayers(a, b) {
