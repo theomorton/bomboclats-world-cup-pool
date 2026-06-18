@@ -3484,6 +3484,17 @@ body,
   overflow: visible;
 }
 
+.headline-shell::after {
+  content: "";
+  display: block;
+  width: min(52%, 620px);
+  height: 4px;
+  margin: 12px 0 0 3px;
+  border-radius: 999px;
+  background: #8fd1ff;
+  box-shadow: 0 0 0 1px rgba(143, 209, 255, 0.2);
+}
+
 .headline-stack {
   display: flex;
   gap: 10px;
@@ -4534,25 +4545,11 @@ body,
 
 .headline-stack {
   position: relative !important;
-  padding-bottom: 24px !important;
+  padding-bottom: 10px !important;
 }
 
 .headline-stack::after {
-  content: "2 updates - swipe";
-  position: absolute;
-  right: 10px;
-  bottom: 2px;
-  border: 1px solid var(--pool-line-bright);
-  border-radius: 999px;
-  background: rgba(3, 52, 106, 0.76);
-  color: #ffffff;
-  font-size: 0.68rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  padding: 6px 10px;
-  text-transform: uppercase;
-  pointer-events: none;
+  content: none !important;
 }
 
 .leader-tier-one,
@@ -4626,16 +4623,18 @@ body,
   }
 
   .headline-stack {
-    padding-bottom: 22px !important;
+    padding-bottom: 8px !important;
     scroll-padding-left: 0 !important;
   }
 
   .headline-stack::after {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    bottom: 0;
-    white-space: nowrap;
+    content: none !important;
+  }
+
+  .headline-shell::after {
+    width: 58%;
+    height: 4px;
+    margin-top: 10px;
   }
 
   .standings-row {

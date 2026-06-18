@@ -755,12 +755,16 @@
     if (!headlineEl) return;
 
     const aaron = enrichedPlayers.find((item) => item.slug === "aaron");
+    const john = enrichedPlayers.find((item) => item.slug === "john");
     const mike = enrichedPlayers.find((item) => item.slug === "mike");
-    if (!aaron || !mike || aaron.pending || mike.pending) {
+    if (!aaron || !john || !mike || aaron.pending || john.pending || mike.pending) {
       headlineEl.innerHTML = "";
       return;
     }
 
+    const johnStatusTeams = ["Canada", "Qatar"]
+      .map((teamName) => resolveTeam(teamName))
+      .filter(Boolean);
     const rulingTeams = ["Australia", "Canada"]
       .map((teamName) => resolveTeam(teamName))
       .filter(Boolean);
@@ -780,49 +784,43 @@
     `).join("");
     const cards = [
       {
+        title: "Canada lists John as probable, doctors reportedly monitoring hydration protocols",
+        body: "John has been upgraded to probable for today's Canada-Qatar window, joining Alphonso Davies as a game-time decision. Davies may return to soccer for Team Canada; John, also Canadian, may return to drinking pending medical discretion.",
+        teams: johnStatusTeams,
+        players: [john],
+        playerLabel: "Probable · GTD"
+      },
+      {
         title: "League office fines Mike and Aaron, math department celebrates",
         body: `Mike has been ordered to drop Australia for his budget infringement, while Aaron has been sentenced to drop Canada for multiple rule violations. The married-couple audit is complete: both squads are finally back under ${money(BUDGET)}.`,
         teams: rulingTeams,
         players: [mike, aaron],
-        playerLabel: `Back under ${money(BUDGET)}`,
-        className: " is-current"
+        playerLabel: `Back under ${money(BUDGET)}`
       },
       {
         title: "Aaron discovers soccer, submits picks before the group-stage dust settles",
         body: "After several days of careful research, spirited confusion, and what can only be described as a late-breaking relationship with the sport, Aaron finally entered the pool with a Spain-led squad.",
         teams: aaronFeatureTeams,
         players: [aaron],
-        playerLabel: "Picks submitted",
-        className: ""
+        playerLabel: "Picks submitted"
       }
     ];
 
-    const [currentCard, previousCard] = cards;
-
     headlineEl.innerHTML = `
       <div class="headline-stack" aria-label="Breaking news updates">
-        <article class="headline-card headline-card--feature${currentCard.className}" aria-label="Breaking news">
-          <div class="headline-label">Breaking News</div>
-          <div class="headline-layout">
-            <div class="headline-main">
-              <h3>${escapeHtml(currentCard.title)}</h3>
-              <p>${escapeHtml(currentCard.body)}</p>
-              <div class="headline-picks" aria-label="Featured teams">${pickMarkup(currentCard.teams)}</div>
+        ${cards.map((card, index) => `
+          <article class="headline-card ${index === 0 ? "headline-card--feature is-current" : "headline-card--archive"}" aria-label="${index === 0 ? "Breaking news" : "Earlier breaking news"}">
+            <div class="headline-label">${index === 0 ? "Breaking News" : "Earlier"}</div>
+            <div class="headline-layout">
+              <div class="headline-main">
+                <h3>${escapeHtml(card.title)}</h3>
+                <p>${escapeHtml(card.body)}</p>
+                <div class="headline-picks" aria-label="Featured teams">${pickMarkup(card.teams)}</div>
+              </div>
+              <div class="headline-people" aria-label="Featured players">${peopleMarkup(card.players, card.playerLabel)}</div>
             </div>
-            <div class="headline-people" aria-label="Featured players">${peopleMarkup(currentCard.players, currentCard.playerLabel)}</div>
-          </div>
-        </article>
-        <article class="headline-card headline-card--archive" aria-label="Earlier breaking news">
-          <div class="headline-label">Earlier</div>
-          <div class="headline-layout">
-            <div class="headline-main">
-              <h3>${escapeHtml(previousCard.title)}</h3>
-              <p>${escapeHtml(previousCard.body)}</p>
-              <div class="headline-picks" aria-label="Featured teams">${pickMarkup(previousCard.teams)}</div>
-            </div>
-            <div class="headline-people" aria-label="Featured players">${peopleMarkup(previousCard.players, previousCard.playerLabel)}</div>
-          </div>
-        </article>
+          </article>
+        `).join("")}
       </div>
     `;
   }
