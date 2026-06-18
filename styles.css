@@ -3639,7 +3639,7 @@ body,
   height: 58px;
 }
 
-.headline-player--external .mini-avatar {
+.headline-player--external .mini-avatar:not(img) {
   display: grid;
   place-items: center;
   background:
@@ -4857,7 +4857,7 @@ body,
   justify-self: center;
 }
 
-.headline-player--external .mini-avatar {
+.headline-player--external .mini-avatar:not(img) {
   box-shadow:
     inset 0 0 0 2px #ffffff,
     0 0 0 2px #03346a !important;

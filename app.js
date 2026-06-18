@@ -781,7 +781,7 @@
     `).join("");
     const alphonso = {
       name: "Alphonso Davies",
-      image: "",
+      image: "assets/players/avatars/alphonso-davies.png",
       summary: "Team Canada",
       headlineLabel: "Soccer · GTD",
       external: true
