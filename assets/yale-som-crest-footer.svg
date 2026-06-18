@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92 110" role="img" aria-label="Yale School of Management crest">
+  <path d="M6 4h80v61c0 18.5-12.5 32.4-40 41C18.5 97.4 6 83.5 6 65V4Z" fill="#03346a" stroke="#d6efff" stroke-width="2.8"/>
+  <path d="M7 35.5h78" stroke="#fff" stroke-width="2.4"/>
+  <g stroke="#172033" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M29 11c5.4-2.2 11.6-1.7 17 1.1 5.4-2.8 11.6-3.3 17-1.1v22c-5.7-2.1-11.2-1.8-17 .9-5.8-2.7-11.3-3-17-.9V11Z" fill="#0b2340" stroke-width="1.4"/>
+    <path d="M31 9.5c4.6-1.6 9.6-1.1 14 1.4v21.5c-4.7-2.2-9.3-2.7-14-1.1V9.5Z" fill="#fff8df" stroke-width="1.1"/>
+    <path d="M47 10.9c4.4-2.5 9.4-3 14-1.4v21.8c-4.7-1.6-9.3-1.1-14 1.1V10.9Z" fill="#fff8df" stroke-width="1.1"/>
+    <path d="M46 11.6v22.7" stroke-width="1.1"/>
+    <path d="M30 33.4c5.9-1.7 10.7-1.1 16 1.5 5.3-2.6 10.1-3.2 16-1.5" fill="none" stroke="#d1a72c" stroke-width="2"/>
+    <path d="M26 12.5c-2.8 2.6-2.8 6 0 8.2m40-8.2c2.8 2.6 2.8 6 0 8.2M25 24c-2.2 2.2-2.2 4.9 0 6.7m42-6.7c2.2 2.2 2.2 4.9 0 6.7" fill="none" stroke="#fff8df" stroke-width="1.6"/>
+    <path d="M35 16.5c2 0 3.2 1 3.2 2.8v4.2m4.2-6.8v6.8m-8.2-1.7h7.2M51 16.5c2 0 3.2 1 3.2 2.8v4.2m4.2-6.8v6.8m-8.2-1.7h7.2" fill="none" stroke-width="1.25"/>
+  </g>
+  <circle cx="35" cy="47" r="5.8" fill="#8cb8d8"/>
+  <circle cx="57" cy="47" r="5.8" fill="#8cb8d8"/>
+  <circle cx="25" cy="59" r="5.8" fill="#8cb8d8"/>
+  <circle cx="67" cy="59" r="5.8" fill="#8cb8d8"/>
+  <path d="M46 50 65 70H27L46 50Z" fill="#fff"/>
+  <path d="M27 70h38L46 90 27 70Z" fill="#8cb8d8"/>
+  <circle cx="25" cy="80" r="5.8" fill="#fff"/>
+  <circle cx="36" cy="91" r="5.8" fill="#fff"/>
+  <circle cx="56" cy="91" r="5.8" fill="#fff"/>
+  <circle cx="67" cy="80" r="5.8" fill="#fff"/>
+</svg>

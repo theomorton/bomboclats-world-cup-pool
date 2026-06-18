@@ -29,7 +29,7 @@ window.POOL_TEAMS = [
   { name: "Czechia", flag: "🇨🇿", price: 10, tier: 2, group: "A", aliases: ["Czech Republic"] },
 
   { name: "Ivory Coast", flag: "🇨🇮", price: 8, tier: 3, group: "E", aliases: ["Cote d'Ivoire", "Côte d’Ivoire"] },
-  { name: "Bosnia", flag: "🇧🇦", price: 8, tier: 3, group: "B", aliases: ["Bosnia and Herzegovina"] },
+  { name: "Bosnia", flag: "Bosnia", flagImage: "assets/flags/bosnia.svg", price: 8, tier: 3, group: "B", aliases: ["Bosnia and Herzegovina", "Bosnia-Herzegovina"] },
   { name: "Ghana", flag: "🇬🇭", price: 8, tier: 3, group: "L" },
   { name: "Egypt", flag: "🇪🇬", price: 8, tier: 3, group: "G" },
   { name: "Algeria", flag: "🇩🇿", price: 8, tier: 3, group: "J" },
