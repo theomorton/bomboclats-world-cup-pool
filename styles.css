@@ -4979,3 +4979,57 @@ body,
   color: #ffffff !important;
   text-shadow: none !important;
 }
+
+/* Keep the leaderboard context pills readable on iPhone widths. */
+@media (max-width: 680px) {
+  .standings-person {
+    padding-right: 104px !important;
+  }
+
+  .standings-context {
+    max-width: 126px !important;
+    width: 126px !important;
+  }
+
+  .standings-context .leader-gap.is-leader {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 60px !important;
+    max-width: none !important;
+    padding-inline: 8px !important;
+    text-align: center !important;
+  }
+
+  .standings-context .leader-tier-one {
+    flex: 0 1 auto !important;
+    max-width: 64px !important;
+  }
+
+  .standings-context .leader-tier-one:only-child {
+    max-width: 112px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .standings-person {
+    padding-right: 96px !important;
+  }
+
+  .standings-context {
+    max-width: 120px !important;
+    width: 120px !important;
+  }
+
+  .standings-context .leader-gap.is-leader {
+    min-width: 56px !important;
+    padding-inline: 6px !important;
+  }
+
+  .standings-context .leader-tier-one {
+    max-width: 68px !important;
+  }
+
+  .standings-context .leader-tier-one:only-child {
+    max-width: 104px !important;
+  }
+}
