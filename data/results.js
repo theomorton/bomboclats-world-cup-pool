@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 19, 2026 at 8:09 AM EDT from ESPN. Latest match: Mexico 1-0 South Korea.",
+  lastUpdated: "June 19, 2026 at 12:07 PM EDT from ESPN. Latest match: Mexico 1-0 South Korea.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
