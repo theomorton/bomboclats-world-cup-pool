@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 18, 2026 at 9:44 PM EDT from ESPN. Latest match: Canada 6-0 Qatar.",
+  lastUpdated: "June 19, 2026 at 3:10 AM EDT from ESPN. Latest match: Mexico 1-0 South Korea.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -58,5 +58,7 @@ window.POOL_RESULTS = [
   { team: "Switzerland", stage: "Groups", result: "W", advanceBonus: false, opponent: "Bosnia", score: 4, opponentScore: 1, sourceEventId: "760439", playedAt: "2026-06-18T19:00Z" },
   { team: "Bosnia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Switzerland", score: 1, opponentScore: 4, sourceEventId: "760439", playedAt: "2026-06-18T19:00Z" },
   { team: "Canada", stage: "Groups", result: "W", advanceBonus: false, opponent: "Qatar", score: 6, opponentScore: 0, sourceEventId: "760440", playedAt: "2026-06-18T22:00Z" },
-  { team: "Qatar", stage: "Groups", result: "L", advanceBonus: false, opponent: "Canada", score: 0, opponentScore: 6, sourceEventId: "760440", playedAt: "2026-06-18T22:00Z" }
+  { team: "Qatar", stage: "Groups", result: "L", advanceBonus: false, opponent: "Canada", score: 0, opponentScore: 6, sourceEventId: "760440", playedAt: "2026-06-18T22:00Z" },
+  { team: "Mexico", stage: "Groups", result: "W", advanceBonus: false, opponent: "South Korea", score: 1, opponentScore: 0, sourceEventId: "760441", playedAt: "2026-06-19T01:00Z" },
+  { team: "South Korea", stage: "Groups", result: "L", advanceBonus: false, opponent: "Mexico", score: 0, opponentScore: 1, sourceEventId: "760441", playedAt: "2026-06-19T01:00Z" }
 ];
