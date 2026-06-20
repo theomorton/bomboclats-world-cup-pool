@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 20, 2026 at 5:20 AM EDT from ESPN. Latest match: Türkiye 0-1 Paraguay.",
+  lastUpdated: "June 20, 2026 at 7:58 AM EDT from ESPN. Latest match: Türkiye 0-1 Paraguay.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
