@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 20, 2026 at 4:17 PM EDT from ESPN. Latest match: Netherlands 5-1 Sweden.",
+  lastUpdated: "June 20, 2026 at 6:12 PM EDT from ESPN. Latest match: Germany 2-1 Ivory Coast.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -70,5 +70,7 @@ window.POOL_RESULTS = [
   { team: "Turkiye", stage: "Groups", result: "L", advanceBonus: false, opponent: "Paraguay", score: 0, opponentScore: 1, sourceEventId: "760443", playedAt: "2026-06-20T03:00Z" },
   { team: "Paraguay", stage: "Groups", result: "W", advanceBonus: false, opponent: "Turkiye", score: 1, opponentScore: 0, sourceEventId: "760443", playedAt: "2026-06-20T03:00Z" },
   { team: "Netherlands", stage: "Groups", result: "W", advanceBonus: false, opponent: "Sweden", score: 5, opponentScore: 1, sourceEventId: "760447", playedAt: "2026-06-20T17:00Z" },
-  { team: "Sweden", stage: "Groups", result: "L", advanceBonus: false, opponent: "Netherlands", score: 1, opponentScore: 5, sourceEventId: "760447", playedAt: "2026-06-20T17:00Z" }
+  { team: "Sweden", stage: "Groups", result: "L", advanceBonus: false, opponent: "Netherlands", score: 1, opponentScore: 5, sourceEventId: "760447", playedAt: "2026-06-20T17:00Z" },
+  { team: "Germany", stage: "Groups", result: "W", advanceBonus: false, opponent: "Ivory Coast", score: 2, opponentScore: 1, sourceEventId: "760448", playedAt: "2026-06-20T20:00Z" },
+  { team: "Ivory Coast", stage: "Groups", result: "L", advanceBonus: false, opponent: "Germany", score: 1, opponentScore: 2, sourceEventId: "760448", playedAt: "2026-06-20T20:00Z" }
 ];
