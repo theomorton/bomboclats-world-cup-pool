@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 19, 2026 at 8:12 PM EDT from ESPN. Latest match: Scotland 0-1 Morocco.",
+  lastUpdated: "June 20, 2026 at 1:17 AM EDT from ESPN. Latest match: Türkiye 0-1 Paraguay.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -64,5 +64,9 @@ window.POOL_RESULTS = [
   { team: "USA", stage: "Groups", result: "W", advanceBonus: false, opponent: "Australia", score: 2, opponentScore: 0, sourceEventId: "760442", playedAt: "2026-06-19T19:00Z" },
   { team: "Australia", stage: "Groups", result: "L", advanceBonus: false, opponent: "USA", score: 0, opponentScore: 2, sourceEventId: "760442", playedAt: "2026-06-19T19:00Z" },
   { team: "Scotland", stage: "Groups", result: "L", advanceBonus: false, opponent: "Morocco", score: 0, opponentScore: 1, sourceEventId: "760445", playedAt: "2026-06-19T22:00Z" },
-  { team: "Morocco", stage: "Groups", result: "W", advanceBonus: false, opponent: "Scotland", score: 1, opponentScore: 0, sourceEventId: "760445", playedAt: "2026-06-19T22:00Z" }
+  { team: "Morocco", stage: "Groups", result: "W", advanceBonus: false, opponent: "Scotland", score: 1, opponentScore: 0, sourceEventId: "760445", playedAt: "2026-06-19T22:00Z" },
+  { team: "Brazil", stage: "Groups", result: "W", advanceBonus: false, opponent: "Haiti", score: 3, opponentScore: 0, sourceEventId: "760444", playedAt: "2026-06-20T00:30Z" },
+  { team: "Haiti", stage: "Groups", result: "L", advanceBonus: false, opponent: "Brazil", score: 0, opponentScore: 3, sourceEventId: "760444", playedAt: "2026-06-20T00:30Z" },
+  { team: "Turkiye", stage: "Groups", result: "L", advanceBonus: false, opponent: "Paraguay", score: 0, opponentScore: 1, sourceEventId: "760443", playedAt: "2026-06-20T03:00Z" },
+  { team: "Paraguay", stage: "Groups", result: "W", advanceBonus: false, opponent: "Turkiye", score: 1, opponentScore: 0, sourceEventId: "760443", playedAt: "2026-06-20T03:00Z" }
 ];
