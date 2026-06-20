@@ -761,12 +761,16 @@
 
     const aaron = enrichedPlayers.find((item) => item.slug === "aaron");
     const john = enrichedPlayers.find((item) => item.slug === "john");
+    const leah = enrichedPlayers.find((item) => item.slug === "leah");
     const mike = enrichedPlayers.find((item) => item.slug === "mike");
-    if (!aaron || !john || !mike || aaron.pending || john.pending || mike.pending) {
+    if (!aaron || !john || !leah || !mike || aaron.pending || john.pending || leah.pending || mike.pending) {
       headlineEl.innerHTML = "";
       return;
     }
 
+    const leahFeatureTeams = ["France", "South Korea", "Mexico"]
+      .map((teamName) => resolveTeam(teamName))
+      .filter(Boolean);
     const johnStatusTeams = ["Canada", "Qatar"]
       .map((teamName) => resolveTeam(teamName))
       .filter(Boolean);
@@ -799,6 +803,13 @@
     `;
     }).join("");
     const cards = [
+      {
+        title: "Towery towers over the table as Leah claims the top stoop",
+        body: "For the first time, Peter has been knocked off the top step. Leah Towery is now towering over the pool standings and, per Beer Buddy intelligence, also leading the drinks-consumed table. Multiple charts, one very efficient campaign.",
+        teams: leahFeatureTeams,
+        players: [{ ...leah, headlineLabel: "Pool + Beer Buddy leader" }],
+        playerLabel: "Top of the charts"
+      },
       {
         title: "Canada lists John as probable, doctors reportedly monitoring hydration protocols",
         body: "John has been upgraded to probable for today's Canada-Qatar window, joining Alphonso Davies as a game-time decision. Davies may return to soccer for Team Canada; John, also Canadian, may return to drinking pending medical discretion.",
