@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 19, 2026 at 6:06 PM EDT from ESPN. Latest match: United States 2-0 Australia.",
+  lastUpdated: "June 19, 2026 at 8:12 PM EDT from ESPN. Latest match: Scotland 0-1 Morocco.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -62,5 +62,7 @@ window.POOL_RESULTS = [
   { team: "Mexico", stage: "Groups", result: "W", advanceBonus: false, opponent: "South Korea", score: 1, opponentScore: 0, sourceEventId: "760441", playedAt: "2026-06-19T01:00Z" },
   { team: "South Korea", stage: "Groups", result: "L", advanceBonus: false, opponent: "Mexico", score: 0, opponentScore: 1, sourceEventId: "760441", playedAt: "2026-06-19T01:00Z" },
   { team: "USA", stage: "Groups", result: "W", advanceBonus: false, opponent: "Australia", score: 2, opponentScore: 0, sourceEventId: "760442", playedAt: "2026-06-19T19:00Z" },
-  { team: "Australia", stage: "Groups", result: "L", advanceBonus: false, opponent: "USA", score: 0, opponentScore: 2, sourceEventId: "760442", playedAt: "2026-06-19T19:00Z" }
+  { team: "Australia", stage: "Groups", result: "L", advanceBonus: false, opponent: "USA", score: 0, opponentScore: 2, sourceEventId: "760442", playedAt: "2026-06-19T19:00Z" },
+  { team: "Scotland", stage: "Groups", result: "L", advanceBonus: false, opponent: "Morocco", score: 0, opponentScore: 1, sourceEventId: "760445", playedAt: "2026-06-19T22:00Z" },
+  { team: "Morocco", stage: "Groups", result: "W", advanceBonus: false, opponent: "Scotland", score: 1, opponentScore: 0, sourceEventId: "760445", playedAt: "2026-06-19T22:00Z" }
 ];
