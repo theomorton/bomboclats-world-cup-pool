@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 20, 2026 at 2:14 PM EDT from ESPN. Latest match: Türkiye 0-1 Paraguay.",
+  lastUpdated: "June 20, 2026 at 4:17 PM EDT from ESPN. Latest match: Netherlands 5-1 Sweden.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -68,5 +68,7 @@ window.POOL_RESULTS = [
   { team: "Brazil", stage: "Groups", result: "W", advanceBonus: false, opponent: "Haiti", score: 3, opponentScore: 0, sourceEventId: "760444", playedAt: "2026-06-20T00:30Z" },
   { team: "Haiti", stage: "Groups", result: "L", advanceBonus: false, opponent: "Brazil", score: 0, opponentScore: 3, sourceEventId: "760444", playedAt: "2026-06-20T00:30Z" },
   { team: "Turkiye", stage: "Groups", result: "L", advanceBonus: false, opponent: "Paraguay", score: 0, opponentScore: 1, sourceEventId: "760443", playedAt: "2026-06-20T03:00Z" },
-  { team: "Paraguay", stage: "Groups", result: "W", advanceBonus: false, opponent: "Turkiye", score: 1, opponentScore: 0, sourceEventId: "760443", playedAt: "2026-06-20T03:00Z" }
+  { team: "Paraguay", stage: "Groups", result: "W", advanceBonus: false, opponent: "Turkiye", score: 1, opponentScore: 0, sourceEventId: "760443", playedAt: "2026-06-20T03:00Z" },
+  { team: "Netherlands", stage: "Groups", result: "W", advanceBonus: false, opponent: "Sweden", score: 5, opponentScore: 1, sourceEventId: "760447", playedAt: "2026-06-20T17:00Z" },
+  { team: "Sweden", stage: "Groups", result: "L", advanceBonus: false, opponent: "Netherlands", score: 1, opponentScore: 5, sourceEventId: "760447", playedAt: "2026-06-20T17:00Z" }
 ];
