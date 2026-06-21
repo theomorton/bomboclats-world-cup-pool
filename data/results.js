@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 21, 2026 at 5:17 PM EDT from ESPN. Latest match: Belgium 0-0 Iran.",
+  lastUpdated: "June 21, 2026 at 7:18 PM EDT from ESPN. Latest match: Belgium 0-0 Iran.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
