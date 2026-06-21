@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 21, 2026 at 3:46 PM EDT from ESPN. Latest match: Spain 4-0 Saudi Arabia.",
+  lastUpdated: "June 21, 2026 at 5:17 PM EDT from ESPN. Latest match: Belgium 0-0 Iran.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -78,5 +78,7 @@ window.POOL_RESULTS = [
   { team: "Tunisia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Japan", score: 0, opponentScore: 4, sourceEventId: "760449", playedAt: "2026-06-21T04:00Z" },
   { team: "Japan", stage: "Groups", result: "W", advanceBonus: false, opponent: "Tunisia", score: 4, opponentScore: 0, sourceEventId: "760449", playedAt: "2026-06-21T04:00Z" },
   { team: "Spain", stage: "Groups", result: "W", advanceBonus: false, opponent: "Saudi Arabia", score: 4, opponentScore: 0, sourceEventId: "760453", playedAt: "2026-06-21T16:00Z" },
-  { team: "Saudi Arabia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Spain", score: 0, opponentScore: 4, sourceEventId: "760453", playedAt: "2026-06-21T16:00Z" }
+  { team: "Saudi Arabia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Spain", score: 0, opponentScore: 4, sourceEventId: "760453", playedAt: "2026-06-21T16:00Z" },
+  { team: "Belgium", stage: "Groups", result: "D", advanceBonus: false, opponent: "Iran", score: 0, opponentScore: 0, sourceEventId: "760451", playedAt: "2026-06-21T19:00Z" },
+  { team: "Iran", stage: "Groups", result: "D", advanceBonus: false, opponent: "Belgium", score: 0, opponentScore: 0, sourceEventId: "760451", playedAt: "2026-06-21T19:00Z" }
 ];
