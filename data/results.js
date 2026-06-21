@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 21, 2026 at 11:55 AM EDT from ESPN. Latest match: Tunisia 0-4 Japan.",
+  lastUpdated: "June 21, 2026 at 1:42 PM EDT from ESPN. Latest match: Tunisia 0-4 Japan.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
