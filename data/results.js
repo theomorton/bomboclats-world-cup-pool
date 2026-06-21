@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 20, 2026 at 8:11 PM EDT from ESPN. Latest match: Germany 2-1 Ivory Coast.",
+  lastUpdated: "June 21, 2026 at 2:05 AM EDT from ESPN. Latest match: Tunisia 0-4 Japan.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -72,5 +72,9 @@ window.POOL_RESULTS = [
   { team: "Netherlands", stage: "Groups", result: "W", advanceBonus: false, opponent: "Sweden", score: 5, opponentScore: 1, sourceEventId: "760447", playedAt: "2026-06-20T17:00Z" },
   { team: "Sweden", stage: "Groups", result: "L", advanceBonus: false, opponent: "Netherlands", score: 1, opponentScore: 5, sourceEventId: "760447", playedAt: "2026-06-20T17:00Z" },
   { team: "Germany", stage: "Groups", result: "W", advanceBonus: false, opponent: "Ivory Coast", score: 2, opponentScore: 1, sourceEventId: "760448", playedAt: "2026-06-20T20:00Z" },
-  { team: "Ivory Coast", stage: "Groups", result: "L", advanceBonus: false, opponent: "Germany", score: 1, opponentScore: 2, sourceEventId: "760448", playedAt: "2026-06-20T20:00Z" }
+  { team: "Ivory Coast", stage: "Groups", result: "L", advanceBonus: false, opponent: "Germany", score: 1, opponentScore: 2, sourceEventId: "760448", playedAt: "2026-06-20T20:00Z" },
+  { team: "Ecuador", stage: "Groups", result: "D", advanceBonus: false, opponent: "Curacao", score: 0, opponentScore: 0, sourceEventId: "760446", playedAt: "2026-06-21T00:00Z" },
+  { team: "Curacao", stage: "Groups", result: "D", advanceBonus: false, opponent: "Ecuador", score: 0, opponentScore: 0, sourceEventId: "760446", playedAt: "2026-06-21T00:00Z" },
+  { team: "Tunisia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Japan", score: 0, opponentScore: 4, sourceEventId: "760449", playedAt: "2026-06-21T04:00Z" },
+  { team: "Japan", stage: "Groups", result: "W", advanceBonus: false, opponent: "Tunisia", score: 4, opponentScore: 0, sourceEventId: "760449", playedAt: "2026-06-21T04:00Z" }
 ];
