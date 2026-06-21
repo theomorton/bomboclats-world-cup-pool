@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 20, 2026 at 6:12 PM EDT from ESPN. Latest match: Germany 2-1 Ivory Coast.",
+  lastUpdated: "June 20, 2026 at 8:11 PM EDT from ESPN. Latest match: Germany 2-1 Ivory Coast.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
