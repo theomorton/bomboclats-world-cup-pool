@@ -20,6 +20,9 @@
     Semi: 8,
     Final: 12
   };
+  const STAGE_ORDER = ["Groups", "R32", "R16", "Quarter", "Semi", "Final"];
+  const KNOCKOUT_STAGES = STAGE_ORDER.filter((stage) => stage !== "Groups");
+  const GROUP_STAGE_MATCHES = 3;
 
   let headlineRotationTimer = null;
   let headlineRotationResumeTimer = null;
@@ -305,7 +308,8 @@
           points: 0,
           matches: 0,
           advanceBonuses: 0,
-          eliminated: false
+          eliminated: false,
+          stageMatches: Object.fromEntries(STAGE_ORDER.map((stage) => [stage, 0]))
         }
       ])
     );
@@ -322,11 +326,37 @@
 
       score.points += resultPoints * multiplier + bonus;
       score.matches += result.result ? 1 : 0;
+      if (result.result && score.stageMatches[stage] !== undefined) {
+        score.stageMatches[stage] += 1;
+      }
       score.advanceBonuses += bonus;
       score.eliminated = score.eliminated || result.eliminated === true || result.alive === false;
     });
 
     return scores;
+  }
+
+  function isTournamentTeam(team) {
+    return team && team.group !== "N/A";
+  }
+
+  function isTeamAlive(team, teamScores) {
+    return isTournamentTeam(team) && !teamScores.get(team.name)?.eliminated;
+  }
+
+  function maxRemainingTeamPoints(team, teamScores) {
+    if (!isTeamAlive(team, teamScores)) return 0;
+
+    const score = teamScores.get(team.name);
+    const stageMatches = score?.stageMatches || {};
+    const groupMatchesPlayed = stageMatches.Groups || 0;
+    const remainingGroupPoints = Math.max(0, GROUP_STAGE_MATCHES - groupMatchesPlayed) * RESULT_POINTS.W * STAGE_MULTIPLIERS.Groups;
+    const advanceBonus = score?.advanceBonuses > 0 ? 0 : 1;
+    const remainingKnockoutPoints = KNOCKOUT_STAGES.reduce((sum, stage) => (
+      sum + ((stageMatches[stage] || 0) ? 0 : RESULT_POINTS.W * STAGE_MULTIPLIERS[stage])
+    ), 0);
+
+    return remainingGroupPoints + advanceBonus + remainingKnockoutPoints;
   }
 
   function computeGroupStandings(sourceResults = results) {
@@ -379,7 +409,8 @@
       const tier1Count = knownPicks.filter((team) => team.tier === 1).length;
       const tier3Count = knownPicks.filter((team) => team.tier === 3).length;
       const points = knownPicks.reduce((sum, team) => sum + (teamScores.get(team.name)?.points || 0), 0);
-      const aliveCount = knownPicks.filter((team) => !teamScores.get(team.name)?.eliminated).length;
+      const aliveCount = knownPicks.filter((team) => isTeamAlive(team, teamScores)).length;
+      const maxRemainingPoints = knownPicks.reduce((sum, team) => sum + maxRemainingTeamPoints(team, teamScores), 0);
       const tier1Selection = knownPicks.find((team) => team.tier === 1) || null;
 
       return {
@@ -391,6 +422,7 @@
         tier3Count,
         points,
         aliveCount,
+        maxRemainingPoints,
         tier1Selection
       };
     });
@@ -433,7 +465,8 @@
   }
 
   function teamStatus(team, teamScores) {
-    return teamScores.get(team.name)?.eliminated ? "Out" : "Alive";
+    if (!isTournamentTeam(team)) return "Not in";
+    return isTeamAlive(team, teamScores) ? "Alive" : "Out";
   }
 
   function teamValue(team, teamScores) {
@@ -590,7 +623,7 @@
     const second = sorted[1];
     const gap = leader && second ? leader.points - second.points : 0;
     const podium = sorted.slice(0, 3);
-    const alivePickedTeams = teams.filter((team) => ownershipCount(team, pickMap) > 0 && !teamScores.get(team.name)?.eliminated).length;
+    const alivePickedTeams = teams.filter((team) => ownershipCount(team, pickMap) > 0 && isTeamAlive(team, teamScores)).length;
     const topTeam = [...pickMap.entries()]
       .map(([teamName, pickedBy]) => ({ team: resolveTeam(teamName), pickedBy }))
       .filter((item) => item.team)
@@ -933,7 +966,9 @@
       const tier1Selection = player.tier1Selection
         ? `<span class="leader-tier-one">${flagMarkup(player.tier1Selection)} <span class="country-name">${escapeHtml(player.tier1Selection.name)}</span></span>`
         : `<span class="small-muted">No Tier 1</span>`;
-      const status = player.pending ? "Picks pending" : `${player.aliveCount} alive · ${player.knownPicks.length} teams`;
+      const status = player.pending
+        ? `<small>Picks pending</small>`
+        : `<small class="standings-route" aria-label="${escapeHtml(`${player.name} can still score up to ${player.maxRemainingPoints} remaining points and has ${player.aliveCount} live tournament teams`)}"><span>+${player.maxRemainingPoints} max</span><span>${player.aliveCount} alive</span></small>`;
       const officialMarker = !isLiveMode && player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : "";
       return `
         <button class="standings-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}" type="button" data-player-link="${escapeHtml(player.slug)}" data-player-row="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} profile">
@@ -941,7 +976,7 @@
           ${avatarMarkup(player, "mini")}
           <span class="standings-person">
             <strong>${escapeHtml(player.name)}</strong>
-            <small>${escapeHtml(status)}</small>
+            ${status}
           </span>
           <span class="standings-context">
             ${deltaMarkup || officialMarker}
@@ -1077,7 +1112,7 @@
         <div class="team-compact-stats">
           <span><strong>${score?.points || 0}</strong> pts</span>
           <span>${record.w}-${record.d}-${record.l}</span>
-          <span>${score?.eliminated ? "Out" : "Alive"}</span>
+          <span>${teamStatus(team, teamScores)}</span>
         </div>
         <div class="picked-row">${pickedMarkup}</div>
       </article>
