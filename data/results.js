@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 22, 2026 at 3:32 PM EDT from ESPN. Latest match: Argentina 2-0 Austria.",
+  lastUpdated: "June 22, 2026 at 6:05 PM EDT from ESPN. Latest match: Argentina 2-0 Austria.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
