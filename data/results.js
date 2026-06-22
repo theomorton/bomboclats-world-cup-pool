@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 22, 2026 at 11:44 AM EDT from ESPN. Latest match: New Zealand 1-3 Egypt.",
+  lastUpdated: "June 22, 2026 at 11:54 AM EDT from ESPN. Latest match: New Zealand 1-3 Egypt.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
