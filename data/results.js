@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 22, 2026 at 11:54 AM EDT from ESPN. Latest match: New Zealand 1-3 Egypt.",
+  lastUpdated: "June 22, 2026 at 3:32 PM EDT from ESPN. Latest match: Argentina 2-0 Austria.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -84,5 +84,7 @@ window.POOL_RESULTS = [
   { team: "Uruguay", stage: "Groups", result: "D", advanceBonus: false, opponent: "Cape Verde", score: 2, opponentScore: 2, sourceEventId: "760450", playedAt: "2026-06-21T22:00Z" },
   { team: "Cape Verde", stage: "Groups", result: "D", advanceBonus: false, opponent: "Uruguay", score: 2, opponentScore: 2, sourceEventId: "760450", playedAt: "2026-06-21T22:00Z" },
   { team: "New Zealand", stage: "Groups", result: "L", advanceBonus: false, opponent: "Egypt", score: 1, opponentScore: 3, sourceEventId: "760452", playedAt: "2026-06-22T01:00Z" },
-  { team: "Egypt", stage: "Groups", result: "W", advanceBonus: false, opponent: "New Zealand", score: 3, opponentScore: 1, sourceEventId: "760452", playedAt: "2026-06-22T01:00Z" }
+  { team: "Egypt", stage: "Groups", result: "W", advanceBonus: false, opponent: "New Zealand", score: 3, opponentScore: 1, sourceEventId: "760452", playedAt: "2026-06-22T01:00Z" },
+  { team: "Argentina", stage: "Groups", result: "W", advanceBonus: false, opponent: "Austria", score: 2, opponentScore: 0, sourceEventId: "760456", playedAt: "2026-06-22T17:00Z" },
+  { team: "Austria", stage: "Groups", result: "L", advanceBonus: false, opponent: "Argentina", score: 0, opponentScore: 2, sourceEventId: "760456", playedAt: "2026-06-22T17:00Z" }
 ];
