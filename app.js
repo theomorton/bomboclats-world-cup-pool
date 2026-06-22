@@ -968,7 +968,7 @@
         : `<span class="small-muted">No Tier 1</span>`;
       const status = player.pending
         ? `<small>Picks pending</small>`
-        : `<small class="standings-route" aria-label="${escapeHtml(`${player.name} can still score up to ${player.maxRemainingPoints} remaining points and has ${player.aliveCount} live tournament teams`)}"><span>+${player.maxRemainingPoints} max</span><span>${player.aliveCount} alive</span></small>`;
+        : `<small class="standings-route" aria-label="${escapeHtml(`${player.name} can still score up to ${player.maxRemainingPoints} remaining points`)}"><span>MAX: ${player.maxRemainingPoints}</span></small>`;
       const officialMarker = !isLiveMode && player.slug === leader?.slug ? `<span class="leader-gap is-leader">Leader</span>` : "";
       return `
         <button class="standings-row ${rank <= 3 ? `is-podium is-rank-${rank}` : ""}" type="button" data-player-link="${escapeHtml(player.slug)}" data-player-row="${escapeHtml(player.slug)}" aria-label="View ${escapeHtml(player.name)} profile">

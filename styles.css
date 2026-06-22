@@ -5077,15 +5077,14 @@ body,
   box-shadow: 0 0 0 1px var(--pool-line-bright) !important;
 }
 
-/* Leaderboard route chips: remaining scoring ceiling plus live teams. */
+/* Leaderboard route chip: remaining scoring ceiling. */
 .standings-person .standings-route {
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
-  flex-wrap: wrap !important;
-  gap: 4px !important;
+  width: max-content !important;
   margin-top: 3px !important;
   overflow: visible !important;
-  white-space: normal !important;
+  white-space: nowrap !important;
 }
 
 .standings-route span {
@@ -5097,7 +5096,7 @@ body,
   border-radius: var(--pill-radius) !important;
   background: rgba(255, 255, 255, 0.08) !important;
   color: #ffffff !important;
-  padding: 2px 7px !important;
+  padding: 2px 8px !important;
   font-size: 0.64rem !important;
   font-weight: 950 !important;
   line-height: 1 !important;
@@ -5106,14 +5105,13 @@ body,
 
 @media (max-width: 680px) {
   .standings-person .standings-route {
-    max-width: 124px !important;
-    gap: 3px !important;
+    max-width: none !important;
     margin-top: 2px !important;
   }
 
   .standings-route span {
     min-height: 16px !important;
-    padding: 2px 5px !important;
+    padding: 2px 6px !important;
     font-size: 0.55rem !important;
   }
 }
