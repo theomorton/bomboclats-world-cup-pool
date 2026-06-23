@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 23, 2026 at 1:59 PM EDT from ESPN. Latest match: Jordan 1-2 Algeria.",
+  lastUpdated: "June 23, 2026 at 4:19 PM EDT from ESPN. Latest match: Portugal 5-0 Uzbekistan.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -92,5 +92,7 @@ window.POOL_RESULTS = [
   { team: "Norway", stage: "Groups", result: "W", advanceBonus: false, opponent: "Senegal", score: 3, opponentScore: 2, sourceEventId: "760454", playedAt: "2026-06-23T00:00Z" },
   { team: "Senegal", stage: "Groups", result: "L", advanceBonus: false, opponent: "Norway", score: 2, opponentScore: 3, sourceEventId: "760454", playedAt: "2026-06-23T00:00Z" },
   { team: "Jordan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Algeria", score: 1, opponentScore: 2, sourceEventId: "760455", playedAt: "2026-06-23T03:00Z" },
-  { team: "Algeria", stage: "Groups", result: "W", advanceBonus: false, opponent: "Jordan", score: 2, opponentScore: 1, sourceEventId: "760455", playedAt: "2026-06-23T03:00Z" }
+  { team: "Algeria", stage: "Groups", result: "W", advanceBonus: false, opponent: "Jordan", score: 2, opponentScore: 1, sourceEventId: "760455", playedAt: "2026-06-23T03:00Z" },
+  { team: "Portugal", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uzbekistan", score: 5, opponentScore: 0, sourceEventId: "760461", playedAt: "2026-06-23T17:00Z" },
+  { team: "Uzbekistan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Portugal", score: 0, opponentScore: 5, sourceEventId: "760461", playedAt: "2026-06-23T17:00Z" }
 ];
