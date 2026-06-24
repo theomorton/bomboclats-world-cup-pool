@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 23, 2026 at 6:16 PM EDT from ESPN. Latest match: England 0-0 Ghana.",
+  lastUpdated: "June 23, 2026 at 8:01 PM EDT from ESPN. Latest match: England 0-0 Ghana.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
