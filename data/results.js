@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 23, 2026 at 8:01 PM EDT from ESPN. Latest match: England 0-0 Ghana.",
+  lastUpdated: "June 24, 2026 at 1:03 AM EDT from ESPN. Latest match: Colombia 1-0 Congo DR.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -96,5 +96,9 @@ window.POOL_RESULTS = [
   { team: "Portugal", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uzbekistan", score: 5, opponentScore: 0, sourceEventId: "760461", playedAt: "2026-06-23T17:00Z" },
   { team: "Uzbekistan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Portugal", score: 0, opponentScore: 5, sourceEventId: "760461", playedAt: "2026-06-23T17:00Z" },
   { team: "England", stage: "Groups", result: "D", advanceBonus: false, opponent: "Ghana", score: 0, opponentScore: 0, sourceEventId: "760458", playedAt: "2026-06-23T20:00Z" },
-  { team: "Ghana", stage: "Groups", result: "D", advanceBonus: false, opponent: "England", score: 0, opponentScore: 0, sourceEventId: "760458", playedAt: "2026-06-23T20:00Z" }
+  { team: "Ghana", stage: "Groups", result: "D", advanceBonus: false, opponent: "England", score: 0, opponentScore: 0, sourceEventId: "760458", playedAt: "2026-06-23T20:00Z" },
+  { team: "Panama", stage: "Groups", result: "L", advanceBonus: false, opponent: "Croatia", score: 0, opponentScore: 1, sourceEventId: "760460", playedAt: "2026-06-23T23:00Z" },
+  { team: "Croatia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Panama", score: 1, opponentScore: 0, sourceEventId: "760460", playedAt: "2026-06-23T23:00Z" },
+  { team: "Colombia", stage: "Groups", result: "W", advanceBonus: false, opponent: "DR Congo", score: 1, opponentScore: 0, sourceEventId: "760459", playedAt: "2026-06-24T02:00Z" },
+  { team: "DR Congo", stage: "Groups", result: "L", advanceBonus: false, opponent: "Colombia", score: 0, opponentScore: 1, sourceEventId: "760459", playedAt: "2026-06-24T02:00Z" }
 ];
