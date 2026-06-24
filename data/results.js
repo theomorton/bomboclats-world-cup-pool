@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 24, 2026 at 1:03 AM EDT from ESPN. Latest match: Colombia 1-0 Congo DR.",
+  lastUpdated: "June 24, 2026 at 5:35 AM EDT from ESPN. Latest match: Colombia 1-0 Congo DR.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
