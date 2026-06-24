@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 24, 2026 at 3:58 PM EDT from ESPN. Latest match: Colombia 1-0 Congo DR.",
+  lastUpdated: "June 24, 2026 at 5:39 PM EDT from ESPN. Latest match: Switzerland 2-1 Canada.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -100,5 +100,9 @@ window.POOL_RESULTS = [
   { team: "Panama", stage: "Groups", result: "L", advanceBonus: false, opponent: "Croatia", score: 0, opponentScore: 1, sourceEventId: "760460", playedAt: "2026-06-23T23:00Z" },
   { team: "Croatia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Panama", score: 1, opponentScore: 0, sourceEventId: "760460", playedAt: "2026-06-23T23:00Z" },
   { team: "Colombia", stage: "Groups", result: "W", advanceBonus: false, opponent: "DR Congo", score: 1, opponentScore: 0, sourceEventId: "760459", playedAt: "2026-06-24T02:00Z" },
-  { team: "DR Congo", stage: "Groups", result: "L", advanceBonus: false, opponent: "Colombia", score: 0, opponentScore: 1, sourceEventId: "760459", playedAt: "2026-06-24T02:00Z" }
+  { team: "DR Congo", stage: "Groups", result: "L", advanceBonus: false, opponent: "Colombia", score: 0, opponentScore: 1, sourceEventId: "760459", playedAt: "2026-06-24T02:00Z" },
+  { team: "Bosnia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Qatar", score: 3, opponentScore: 1, sourceEventId: "760462", playedAt: "2026-06-24T19:00Z" },
+  { team: "Qatar", stage: "Groups", result: "L", advanceBonus: false, opponent: "Bosnia", score: 1, opponentScore: 3, sourceEventId: "760462", playedAt: "2026-06-24T19:00Z" },
+  { team: "Switzerland", stage: "Groups", result: "W", advanceBonus: false, opponent: "Canada", score: 2, opponentScore: 1, sourceEventId: "760463", playedAt: "2026-06-24T19:00Z" },
+  { team: "Canada", stage: "Groups", result: "L", advanceBonus: false, opponent: "Switzerland", score: 1, opponentScore: 2, sourceEventId: "760463", playedAt: "2026-06-24T19:00Z" }
 ];
