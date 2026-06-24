@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 24, 2026 at 5:39 PM EDT from ESPN. Latest match: Switzerland 2-1 Canada.",
+  lastUpdated: "June 24, 2026 at 7:06 PM EDT from ESPN. Latest match: Switzerland 2-1 Canada.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
