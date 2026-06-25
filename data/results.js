@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 25, 2026 at 5:46 PM EDT from ESPN. Latest match: South Africa 1-0 South Korea.",
+  lastUpdated: "June 25, 2026 at 7:21 PM EDT from ESPN. Latest match: Ecuador 2-1 Germany.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -112,5 +112,9 @@ window.POOL_RESULTS = [
   { team: "Czechia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Mexico", score: 0, opponentScore: 3, sourceEventId: "760467", playedAt: "2026-06-25T01:00Z" },
   { team: "Mexico", stage: "Groups", result: "W", advanceBonus: false, opponent: "Czechia", score: 3, opponentScore: 0, sourceEventId: "760467", playedAt: "2026-06-25T01:00Z" },
   { team: "South Africa", stage: "Groups", result: "W", advanceBonus: false, opponent: "South Korea", score: 1, opponentScore: 0, sourceEventId: "760466", playedAt: "2026-06-25T01:00Z" },
-  { team: "South Korea", stage: "Groups", result: "L", advanceBonus: false, opponent: "South Africa", score: 0, opponentScore: 1, sourceEventId: "760466", playedAt: "2026-06-25T01:00Z" }
+  { team: "South Korea", stage: "Groups", result: "L", advanceBonus: false, opponent: "South Africa", score: 0, opponentScore: 1, sourceEventId: "760466", playedAt: "2026-06-25T01:00Z" },
+  { team: "Curacao", stage: "Groups", result: "L", advanceBonus: false, opponent: "Ivory Coast", score: 0, opponentScore: 2, sourceEventId: "760473", playedAt: "2026-06-25T20:00Z" },
+  { team: "Ivory Coast", stage: "Groups", result: "W", advanceBonus: false, opponent: "Curacao", score: 2, opponentScore: 0, sourceEventId: "760473", playedAt: "2026-06-25T20:00Z" },
+  { team: "Ecuador", stage: "Groups", result: "W", advanceBonus: false, opponent: "Germany", score: 2, opponentScore: 1, sourceEventId: "760468", playedAt: "2026-06-25T20:00Z" },
+  { team: "Germany", stage: "Groups", result: "L", advanceBonus: false, opponent: "Ecuador", score: 1, opponentScore: 2, sourceEventId: "760468", playedAt: "2026-06-25T20:00Z" }
 ];
