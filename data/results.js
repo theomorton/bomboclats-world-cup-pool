@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 24, 2026 at 7:06 PM EDT from ESPN. Latest match: Switzerland 2-1 Canada.",
+  lastUpdated: "June 24, 2026 at 11:52 PM EDT from ESPN. Latest match: South Africa 1-0 South Korea.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -104,5 +104,13 @@ window.POOL_RESULTS = [
   { team: "Bosnia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Qatar", score: 3, opponentScore: 1, sourceEventId: "760462", playedAt: "2026-06-24T19:00Z" },
   { team: "Qatar", stage: "Groups", result: "L", advanceBonus: false, opponent: "Bosnia", score: 1, opponentScore: 3, sourceEventId: "760462", playedAt: "2026-06-24T19:00Z" },
   { team: "Switzerland", stage: "Groups", result: "W", advanceBonus: false, opponent: "Canada", score: 2, opponentScore: 1, sourceEventId: "760463", playedAt: "2026-06-24T19:00Z" },
-  { team: "Canada", stage: "Groups", result: "L", advanceBonus: false, opponent: "Switzerland", score: 1, opponentScore: 2, sourceEventId: "760463", playedAt: "2026-06-24T19:00Z" }
+  { team: "Canada", stage: "Groups", result: "L", advanceBonus: false, opponent: "Switzerland", score: 1, opponentScore: 2, sourceEventId: "760463", playedAt: "2026-06-24T19:00Z" },
+  { team: "Morocco", stage: "Groups", result: "W", advanceBonus: false, opponent: "Haiti", score: 4, opponentScore: 2, sourceEventId: "760464", playedAt: "2026-06-24T22:00Z" },
+  { team: "Haiti", stage: "Groups", result: "L", advanceBonus: false, opponent: "Morocco", score: 2, opponentScore: 4, sourceEventId: "760464", playedAt: "2026-06-24T22:00Z" },
+  { team: "Scotland", stage: "Groups", result: "L", advanceBonus: false, opponent: "Brazil", score: 0, opponentScore: 3, sourceEventId: "760465", playedAt: "2026-06-24T22:00Z" },
+  { team: "Brazil", stage: "Groups", result: "W", advanceBonus: false, opponent: "Scotland", score: 3, opponentScore: 0, sourceEventId: "760465", playedAt: "2026-06-24T22:00Z" },
+  { team: "Czechia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Mexico", score: 0, opponentScore: 3, sourceEventId: "760467", playedAt: "2026-06-25T01:00Z" },
+  { team: "Mexico", stage: "Groups", result: "W", advanceBonus: false, opponent: "Czechia", score: 3, opponentScore: 0, sourceEventId: "760467", playedAt: "2026-06-25T01:00Z" },
+  { team: "South Africa", stage: "Groups", result: "W", advanceBonus: false, opponent: "South Korea", score: 1, opponentScore: 0, sourceEventId: "760466", playedAt: "2026-06-25T01:00Z" },
+  { team: "South Korea", stage: "Groups", result: "L", advanceBonus: false, opponent: "South Africa", score: 0, opponentScore: 1, sourceEventId: "760466", playedAt: "2026-06-25T01:00Z" }
 ];
