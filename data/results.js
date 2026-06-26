@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 26, 2026 at 1:02 PM EDT from ESPN. Latest match: Türkiye 3-2 United States.",
+  lastUpdated: "June 26, 2026 at 3:52 PM EDT from ESPN. Latest match: Türkiye 3-2 United States.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
