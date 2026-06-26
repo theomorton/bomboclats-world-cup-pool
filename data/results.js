@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 25, 2026 at 7:21 PM EDT from ESPN. Latest match: Ecuador 2-1 Germany.",
+  lastUpdated: "June 25, 2026 at 11:59 PM EDT from ESPN. Latest match: Paraguay 0-0 Australia.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -116,5 +116,11 @@ window.POOL_RESULTS = [
   { team: "Curacao", stage: "Groups", result: "L", advanceBonus: false, opponent: "Ivory Coast", score: 0, opponentScore: 2, sourceEventId: "760473", playedAt: "2026-06-25T20:00Z" },
   { team: "Ivory Coast", stage: "Groups", result: "W", advanceBonus: false, opponent: "Curacao", score: 2, opponentScore: 0, sourceEventId: "760473", playedAt: "2026-06-25T20:00Z" },
   { team: "Ecuador", stage: "Groups", result: "W", advanceBonus: false, opponent: "Germany", score: 2, opponentScore: 1, sourceEventId: "760468", playedAt: "2026-06-25T20:00Z" },
-  { team: "Germany", stage: "Groups", result: "L", advanceBonus: false, opponent: "Ecuador", score: 1, opponentScore: 2, sourceEventId: "760468", playedAt: "2026-06-25T20:00Z" }
+  { team: "Germany", stage: "Groups", result: "L", advanceBonus: false, opponent: "Ecuador", score: 1, opponentScore: 2, sourceEventId: "760468", playedAt: "2026-06-25T20:00Z" },
+  { team: "Japan", stage: "Groups", result: "D", advanceBonus: false, opponent: "Sweden", score: 1, opponentScore: 1, sourceEventId: "760471", playedAt: "2026-06-25T23:00Z" },
+  { team: "Sweden", stage: "Groups", result: "D", advanceBonus: false, opponent: "Japan", score: 1, opponentScore: 1, sourceEventId: "760471", playedAt: "2026-06-25T23:00Z" },
+  { team: "Tunisia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Netherlands", score: 1, opponentScore: 3, sourceEventId: "760472", playedAt: "2026-06-25T23:00Z" },
+  { team: "Netherlands", stage: "Groups", result: "W", advanceBonus: false, opponent: "Tunisia", score: 3, opponentScore: 1, sourceEventId: "760472", playedAt: "2026-06-25T23:00Z" },
+  { team: "Paraguay", stage: "Groups", result: "D", advanceBonus: false, opponent: "Australia", score: 0, opponentScore: 0, sourceEventId: "760469", playedAt: "2026-06-26T02:00Z" },
+  { team: "Australia", stage: "Groups", result: "D", advanceBonus: false, opponent: "Paraguay", score: 0, opponentScore: 0, sourceEventId: "760469", playedAt: "2026-06-26T02:00Z" }
 ];
