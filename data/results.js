@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 26, 2026 at 5:21 PM EDT from ESPN. Latest match: Senegal 5-0 Iraq.",
+  lastUpdated: "June 26, 2026 at 7:09 PM EDT from ESPN. Latest match: Senegal 5-0 Iraq.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
