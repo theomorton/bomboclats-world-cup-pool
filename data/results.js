@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 26, 2026 at 3:52 PM EDT from ESPN. Latest match: Türkiye 3-2 United States.",
+  lastUpdated: "June 26, 2026 at 5:21 PM EDT from ESPN. Latest match: Senegal 5-0 Iraq.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -124,5 +124,9 @@ window.POOL_RESULTS = [
   { team: "Paraguay", stage: "Groups", result: "D", advanceBonus: false, opponent: "Australia", score: 0, opponentScore: 0, sourceEventId: "760469", playedAt: "2026-06-26T02:00Z" },
   { team: "Australia", stage: "Groups", result: "D", advanceBonus: false, opponent: "Paraguay", score: 0, opponentScore: 0, sourceEventId: "760469", playedAt: "2026-06-26T02:00Z" },
   { team: "Turkiye", stage: "Groups", result: "W", advanceBonus: false, opponent: "USA", score: 3, opponentScore: 2, sourceEventId: "760470", playedAt: "2026-06-26T02:00Z" },
-  { team: "USA", stage: "Groups", result: "L", advanceBonus: false, opponent: "Turkiye", score: 2, opponentScore: 3, sourceEventId: "760470", playedAt: "2026-06-26T02:00Z" }
+  { team: "USA", stage: "Groups", result: "L", advanceBonus: false, opponent: "Turkiye", score: 2, opponentScore: 3, sourceEventId: "760470", playedAt: "2026-06-26T02:00Z" },
+  { team: "Norway", stage: "Groups", result: "L", advanceBonus: false, opponent: "France", score: 1, opponentScore: 4, sourceEventId: "760475", playedAt: "2026-06-26T19:00Z" },
+  { team: "France", stage: "Groups", result: "W", advanceBonus: false, opponent: "Norway", score: 4, opponentScore: 1, sourceEventId: "760475", playedAt: "2026-06-26T19:00Z" },
+  { team: "Senegal", stage: "Groups", result: "W", advanceBonus: false, opponent: "Iraq", score: 5, opponentScore: 0, sourceEventId: "760474", playedAt: "2026-06-26T19:00Z" },
+  { team: "Iraq", stage: "Groups", result: "L", advanceBonus: false, opponent: "Senegal", score: 0, opponentScore: 5, sourceEventId: "760474", playedAt: "2026-06-26T19:00Z" }
 ];
