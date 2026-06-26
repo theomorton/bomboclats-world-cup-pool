@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 25, 2026 at 11:59 PM EDT from ESPN. Latest match: Paraguay 0-0 Australia.",
+  lastUpdated: "June 26, 2026 at 4:00 AM EDT from ESPN. Latest match: Türkiye 3-2 United States.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -122,5 +122,7 @@ window.POOL_RESULTS = [
   { team: "Tunisia", stage: "Groups", result: "L", advanceBonus: false, opponent: "Netherlands", score: 1, opponentScore: 3, sourceEventId: "760472", playedAt: "2026-06-25T23:00Z" },
   { team: "Netherlands", stage: "Groups", result: "W", advanceBonus: false, opponent: "Tunisia", score: 3, opponentScore: 1, sourceEventId: "760472", playedAt: "2026-06-25T23:00Z" },
   { team: "Paraguay", stage: "Groups", result: "D", advanceBonus: false, opponent: "Australia", score: 0, opponentScore: 0, sourceEventId: "760469", playedAt: "2026-06-26T02:00Z" },
-  { team: "Australia", stage: "Groups", result: "D", advanceBonus: false, opponent: "Paraguay", score: 0, opponentScore: 0, sourceEventId: "760469", playedAt: "2026-06-26T02:00Z" }
+  { team: "Australia", stage: "Groups", result: "D", advanceBonus: false, opponent: "Paraguay", score: 0, opponentScore: 0, sourceEventId: "760469", playedAt: "2026-06-26T02:00Z" },
+  { team: "Turkiye", stage: "Groups", result: "W", advanceBonus: false, opponent: "USA", score: 3, opponentScore: 2, sourceEventId: "760470", playedAt: "2026-06-26T02:00Z" },
+  { team: "USA", stage: "Groups", result: "L", advanceBonus: false, opponent: "Turkiye", score: 2, opponentScore: 3, sourceEventId: "760470", playedAt: "2026-06-26T02:00Z" }
 ];
