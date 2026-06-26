@@ -1,7 +1,7 @@
 window.POOL_SCHEDULE_META = {
   dateKey: "20260626",
   dateLabel: "Friday, June 26",
-  lastUpdated: "June 26, 2026 at 7:12 AM EDT from ESPN.",
+  lastUpdated: "June 26, 2026 at 10:30 AM EDT from ESPN.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
