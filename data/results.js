@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 26, 2026 at 11:42 PM EDT from ESPN. Latest match: Uruguay 0-1 Spain.",
+  lastUpdated: "June 27, 2026 at 2:54 AM EDT from ESPN. Latest match: New Zealand 1-5 Belgium.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -132,5 +132,9 @@ window.POOL_RESULTS = [
   { team: "Cape Verde", stage: "Groups", result: "D", advanceBonus: false, opponent: "Saudi Arabia", score: 0, opponentScore: 0, sourceEventId: "760478", playedAt: "2026-06-27T00:00Z" },
   { team: "Saudi Arabia", stage: "Groups", result: "D", advanceBonus: false, opponent: "Cape Verde", score: 0, opponentScore: 0, sourceEventId: "760478", playedAt: "2026-06-27T00:00Z" },
   { team: "Uruguay", stage: "Groups", result: "L", advanceBonus: false, opponent: "Spain", score: 0, opponentScore: 1, sourceEventId: "760479", playedAt: "2026-06-27T00:00Z" },
-  { team: "Spain", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uruguay", score: 1, opponentScore: 0, sourceEventId: "760479", playedAt: "2026-06-27T00:00Z" }
+  { team: "Spain", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uruguay", score: 1, opponentScore: 0, sourceEventId: "760479", playedAt: "2026-06-27T00:00Z" },
+  { team: "Egypt", stage: "Groups", result: "D", advanceBonus: false, opponent: "Iran", score: 1, opponentScore: 1, sourceEventId: "760476", playedAt: "2026-06-27T03:00Z" },
+  { team: "Iran", stage: "Groups", result: "D", advanceBonus: false, opponent: "Egypt", score: 1, opponentScore: 1, sourceEventId: "760476", playedAt: "2026-06-27T03:00Z" },
+  { team: "New Zealand", stage: "Groups", result: "L", advanceBonus: false, opponent: "Belgium", score: 1, opponentScore: 5, sourceEventId: "760477", playedAt: "2026-06-27T03:00Z" },
+  { team: "Belgium", stage: "Groups", result: "W", advanceBonus: false, opponent: "New Zealand", score: 5, opponentScore: 1, sourceEventId: "760477", playedAt: "2026-06-27T03:00Z" }
 ];
