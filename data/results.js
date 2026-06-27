@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 27, 2026 at 3:24 PM EDT from ESPN. Latest match: New Zealand 1-5 Belgium.",
+  lastUpdated: "June 27, 2026 at 5:07 PM EDT from ESPN. Latest match: New Zealand 1-5 Belgium.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
