@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 27, 2026 at 5:07 PM EDT from ESPN. Latest match: New Zealand 1-5 Belgium.",
+  lastUpdated: "June 27, 2026 at 7:05 PM EDT from ESPN. Latest match: Panama 0-2 England.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -136,5 +136,9 @@ window.POOL_RESULTS = [
   { team: "Egypt", stage: "Groups", result: "D", advanceBonus: false, opponent: "Iran", score: 1, opponentScore: 1, sourceEventId: "760476", playedAt: "2026-06-27T03:00Z" },
   { team: "Iran", stage: "Groups", result: "D", advanceBonus: false, opponent: "Egypt", score: 1, opponentScore: 1, sourceEventId: "760476", playedAt: "2026-06-27T03:00Z" },
   { team: "New Zealand", stage: "Groups", result: "L", advanceBonus: false, opponent: "Belgium", score: 1, opponentScore: 5, sourceEventId: "760477", playedAt: "2026-06-27T03:00Z" },
-  { team: "Belgium", stage: "Groups", result: "W", advanceBonus: false, opponent: "New Zealand", score: 5, opponentScore: 1, sourceEventId: "760477", playedAt: "2026-06-27T03:00Z" }
+  { team: "Belgium", stage: "Groups", result: "W", advanceBonus: false, opponent: "New Zealand", score: 5, opponentScore: 1, sourceEventId: "760477", playedAt: "2026-06-27T03:00Z" },
+  { team: "Croatia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Ghana", score: 2, opponentScore: 1, sourceEventId: "760480", playedAt: "2026-06-27T21:00Z" },
+  { team: "Ghana", stage: "Groups", result: "L", advanceBonus: false, opponent: "Croatia", score: 1, opponentScore: 2, sourceEventId: "760480", playedAt: "2026-06-27T21:00Z" },
+  { team: "Panama", stage: "Groups", result: "L", advanceBonus: false, opponent: "England", score: 0, opponentScore: 2, sourceEventId: "760485", playedAt: "2026-06-27T21:00Z" },
+  { team: "England", stage: "Groups", result: "W", advanceBonus: false, opponent: "Panama", score: 2, opponentScore: 0, sourceEventId: "760485", playedAt: "2026-06-27T21:00Z" }
 ];
