@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 26, 2026 at 7:09 PM EDT from ESPN. Latest match: Senegal 5-0 Iraq.",
+  lastUpdated: "June 26, 2026 at 11:42 PM EDT from ESPN. Latest match: Uruguay 0-1 Spain.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -128,5 +128,9 @@ window.POOL_RESULTS = [
   { team: "Norway", stage: "Groups", result: "L", advanceBonus: false, opponent: "France", score: 1, opponentScore: 4, sourceEventId: "760475", playedAt: "2026-06-26T19:00Z" },
   { team: "France", stage: "Groups", result: "W", advanceBonus: false, opponent: "Norway", score: 4, opponentScore: 1, sourceEventId: "760475", playedAt: "2026-06-26T19:00Z" },
   { team: "Senegal", stage: "Groups", result: "W", advanceBonus: false, opponent: "Iraq", score: 5, opponentScore: 0, sourceEventId: "760474", playedAt: "2026-06-26T19:00Z" },
-  { team: "Iraq", stage: "Groups", result: "L", advanceBonus: false, opponent: "Senegal", score: 0, opponentScore: 5, sourceEventId: "760474", playedAt: "2026-06-26T19:00Z" }
+  { team: "Iraq", stage: "Groups", result: "L", advanceBonus: false, opponent: "Senegal", score: 0, opponentScore: 5, sourceEventId: "760474", playedAt: "2026-06-26T19:00Z" },
+  { team: "Cape Verde", stage: "Groups", result: "D", advanceBonus: false, opponent: "Saudi Arabia", score: 0, opponentScore: 0, sourceEventId: "760478", playedAt: "2026-06-27T00:00Z" },
+  { team: "Saudi Arabia", stage: "Groups", result: "D", advanceBonus: false, opponent: "Cape Verde", score: 0, opponentScore: 0, sourceEventId: "760478", playedAt: "2026-06-27T00:00Z" },
+  { team: "Uruguay", stage: "Groups", result: "L", advanceBonus: false, opponent: "Spain", score: 0, opponentScore: 1, sourceEventId: "760479", playedAt: "2026-06-27T00:00Z" },
+  { team: "Spain", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uruguay", score: 1, opponentScore: 0, sourceEventId: "760479", playedAt: "2026-06-27T00:00Z" }
 ];
