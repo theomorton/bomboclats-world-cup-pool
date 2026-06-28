@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 28, 2026 at 3:25 PM EDT from ESPN. Latest match: Jordan 1-3 Argentina.",
+  lastUpdated: "June 28, 2026 at 5:05 PM EDT from ESPN. Latest match: South Africa 0-1 Canada.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -148,5 +148,7 @@ window.POOL_RESULTS = [
   { team: "Algeria", stage: "Groups", result: "D", advanceBonus: false, opponent: "Austria", score: 3, opponentScore: 3, sourceEventId: "760484", playedAt: "2026-06-28T02:00Z" },
   { team: "Austria", stage: "Groups", result: "D", advanceBonus: false, opponent: "Algeria", score: 3, opponentScore: 3, sourceEventId: "760484", playedAt: "2026-06-28T02:00Z" },
   { team: "Jordan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Argentina", score: 1, opponentScore: 3, sourceEventId: "760483", playedAt: "2026-06-28T02:00Z" },
-  { team: "Argentina", stage: "Groups", result: "W", advanceBonus: false, opponent: "Jordan", score: 3, opponentScore: 1, sourceEventId: "760483", playedAt: "2026-06-28T02:00Z" }
+  { team: "Argentina", stage: "Groups", result: "W", advanceBonus: false, opponent: "Jordan", score: 3, opponentScore: 1, sourceEventId: "760483", playedAt: "2026-06-28T02:00Z" },
+  { team: "South Africa", stage: "R32", result: "L", advanceBonus: false, opponent: "Canada", score: 0, opponentScore: 1, sourceEventId: "760486", playedAt: "2026-06-28T19:00Z" },
+  { team: "Canada", stage: "R32", result: "W", advanceBonus: false, opponent: "South Africa", score: 1, opponentScore: 0, sourceEventId: "760486", playedAt: "2026-06-28T19:00Z" }
 ];
