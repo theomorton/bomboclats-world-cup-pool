@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 28, 2026 at 12:06 AM EDT from ESPN. Latest match: Jordan 1-3 Argentina.",
+  lastUpdated: "June 28, 2026 at 4:23 AM EDT from ESPN. Latest match: Jordan 1-3 Argentina.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
