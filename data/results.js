@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 27, 2026 at 7:05 PM EDT from ESPN. Latest match: Panama 0-2 England.",
+  lastUpdated: "June 28, 2026 at 12:06 AM EDT from ESPN. Latest match: Jordan 1-3 Argentina.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -140,5 +140,13 @@ window.POOL_RESULTS = [
   { team: "Croatia", stage: "Groups", result: "W", advanceBonus: false, opponent: "Ghana", score: 2, opponentScore: 1, sourceEventId: "760480", playedAt: "2026-06-27T21:00Z" },
   { team: "Ghana", stage: "Groups", result: "L", advanceBonus: false, opponent: "Croatia", score: 1, opponentScore: 2, sourceEventId: "760480", playedAt: "2026-06-27T21:00Z" },
   { team: "Panama", stage: "Groups", result: "L", advanceBonus: false, opponent: "England", score: 0, opponentScore: 2, sourceEventId: "760485", playedAt: "2026-06-27T21:00Z" },
-  { team: "England", stage: "Groups", result: "W", advanceBonus: false, opponent: "Panama", score: 2, opponentScore: 0, sourceEventId: "760485", playedAt: "2026-06-27T21:00Z" }
+  { team: "England", stage: "Groups", result: "W", advanceBonus: false, opponent: "Panama", score: 2, opponentScore: 0, sourceEventId: "760485", playedAt: "2026-06-27T21:00Z" },
+  { team: "Colombia", stage: "Groups", result: "D", advanceBonus: false, opponent: "Portugal", score: 0, opponentScore: 0, sourceEventId: "760481", playedAt: "2026-06-27T23:30Z" },
+  { team: "Portugal", stage: "Groups", result: "D", advanceBonus: false, opponent: "Colombia", score: 0, opponentScore: 0, sourceEventId: "760481", playedAt: "2026-06-27T23:30Z" },
+  { team: "DR Congo", stage: "Groups", result: "W", advanceBonus: false, opponent: "Uzbekistan", score: 3, opponentScore: 1, sourceEventId: "760482", playedAt: "2026-06-27T23:30Z" },
+  { team: "Uzbekistan", stage: "Groups", result: "L", advanceBonus: false, opponent: "DR Congo", score: 1, opponentScore: 3, sourceEventId: "760482", playedAt: "2026-06-27T23:30Z" },
+  { team: "Algeria", stage: "Groups", result: "D", advanceBonus: false, opponent: "Austria", score: 3, opponentScore: 3, sourceEventId: "760484", playedAt: "2026-06-28T02:00Z" },
+  { team: "Austria", stage: "Groups", result: "D", advanceBonus: false, opponent: "Algeria", score: 3, opponentScore: 3, sourceEventId: "760484", playedAt: "2026-06-28T02:00Z" },
+  { team: "Jordan", stage: "Groups", result: "L", advanceBonus: false, opponent: "Argentina", score: 1, opponentScore: 3, sourceEventId: "760483", playedAt: "2026-06-28T02:00Z" },
+  { team: "Argentina", stage: "Groups", result: "W", advanceBonus: false, opponent: "Jordan", score: 3, opponentScore: 1, sourceEventId: "760483", playedAt: "2026-06-28T02:00Z" }
 ];
