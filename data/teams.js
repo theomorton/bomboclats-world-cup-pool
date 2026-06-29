@@ -37,7 +37,7 @@ window.POOL_TEAMS = [
   { name: "Tunisia", flag: "🇹🇳", price: 6, tier: 3, group: "F" },
   { name: "Australia", flag: "🇦🇺", price: 6, tier: 3, group: "D" },
   { name: "Iran", flag: "🇮🇷", price: 6, tier: 3, group: "G" },
-  { name: "DR Congo", flag: "DR Congo", flagImage: "assets/flags/dr-congo.svg", price: 6, tier: 3, group: "K", aliases: ["Congo", "Democratic Republic of Congo"] },
+  { name: "DR Congo", flag: "DR Congo", flagImage: "assets/flags/dr-congo.svg", price: 6, tier: 3, group: "K", aliases: ["Congo", "Congo DR", "DRC", "Democratic Republic of Congo"] },
   { name: "South Africa", flag: "🇿🇦", price: 4, tier: 3, group: "A" },
   { name: "Saudi Arabia", flag: "🇸🇦", price: 4, tier: 3, group: "H", aliases: ["Saudi"] },
   { name: "Panama", flag: "🇵🇦", price: 4, tier: 3, group: "L" },

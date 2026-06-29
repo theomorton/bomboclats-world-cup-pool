@@ -282,11 +282,13 @@
       const [home, away] = competitors;
 
       [[home, away], [away, home]].forEach(([team, opponent]) => {
+        const projectedResult = resultCode(Number(team.score || 0), Number(opponent.score || 0));
         projected.push({
           team: canonicalTeamName(team.team),
           stage: game.stage || "Groups",
-          result: resultCode(Number(team.score || 0), Number(opponent.score || 0)),
+          result: projectedResult,
           advanceBonus: false,
+          eliminated: (game.stage || "Groups") !== "Groups" && projectedResult === "L",
           opponent: canonicalTeamName(opponent.team),
           score: Number(team.score || 0),
           opponentScore: Number(opponent.score || 0),

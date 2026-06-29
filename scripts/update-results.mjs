@@ -5,6 +5,8 @@ import vm from "node:vm";
 const SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
 const START_DATE = "2026-06-11";
 const END_DATE = "2026-07-19";
+const GROUP_STAGE_TEAM_COUNT = 48;
+const KNOCKOUT_TEAM_COUNT = 32;
 const RESULTS_FILE = path.resolve("data/results.js");
 const SCHEDULE_FILE = path.resolve("data/schedule.js");
 const TEAMS_FILE = path.resolve("data/teams.js");
@@ -126,9 +128,10 @@ async function fetchScoreboard(dateKey) {
   return response.json();
 }
 
-async function collectCompletedEvents() {
+async function collectTournamentEvents() {
   const seen = new Set();
   const completed = [];
+  const tournamentEvents = [];
 
   for (const dateKey of dateRange(START_DATE, END_DATE)) {
     const scoreboard = await fetchScoreboard(dateKey);
@@ -136,7 +139,6 @@ async function collectCompletedEvents() {
       if (seen.has(event.id)) continue;
       seen.add(event.id);
 
-      if (!event.status?.type?.completed) continue;
       const stage = stageFromEvent(event);
       if (!stage) continue;
 
@@ -145,21 +147,32 @@ async function collectCompletedEvents() {
 
       const withScores = competitors.map((competitor) => ({
         team: competitor.team?.displayName,
-        score: Number(competitor.score)
+        score: Number(competitor.score),
+        winner: competitor.winner === true
       }));
 
-      if (withScores.some((competitor) => !competitor.team || Number.isNaN(competitor.score))) continue;
+      if (withScores.some((competitor) => !competitor.team)) continue;
 
-      completed.push({
+      const tournamentEvent = {
         id: event.id,
         date: event.date,
         stage,
+        completed: event.status?.type?.completed === true,
         competitors: withScores
-      });
+      };
+      tournamentEvents.push(tournamentEvent);
+
+      if (!tournamentEvent.completed) continue;
+      if (withScores.some((competitor) => Number.isNaN(competitor.score))) continue;
+
+      completed.push(tournamentEvent);
     }
   }
 
-  return completed.sort((a, b) => new Date(a.date) - new Date(b.date));
+  return {
+    completed: completed.sort((a, b) => new Date(a.date) - new Date(b.date)),
+    tournamentEvents: tournamentEvents.sort((a, b) => new Date(a.date) - new Date(b.date))
+  };
 }
 
 async function collectDailyEvents(dateKey, lookup) {
@@ -197,27 +210,89 @@ async function collectDailyEvents(dateKey, lookup) {
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 
-function buildResults(events, lookup) {
+function knockoutResult(team, opponent, stage) {
+  const scoreResult = resultCode(team.score, opponent.score);
+  if (stage === "Groups" || scoreResult !== "D" || team.winner === opponent.winner) return scoreResult;
+  return team.winner ? "W" : "L";
+}
+
+function buildResults(events, tournamentEvents, lookup) {
   const results = [];
+  const groupResultIndexes = new Map();
+  const advancingTeams = new Set();
+
+  for (const event of tournamentEvents) {
+    if (event.stage !== "R32") continue;
+    for (const competitor of event.competitors) {
+      const canonical = lookup.get(normalize(competitor.team));
+      if (canonical) advancingTeams.add(canonical);
+    }
+  }
 
   for (const event of events) {
     const [home, away] = event.competitors;
     for (const [team, opponent] of [[home, away], [away, home]]) {
+      const canonicalTeam = canonicalTeamName(team.team, lookup);
+      const result = knockoutResult(team, opponent, event.stage);
+      const resultIndex = results.length;
       results.push({
-        team: canonicalTeamName(team.team, lookup),
+        team: canonicalTeam,
         stage: event.stage,
-        result: resultCode(team.score, opponent.score),
+        result,
         advanceBonus: false,
+        eliminated: event.stage !== "Groups" && result === "L",
         opponent: canonicalTeamName(opponent.team, lookup),
         score: team.score,
         opponentScore: opponent.score,
         sourceEventId: event.id,
         playedAt: event.date
       });
+
+      if (event.stage === "Groups") {
+        const indexes = groupResultIndexes.get(canonicalTeam) || [];
+        indexes.push(resultIndex);
+        groupResultIndexes.set(canonicalTeam, indexes);
+      }
+    }
+  }
+
+  const groupStageComplete = groupResultIndexes.size === GROUP_STAGE_TEAM_COUNT &&
+    [...groupResultIndexes.values()].every((indexes) => indexes.length === 3);
+
+  if (groupStageComplete && advancingTeams.size !== KNOCKOUT_TEAM_COUNT) {
+    throw new Error(`Expected ${KNOCKOUT_TEAM_COUNT} Round-of-32 teams, found ${advancingTeams.size}.`);
+  }
+
+  for (const [team, indexes] of groupResultIndexes.entries()) {
+    const finalGroupResult = results[indexes.at(-1)];
+    if (advancingTeams.has(team)) {
+      finalGroupResult.advanceBonus = true;
+    } else if (groupStageComplete) {
+      finalGroupResult.eliminated = true;
     }
   }
 
   return results;
+}
+
+function validateResults(results, completedEvents, lookup) {
+  if (results.length !== completedEvents.length * 2) {
+    throw new Error(`Expected two result rows per completed event; found ${results.length} rows for ${completedEvents.length} events.`);
+  }
+
+  const seen = new Set();
+  const knownTeams = new Set(lookup.values());
+  for (const result of results) {
+    const key = `${result.sourceEventId}:${result.team}`;
+    if (seen.has(key)) throw new Error(`Duplicate result row: ${key}.`);
+    seen.add(key);
+    if (!knownTeams.has(result.team)) throw new Error(`Unknown team in results: ${result.team}.`);
+  }
+
+  const bonusTeams = results.filter((result) => result.advanceBonus).map((result) => result.team);
+  if (bonusTeams.length && (bonusTeams.length !== KNOCKOUT_TEAM_COUNT || new Set(bonusTeams).size !== KNOCKOUT_TEAM_COUNT)) {
+    throw new Error(`Advance bonuses must be awarded exactly once to ${KNOCKOUT_TEAM_COUNT} teams; found ${bonusTeams.length}.`);
+  }
 }
 
 function formatEtTimestamp(date = new Date()) {
@@ -250,6 +325,7 @@ function serializeResult(result) {
     ["stage", result.stage],
     ["result", result.result],
     ["advanceBonus", result.advanceBonus],
+    ["eliminated", result.eliminated],
     ["opponent", result.opponent],
     ["score", result.score],
     ["opponentScore", result.opponentScore],
@@ -274,8 +350,9 @@ function serializeScheduleGame(game) {
 
 async function main() {
   const lookup = await loadTeamLookup();
-  const events = await collectCompletedEvents();
-  const results = buildResults(events, lookup);
+  const { completed: events, tournamentEvents } = await collectTournamentEvents();
+  const results = buildResults(events, tournamentEvents, lookup);
+  validateResults(results, events, lookup);
   const todayKey = formatDateKeyInTimeZone();
   const todayGames = await collectDailyEvents(todayKey, lookup);
   const latestEvent = events.at(-1);

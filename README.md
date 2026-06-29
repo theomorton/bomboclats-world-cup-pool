@@ -44,7 +44,7 @@ Recommended GitHub Pages setup:
 6. Choose branch `main` and folder `/root`, then save.
 7. GitHub will publish the site at `https://YOUR-USERNAME.github.io/bomboclats-world-cup-pool/`.
 
-The included GitHub Action in `.github/workflows/update-world-cup-results.yml` runs every hour. It calls `scripts/update-results.mjs`, fetches completed World Cup matches from ESPN, rewrites `data/results.js`, and commits the change when scores move. The page also refreshes itself hourly when served over `http` or `https`, so an open leaderboard will pick up those committed updates.
+The included GitHub Action in `.github/workflows/update-world-cup-results.yml` runs every hour. It calls `scripts/update-results.mjs`, fetches World Cup matches from ESPN, rewrites `data/results.js`, awards the 32 group-stage advance bonuses, marks eliminated teams, and commits the change when scores move. The updater validates the bracket and generated rows before publishing. The page also refreshes itself hourly when served over `http` or `https`, so an open leaderboard will pick up those committed updates.
 
 ## Updating Results
 
