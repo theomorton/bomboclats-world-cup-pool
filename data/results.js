@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 29, 2026 at 4:01 PM EDT from ESPN. Latest match: Brazil 2-1 Japan.",
+  lastUpdated: "June 29, 2026 at 6:10 PM EDT from ESPN. Latest match: Brazil 2-1 Japan.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
