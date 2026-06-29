@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 29, 2026 at 10:07 AM EDT from ESPN. Latest match: South Africa 0-1 Canada.",
+  lastUpdated: "June 29, 2026 at 1:39 PM EDT from ESPN. Latest match: South Africa 0-1 Canada.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
