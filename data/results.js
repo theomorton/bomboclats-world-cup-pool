@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 30, 2026 at 4:10 PM EDT from ESPN. Latest match: Ivory Coast 1-2 Norway.",
+  lastUpdated: "June 30, 2026 at 6:16 PM EDT from ESPN. Latest match: Ivory Coast 1-2 Norway.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
