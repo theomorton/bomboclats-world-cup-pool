@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 30, 2026 at 11:31 AM EDT from ESPN. Latest match: Netherlands 1-1 Morocco.",
+  lastUpdated: "June 30, 2026 at 1:58 PM EDT from ESPN. Latest match: Netherlands 1-1 Morocco.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
