@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 29, 2026 at 6:10 PM EDT from ESPN. Latest match: Brazil 2-1 Japan.",
+  lastUpdated: "June 29, 2026 at 8:07 PM EDT from ESPN. Latest match: Germany 1-1 Paraguay.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -152,5 +152,7 @@ window.POOL_RESULTS = [
   { team: "South Africa", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Canada", score: 0, opponentScore: 1, sourceEventId: "760486", playedAt: "2026-06-28T19:00Z" },
   { team: "Canada", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "South Africa", score: 1, opponentScore: 0, sourceEventId: "760486", playedAt: "2026-06-28T19:00Z" },
   { team: "Brazil", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Japan", score: 2, opponentScore: 1, sourceEventId: "760487", playedAt: "2026-06-29T17:00Z" },
-  { team: "Japan", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Brazil", score: 1, opponentScore: 2, sourceEventId: "760487", playedAt: "2026-06-29T17:00Z" }
+  { team: "Japan", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Brazil", score: 1, opponentScore: 2, sourceEventId: "760487", playedAt: "2026-06-29T17:00Z" },
+  { team: "Germany", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Paraguay", score: 1, opponentScore: 1, sourceEventId: "760489", playedAt: "2026-06-29T20:30Z" },
+  { team: "Paraguay", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Germany", score: 1, opponentScore: 1, sourceEventId: "760489", playedAt: "2026-06-29T20:30Z" }
 ];
