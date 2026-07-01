@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 1, 2026 at 1:59 PM EDT from ESPN. Latest match: Mexico 2-0 Ecuador.",
+  lastUpdated: "July 1, 2026 at 4:07 PM EDT from ESPN. Latest match: England 2-1 Congo DR.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -162,5 +162,7 @@ window.POOL_RESULTS = [
   { team: "France", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Sweden", score: 3, opponentScore: 0, sourceEventId: "760492", playedAt: "2026-06-30T21:00Z" },
   { team: "Sweden", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "France", score: 0, opponentScore: 3, sourceEventId: "760492", playedAt: "2026-06-30T21:00Z" },
   { team: "Mexico", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Ecuador", score: 2, opponentScore: 0, sourceEventId: "760491", playedAt: "2026-07-01T02:00Z" },
-  { team: "Ecuador", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Mexico", score: 0, opponentScore: 2, sourceEventId: "760491", playedAt: "2026-07-01T02:00Z" }
+  { team: "Ecuador", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Mexico", score: 0, opponentScore: 2, sourceEventId: "760491", playedAt: "2026-07-01T02:00Z" },
+  { team: "England", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "DR Congo", score: 2, opponentScore: 1, sourceEventId: "760495", playedAt: "2026-07-01T16:00Z" },
+  { team: "DR Congo", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "England", score: 1, opponentScore: 2, sourceEventId: "760495", playedAt: "2026-07-01T16:00Z" }
 ];
