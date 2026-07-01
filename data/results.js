@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 1, 2026 at 8:35 AM EDT from ESPN. Latest match: Mexico 2-0 Ecuador.",
+  lastUpdated: "July 1, 2026 at 11:44 AM EDT from ESPN. Latest match: Mexico 2-0 Ecuador.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
