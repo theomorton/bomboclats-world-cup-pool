@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "June 30, 2026 at 6:16 PM EDT from ESPN. Latest match: Ivory Coast 1-2 Norway.",
+  lastUpdated: "June 30, 2026 at 8:08 PM EDT from ESPN. Latest match: France 3-0 Sweden.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -158,5 +158,7 @@ window.POOL_RESULTS = [
   { team: "Netherlands", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Morocco", score: 1, opponentScore: 1, sourceEventId: "760488", playedAt: "2026-06-30T01:00Z" },
   { team: "Morocco", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Netherlands", score: 1, opponentScore: 1, sourceEventId: "760488", playedAt: "2026-06-30T01:00Z" },
   { team: "Ivory Coast", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Norway", score: 1, opponentScore: 2, sourceEventId: "760490", playedAt: "2026-06-30T17:00Z" },
-  { team: "Norway", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Ivory Coast", score: 2, opponentScore: 1, sourceEventId: "760490", playedAt: "2026-06-30T17:00Z" }
+  { team: "Norway", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Ivory Coast", score: 2, opponentScore: 1, sourceEventId: "760490", playedAt: "2026-06-30T17:00Z" },
+  { team: "France", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Sweden", score: 3, opponentScore: 0, sourceEventId: "760492", playedAt: "2026-06-30T21:00Z" },
+  { team: "Sweden", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "France", score: 0, opponentScore: 3, sourceEventId: "760492", playedAt: "2026-06-30T21:00Z" }
 ];
