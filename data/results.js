@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 1, 2026 at 4:07 PM EDT from ESPN. Latest match: England 2-1 Congo DR.",
+  lastUpdated: "July 1, 2026 at 6:19 PM EDT from ESPN. Latest match: England 2-1 Congo DR.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
