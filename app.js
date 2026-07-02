@@ -798,11 +798,15 @@
     const john = enrichedPlayers.find((item) => item.slug === "john");
     const leah = enrichedPlayers.find((item) => item.slug === "leah");
     const mike = enrichedPlayers.find((item) => item.slug === "mike");
-    if (!aaron || !john || !leah || !mike || aaron.pending || john.pending || leah.pending || mike.pending) {
+    const peter = enrichedPlayers.find((item) => item.slug === "peter");
+    if (!aaron || !john || !leah || !mike || !peter || aaron.pending || john.pending || leah.pending || mike.pending || peter.pending) {
       headlineEl.innerHTML = "";
       return;
     }
 
+    const londonFeatureTeams = ["Sweden", "France"]
+      .map((teamName) => resolveTeam(teamName))
+      .filter(Boolean);
     const leahFeatureTeams = ["France", "South Korea", "Mexico"]
       .map((teamName) => resolveTeam(teamName))
       .filter(Boolean);
@@ -838,6 +842,16 @@
     `;
     }).join("");
     const cards = [
+      {
+        title: "Peter's top spot and work bag both go missing in London",
+        body: "Leah Towery has stolen first place while, across the Atlantic, someone made off with Peter's work bag during a billable-pints Sweden-France outing. London police recovered the bag and laptop; the pool lead remains missing. Tough night for possessions, excellent night for the pub.",
+        teams: londonFeatureTeams,
+        players: [
+          { ...peter, summary: "London, UK", headlineLabel: "Bag recovered" },
+          { ...leah, summary: `1st · ${leah.points} pts`, headlineLabel: "Lead acquired" }
+        ],
+        playerLabel: "Case update"
+      },
       {
         title: "Towery towers over the table as Leah claims the top stoop",
         body: "For the first time, Peter has been knocked off the top step. Leah Towery is now towering over the pool standings and, per Beer Buddy intelligence, also leading the drinks-consumed table. Multiple charts, one very efficient campaign.",
