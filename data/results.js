@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 2, 2026 at 4:05 PM EDT from ESPN. Latest match: United States 2-0 Bosnia-Herzegovina.",
+  lastUpdated: "July 2, 2026 at 4:20 PM EDT from ESPN. Latest match: United States 2-0 Bosnia-Herzegovina.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
