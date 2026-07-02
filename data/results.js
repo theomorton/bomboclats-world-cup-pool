@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 2, 2026 at 4:20 PM EDT from ESPN. Latest match: United States 2-0 Bosnia-Herzegovina.",
+  lastUpdated: "July 2, 2026 at 6:10 PM EDT from ESPN. Latest match: Spain 3-0 Austria.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -168,5 +168,7 @@ window.POOL_RESULTS = [
   { team: "Belgium", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Senegal", score: 3, opponentScore: 2, sourceEventId: "760493", playedAt: "2026-07-01T20:00Z" },
   { team: "Senegal", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Belgium", score: 2, opponentScore: 3, sourceEventId: "760493", playedAt: "2026-07-01T20:00Z" },
   { team: "USA", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Bosnia", score: 2, opponentScore: 0, sourceEventId: "760494", playedAt: "2026-07-02T00:00Z" },
-  { team: "Bosnia", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "USA", score: 0, opponentScore: 2, sourceEventId: "760494", playedAt: "2026-07-02T00:00Z" }
+  { team: "Bosnia", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "USA", score: 0, opponentScore: 2, sourceEventId: "760494", playedAt: "2026-07-02T00:00Z" },
+  { team: "Spain", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Austria", score: 3, opponentScore: 0, sourceEventId: "760497", playedAt: "2026-07-02T19:00Z" },
+  { team: "Austria", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Spain", score: 0, opponentScore: 3, sourceEventId: "760497", playedAt: "2026-07-02T19:00Z" }
 ];
