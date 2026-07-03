@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 3, 2026 at 4:16 PM EDT from ESPN. Latest match: Switzerland 2-0 Algeria.",
+  lastUpdated: "July 3, 2026 at 6:06 PM EDT from ESPN. Latest match: Australia 1-1 Egypt.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -174,5 +174,7 @@ window.POOL_RESULTS = [
   { team: "Portugal", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Croatia", score: 2, opponentScore: 1, sourceEventId: "760496", playedAt: "2026-07-02T23:00Z" },
   { team: "Croatia", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Portugal", score: 1, opponentScore: 2, sourceEventId: "760496", playedAt: "2026-07-02T23:00Z" },
   { team: "Switzerland", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Algeria", score: 2, opponentScore: 0, sourceEventId: "760498", playedAt: "2026-07-03T03:00Z" },
-  { team: "Algeria", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Switzerland", score: 0, opponentScore: 2, sourceEventId: "760498", playedAt: "2026-07-03T03:00Z" }
+  { team: "Algeria", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Switzerland", score: 0, opponentScore: 2, sourceEventId: "760498", playedAt: "2026-07-03T03:00Z" },
+  { team: "Australia", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Egypt", score: 1, opponentScore: 1, sourceEventId: "760499", playedAt: "2026-07-03T18:00Z" },
+  { team: "Egypt", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Australia", score: 1, opponentScore: 1, sourceEventId: "760499", playedAt: "2026-07-03T18:00Z" }
 ];
