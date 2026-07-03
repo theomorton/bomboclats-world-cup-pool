@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 2, 2026 at 6:10 PM EDT from ESPN. Latest match: Spain 3-0 Austria.",
+  lastUpdated: "July 2, 2026 at 8:09 PM EDT from ESPN. Latest match: Spain 3-0 Austria.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
