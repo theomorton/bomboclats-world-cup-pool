@@ -1020,7 +1020,7 @@
           </div>
           <div class="segmented-control ranking-toggle" role="group" aria-label="Leaderboard mode">
             <button class="segment ${!isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="official" aria-pressed="${String(!isLiveMode)}">Official</button>
-            <button class="segment ${isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="live" aria-pressed="${String(isLiveMode)}">Live</button>
+            <button class="segment ${isLiveMode ? "is-active" : ""}" type="button" data-leaderboard-mode="live" aria-pressed="${String(isLiveMode)}" ${state.liveProjection ? "" : 'disabled aria-disabled="true" title="Available during live matches"'}>Live</button>
           </div>
         </div>
         <div class="standings-list">${rows.join("")}</div>
@@ -1744,7 +1744,7 @@
       };
 
       const projected = projectedResultsFromSchedule(games);
-      state.liveProjection = projected.length > 0;
+      state.liveProjection = projected.some((result) => result.projected === true);
       state.liveStatus = `${timestampEt()} from ESPN.`;
       render();
     } catch (error) {
@@ -1767,18 +1767,24 @@
 
   function init() {
     const buildView = () => {
-      const projectedResults = projectedResultsFromSchedule(state.schedule);
-      state.liveProjection = projectedResults.length > 0;
+      const scheduleResults = projectedResultsFromSchedule(state.schedule);
+      const settledResults = scheduleResults.filter((result) => result.projected !== true);
+      const activeResults = scheduleResults.filter((result) => result.projected === true);
+      state.liveProjection = activeResults.length > 0;
+      if (!state.liveProjection && state.leaderboardMode === "live") {
+        state.leaderboardMode = "official";
+      }
       if (!state.liveStatus && state.scheduleMeta.lastUpdated) {
         state.liveStatus = state.scheduleMeta.lastUpdated;
       }
 
-      const officialTeamScores = computeTeamScores(results);
-      const liveTeamScores = computeTeamScores([...results, ...projectedResults]);
+      const officialResults = [...results, ...settledResults];
+      const officialTeamScores = computeTeamScores(officialResults);
+      const liveTeamScores = computeTeamScores([...officialResults, ...activeResults]);
       const officialPlayers = enrichPlayers(officialTeamScores);
       const livePlayers = enrichPlayers(liveTeamScores);
       const pickMap = buildPickMap(officialPlayers);
-      const warnings = validateData(officialPlayers, results);
+      const warnings = validateData(officialPlayers, officialResults);
       return { officialPlayers, livePlayers, pickMap, officialTeamScores, warnings };
     };
 

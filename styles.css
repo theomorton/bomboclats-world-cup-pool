@@ -4444,6 +4444,11 @@ body,
   color: var(--pool-navy) !important;
 }
 
+.segment:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
 .control-select select,
 .search-wrap input {
   color: var(--pool-ink) !important;
