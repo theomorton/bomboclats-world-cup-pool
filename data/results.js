@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 2, 2026 at 8:09 PM EDT from ESPN. Latest match: Spain 3-0 Austria.",
+  lastUpdated: "July 3, 2026 at 12:44 AM EDT from ESPN. Latest match: Portugal 2-1 Croatia.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -170,5 +170,7 @@ window.POOL_RESULTS = [
   { team: "USA", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Bosnia", score: 2, opponentScore: 0, sourceEventId: "760494", playedAt: "2026-07-02T00:00Z" },
   { team: "Bosnia", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "USA", score: 0, opponentScore: 2, sourceEventId: "760494", playedAt: "2026-07-02T00:00Z" },
   { team: "Spain", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Austria", score: 3, opponentScore: 0, sourceEventId: "760497", playedAt: "2026-07-02T19:00Z" },
-  { team: "Austria", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Spain", score: 0, opponentScore: 3, sourceEventId: "760497", playedAt: "2026-07-02T19:00Z" }
+  { team: "Austria", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Spain", score: 0, opponentScore: 3, sourceEventId: "760497", playedAt: "2026-07-02T19:00Z" },
+  { team: "Portugal", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Croatia", score: 2, opponentScore: 1, sourceEventId: "760496", playedAt: "2026-07-02T23:00Z" },
+  { team: "Croatia", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Portugal", score: 1, opponentScore: 2, sourceEventId: "760496", playedAt: "2026-07-02T23:00Z" }
 ];
