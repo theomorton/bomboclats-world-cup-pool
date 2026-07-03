@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 3, 2026 at 7:35 AM EDT from ESPN. Latest match: Switzerland 2-0 Algeria.",
+  lastUpdated: "July 3, 2026 at 10:11 AM EDT from ESPN. Latest match: Switzerland 2-0 Algeria.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
