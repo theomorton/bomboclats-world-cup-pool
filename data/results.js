@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 4, 2026 at 2:04 PM EDT from ESPN. Latest match: Colombia 1-0 Ghana.",
+  lastUpdated: "July 4, 2026 at 4:11 PM EDT from ESPN. Latest match: Canada 0-3 Morocco.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -180,5 +180,7 @@ window.POOL_RESULTS = [
   { team: "Argentina", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Cape Verde", score: 3, opponentScore: 2, sourceEventId: "760500", playedAt: "2026-07-03T22:00Z" },
   { team: "Cape Verde", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Argentina", score: 2, opponentScore: 3, sourceEventId: "760500", playedAt: "2026-07-03T22:00Z" },
   { team: "Colombia", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Ghana", score: 1, opponentScore: 0, sourceEventId: "760501", playedAt: "2026-07-04T01:30Z" },
-  { team: "Ghana", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Colombia", score: 0, opponentScore: 1, sourceEventId: "760501", playedAt: "2026-07-04T01:30Z" }
+  { team: "Ghana", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Colombia", score: 0, opponentScore: 1, sourceEventId: "760501", playedAt: "2026-07-04T01:30Z" },
+  { team: "Canada", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Morocco", score: 0, opponentScore: 3, sourceEventId: "760502", playedAt: "2026-07-04T17:00Z" },
+  { team: "Morocco", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Canada", score: 3, opponentScore: 0, sourceEventId: "760502", playedAt: "2026-07-04T17:00Z" }
 ];
