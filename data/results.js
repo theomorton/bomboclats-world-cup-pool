@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 3, 2026 at 8:07 PM EDT from ESPN. Latest match: Australia 1-1 Egypt.",
+  lastUpdated: "July 4, 2026 at 12:37 AM EDT from ESPN. Latest match: Colombia 1-0 Ghana.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -176,5 +176,9 @@ window.POOL_RESULTS = [
   { team: "Switzerland", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Algeria", score: 2, opponentScore: 0, sourceEventId: "760498", playedAt: "2026-07-03T03:00Z" },
   { team: "Algeria", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Switzerland", score: 0, opponentScore: 2, sourceEventId: "760498", playedAt: "2026-07-03T03:00Z" },
   { team: "Australia", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Egypt", score: 1, opponentScore: 1, sourceEventId: "760499", playedAt: "2026-07-03T18:00Z" },
-  { team: "Egypt", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Australia", score: 1, opponentScore: 1, sourceEventId: "760499", playedAt: "2026-07-03T18:00Z" }
+  { team: "Egypt", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Australia", score: 1, opponentScore: 1, sourceEventId: "760499", playedAt: "2026-07-03T18:00Z" },
+  { team: "Argentina", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Cape Verde", score: 3, opponentScore: 2, sourceEventId: "760500", playedAt: "2026-07-03T22:00Z" },
+  { team: "Cape Verde", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Argentina", score: 2, opponentScore: 3, sourceEventId: "760500", playedAt: "2026-07-03T22:00Z" },
+  { team: "Colombia", stage: "R32", result: "W", advanceBonus: false, eliminated: false, opponent: "Ghana", score: 1, opponentScore: 0, sourceEventId: "760501", playedAt: "2026-07-04T01:30Z" },
+  { team: "Ghana", stage: "R32", result: "L", advanceBonus: false, eliminated: true, opponent: "Colombia", score: 0, opponentScore: 1, sourceEventId: "760501", playedAt: "2026-07-04T01:30Z" }
 ];
