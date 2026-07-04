@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 3, 2026 at 6:48 PM EDT from ESPN. Latest match: Australia 1-1 Egypt.",
+  lastUpdated: "July 3, 2026 at 8:07 PM EDT from ESPN. Latest match: Australia 1-1 Egypt.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
