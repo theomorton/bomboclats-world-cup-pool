@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 4, 2026 at 8:08 AM EDT from ESPN. Latest match: Colombia 1-0 Ghana.",
+  lastUpdated: "July 4, 2026 at 10:39 AM EDT from ESPN. Latest match: Colombia 1-0 Ghana.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
