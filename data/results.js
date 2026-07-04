@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 4, 2026 at 4:11 PM EDT from ESPN. Latest match: Canada 0-3 Morocco.",
+  lastUpdated: "July 4, 2026 at 6:01 PM EDT from ESPN. Latest match: Canada 0-3 Morocco.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
