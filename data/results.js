@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 4, 2026 at 8:03 PM EDT from ESPN. Latest match: Paraguay 0-1 France.",
+  lastUpdated: "July 5, 2026 at 12:58 AM EDT from ESPN. Latest match: Paraguay 0-1 France.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
