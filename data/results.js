@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 5, 2026 at 5:04 PM EDT from ESPN. Latest match: Paraguay 0-1 France.",
+  lastUpdated: "July 5, 2026 at 7:03 PM EDT from ESPN. Latest match: Brazil 1-2 Norway.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -184,5 +184,7 @@ window.POOL_RESULTS = [
   { team: "Canada", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Morocco", score: 0, opponentScore: 3, sourceEventId: "760502", playedAt: "2026-07-04T17:00Z" },
   { team: "Morocco", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Canada", score: 3, opponentScore: 0, sourceEventId: "760502", playedAt: "2026-07-04T17:00Z" },
   { team: "Paraguay", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "France", score: 0, opponentScore: 1, sourceEventId: "760503", playedAt: "2026-07-04T21:00Z" },
-  { team: "France", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Paraguay", score: 1, opponentScore: 0, sourceEventId: "760503", playedAt: "2026-07-04T21:00Z" }
+  { team: "France", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Paraguay", score: 1, opponentScore: 0, sourceEventId: "760503", playedAt: "2026-07-04T21:00Z" },
+  { team: "Brazil", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Norway", score: 1, opponentScore: 2, sourceEventId: "760504", playedAt: "2026-07-05T20:00Z" },
+  { team: "Norway", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Brazil", score: 2, opponentScore: 1, sourceEventId: "760504", playedAt: "2026-07-05T20:00Z" }
 ];
