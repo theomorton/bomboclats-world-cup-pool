@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 6, 2026 at 4:55 PM EDT from ESPN. Latest match: Mexico 2-3 England.",
+  lastUpdated: "July 6, 2026 at 6:16 PM EDT from ESPN. Latest match: Portugal 0-1 Spain.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -188,5 +188,7 @@ window.POOL_RESULTS = [
   { team: "Brazil", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Norway", score: 1, opponentScore: 2, sourceEventId: "760504", playedAt: "2026-07-05T20:00Z" },
   { team: "Norway", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Brazil", score: 2, opponentScore: 1, sourceEventId: "760504", playedAt: "2026-07-05T20:00Z" },
   { team: "Mexico", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "England", score: 2, opponentScore: 3, sourceEventId: "760505", playedAt: "2026-07-06T01:00Z" },
-  { team: "England", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Mexico", score: 3, opponentScore: 2, sourceEventId: "760505", playedAt: "2026-07-06T01:00Z" }
+  { team: "England", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Mexico", score: 3, opponentScore: 2, sourceEventId: "760505", playedAt: "2026-07-06T01:00Z" },
+  { team: "Portugal", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Spain", score: 0, opponentScore: 1, sourceEventId: "760506", playedAt: "2026-07-06T19:00Z" },
+  { team: "Spain", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Portugal", score: 1, opponentScore: 0, sourceEventId: "760506", playedAt: "2026-07-06T19:00Z" }
 ];
