@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 6, 2026 at 6:16 PM EDT from ESPN. Latest match: Portugal 0-1 Spain.",
+  lastUpdated: "July 6, 2026 at 8:10 PM EDT from ESPN. Latest match: Portugal 0-1 Spain.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
