@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 7, 2026 at 10:41 AM EDT from ESPN. Latest match: United States 1-4 Belgium.",
+  lastUpdated: "July 7, 2026 at 1:18 PM EDT from ESPN. Latest match: United States 1-4 Belgium.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
