@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 7, 2026 at 1:18 PM EDT from ESPN. Latest match: United States 1-4 Belgium.",
+  lastUpdated: "July 7, 2026 at 3:59 PM EDT from ESPN. Latest match: Argentina 3-2 Egypt.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -192,5 +192,7 @@ window.POOL_RESULTS = [
   { team: "Portugal", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Spain", score: 0, opponentScore: 1, sourceEventId: "760506", playedAt: "2026-07-06T19:00Z" },
   { team: "Spain", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Portugal", score: 1, opponentScore: 0, sourceEventId: "760506", playedAt: "2026-07-06T19:00Z" },
   { team: "USA", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Belgium", score: 1, opponentScore: 4, sourceEventId: "760507", playedAt: "2026-07-07T00:00Z" },
-  { team: "Belgium", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "USA", score: 4, opponentScore: 1, sourceEventId: "760507", playedAt: "2026-07-07T00:00Z" }
+  { team: "Belgium", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "USA", score: 4, opponentScore: 1, sourceEventId: "760507", playedAt: "2026-07-07T00:00Z" },
+  { team: "Argentina", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Egypt", score: 3, opponentScore: 2, sourceEventId: "760509", playedAt: "2026-07-07T16:00Z" },
+  { team: "Egypt", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Argentina", score: 2, opponentScore: 3, sourceEventId: "760509", playedAt: "2026-07-07T16:00Z" }
 ];
