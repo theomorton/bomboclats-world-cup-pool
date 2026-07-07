@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 7, 2026 at 3:59 PM EDT from ESPN. Latest match: Argentina 3-2 Egypt.",
+  lastUpdated: "July 7, 2026 at 5:37 PM EDT from ESPN. Latest match: Argentina 3-2 Egypt.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
