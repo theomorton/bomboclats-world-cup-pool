@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 9, 2026 at 4:48 PM EDT from ESPN. Latest match: Switzerland 0-0 Colombia.",
+  lastUpdated: "July 9, 2026 at 6:24 PM EDT from ESPN. Latest match: France 2-0 Morocco.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -196,5 +196,7 @@ window.POOL_RESULTS = [
   { team: "Argentina", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Egypt", score: 3, opponentScore: 2, sourceEventId: "760509", playedAt: "2026-07-07T16:00Z" },
   { team: "Egypt", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Argentina", score: 2, opponentScore: 3, sourceEventId: "760509", playedAt: "2026-07-07T16:00Z" },
   { team: "Switzerland", stage: "R16", result: "W", advanceBonus: false, eliminated: false, opponent: "Colombia", score: 0, opponentScore: 0, sourceEventId: "760508", playedAt: "2026-07-07T20:00Z" },
-  { team: "Colombia", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Switzerland", score: 0, opponentScore: 0, sourceEventId: "760508", playedAt: "2026-07-07T20:00Z" }
+  { team: "Colombia", stage: "R16", result: "L", advanceBonus: false, eliminated: true, opponent: "Switzerland", score: 0, opponentScore: 0, sourceEventId: "760508", playedAt: "2026-07-07T20:00Z" },
+  { team: "France", stage: "Quarter", result: "W", advanceBonus: false, eliminated: false, opponent: "Morocco", score: 2, opponentScore: 0, sourceEventId: "760510", playedAt: "2026-07-09T20:00Z" },
+  { team: "Morocco", stage: "Quarter", result: "L", advanceBonus: false, eliminated: true, opponent: "France", score: 0, opponentScore: 2, sourceEventId: "760510", playedAt: "2026-07-09T20:00Z" }
 ];
