@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 9, 2026 at 11:58 AM EDT from ESPN. Latest match: Switzerland 0-0 Colombia.",
+  lastUpdated: "July 9, 2026 at 2:05 PM EDT from ESPN. Latest match: Switzerland 0-0 Colombia.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
