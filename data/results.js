@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 10, 2026 at 2:37 PM EDT from ESPN. Latest match: France 2-0 Morocco.",
+  lastUpdated: "July 10, 2026 at 4:25 PM EDT from ESPN. Latest match: France 2-0 Morocco.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
