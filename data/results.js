@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 11, 2026 at 12:13 AM EDT from ESPN. Latest match: Spain 2-1 Belgium.",
+  lastUpdated: "July 11, 2026 at 3:12 AM EDT from ESPN. Latest match: Spain 2-1 Belgium.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
