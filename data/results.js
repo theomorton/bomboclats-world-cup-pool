@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 11, 2026 at 7:57 PM EDT from ESPN. Latest match: Norway 1-2 England.",
+  lastUpdated: "July 11, 2026 at 11:44 PM EDT from ESPN. Latest match: Norway 1-2 England.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
