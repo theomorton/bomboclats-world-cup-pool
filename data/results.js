@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 14, 2026 at 10:54 AM EDT from ESPN. Latest match: Argentina 3-1 Switzerland.",
+  lastUpdated: "July 14, 2026 at 12:17 PM EDT from ESPN. Latest match: Argentina 3-1 Switzerland.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
