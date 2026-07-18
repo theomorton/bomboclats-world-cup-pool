@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 18, 2026 at 3:13 PM EDT from ESPN. Latest match: England 1-2 Argentina.",
+  lastUpdated: "July 18, 2026 at 4:53 PM EDT from ESPN. Latest match: England 1-2 Argentina.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
