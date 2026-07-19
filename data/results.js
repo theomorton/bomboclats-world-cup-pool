@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "July 19, 2026 at 5:56 PM EDT from ESPN. Latest match: England 1-2 Argentina.",
+  lastUpdated: "July 19, 2026 at 6:56 PM EDT from ESPN. Latest match: Spain 1-0 Argentina.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
@@ -208,5 +208,7 @@ window.POOL_RESULTS = [
   { team: "France", stage: "Semi", result: "L", advanceBonus: false, eliminated: true, opponent: "Spain", score: 0, opponentScore: 2, sourceEventId: "760514", playedAt: "2026-07-14T19:00Z" },
   { team: "Spain", stage: "Semi", result: "W", advanceBonus: false, eliminated: false, opponent: "France", score: 2, opponentScore: 0, sourceEventId: "760514", playedAt: "2026-07-14T19:00Z" },
   { team: "England", stage: "Semi", result: "L", advanceBonus: false, eliminated: true, opponent: "Argentina", score: 1, opponentScore: 2, sourceEventId: "760515", playedAt: "2026-07-15T19:00Z" },
-  { team: "Argentina", stage: "Semi", result: "W", advanceBonus: false, eliminated: false, opponent: "England", score: 2, opponentScore: 1, sourceEventId: "760515", playedAt: "2026-07-15T19:00Z" }
+  { team: "Argentina", stage: "Semi", result: "W", advanceBonus: false, eliminated: false, opponent: "England", score: 2, opponentScore: 1, sourceEventId: "760515", playedAt: "2026-07-15T19:00Z" },
+  { team: "Spain", stage: "Final", result: "W", advanceBonus: false, eliminated: false, opponent: "Argentina", score: 1, opponentScore: 0, sourceEventId: "760517", playedAt: "2026-07-19T19:00Z" },
+  { team: "Argentina", stage: "Final", result: "L", advanceBonus: false, eliminated: true, opponent: "Spain", score: 0, opponentScore: 1, sourceEventId: "760517", playedAt: "2026-07-19T19:00Z" }
 ];
