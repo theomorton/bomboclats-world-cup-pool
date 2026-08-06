@@ -1,5 +1,5 @@
 window.POOL_RESULTS_META = {
-  lastUpdated: "August 5, 2026 at 10:45 PM EDT from ESPN. Latest match: Spain 1-0 Argentina.",
+  lastUpdated: "August 6, 2026 at 1:51 AM EDT from ESPN. Latest match: Spain 1-0 Argentina.",
   source: "ESPN FIFA World Cup scoreboard"
 };
 
